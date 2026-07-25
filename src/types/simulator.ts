@@ -1,6 +1,15 @@
 export type Platform = 'twitter' | 'tiktok' | 'youtube' | 'linkedin' | 'instagram';
 export type ContentType = 'video' | 'script' | 'caption' | 'tweet' | 'idea';
 
+export type CommunityCluster =
+  | 'Creators'
+  | 'Influencers'
+  | 'Fans'
+  | 'Customers'
+  | 'Haters'
+  | 'Bots'
+  | 'Algorithm';
+
 export interface Persona {
   id: string;
   name: string;
@@ -12,6 +21,9 @@ export interface Persona {
   color: string;
   sentimentBias: 'enthusiastic' | 'critical' | 'analytical' | 'viral_spreader' | 'troll' | 'passive';
   viralMultiplier: number;
+  cluster: CommunityCluster;
+  orbitRadius: number;
+  orbitSpeed: number;
 }
 
 export interface NetworkNode {
@@ -21,15 +33,18 @@ export interface NetworkNode {
   role: string;
   avatar: string;
   color: string;
+  cluster: CommunityCluster;
+  orbitRadius: number;
+  orbitSpeed: number;
+  angle: number;
   x: number;
   y: number;
   vx: number;
   vy: number;
   radius: number;
   state: 'idle' | 'noticed' | 'engaged' | 'shared' | 'hating';
-  reachLevel: number; // 1 to 4
+  reachLevel: number;
   activeReaction?: string;
-  reactionExpiry?: number;
 }
 
 export interface NetworkEdge {
@@ -43,7 +58,7 @@ export interface NetworkEdge {
 
 export interface Comment {
   id: string;
-  timestamp: number; // in simulation seconds
+  timestamp: number;
   timeFormatted: string;
   authorName: string;
   authorHandle: string;
@@ -58,10 +73,10 @@ export interface Comment {
 }
 
 export interface RetentionPoint {
-  time: number; // in seconds (e.g. 0 to 60)
+  time: number;
   timeFormatted: string;
-  retentionPct: number; // 0 to 100
-  excitementScore: number; // 0 to 100
+  retentionPct: number;
+  excitementScore: number;
   status: 'fire' | 'neutral' | 'ice';
   note?: string;
   isKeyMoment?: boolean;

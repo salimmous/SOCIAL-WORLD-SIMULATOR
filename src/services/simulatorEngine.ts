@@ -19,22 +19,19 @@ export interface GeneratedSimulationData {
   recommendations: Recommendation[];
 }
 
-// Generate realistic initial node network layout
 export function generateInitialNetwork(personas: Persona[] = PERSONAS): {
   nodes: NetworkNode[];
   edges: NetworkEdge[];
 } {
-  const width = 600;
-  const height = 450;
+  const width = 800;
+  const height = 600;
   const centerX = width / 2;
   const centerY = height / 2;
 
   const nodes: NetworkNode[] = personas.map((persona, index) => {
     const angle = (index / personas.length) * 2 * Math.PI;
-    // Layer nodes in concentric orbits
-    const radiusDist = 80 + (index % 3) * 60 + Math.random() * 30;
-    const x = centerX + Math.cos(angle) * radiusDist;
-    const y = centerY + Math.sin(angle) * radiusDist;
+    const x = centerX + Math.cos(angle) * persona.orbitRadius;
+    const y = centerY + Math.sin(angle) * persona.orbitRadius;
 
     return {
       id: `node-${persona.id}`,
@@ -43,36 +40,34 @@ export function generateInitialNetwork(personas: Persona[] = PERSONAS): {
       role: persona.role,
       avatar: persona.avatar,
       color: persona.color,
+      cluster: persona.cluster,
+      orbitRadius: persona.orbitRadius,
+      orbitSpeed: persona.orbitSpeed,
+      angle,
       x,
       y,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      radius: persona.category === 'Algorithm' ? 24 : 16,
+      vx: (Math.random() - 0.5) * 0.2,
+      vy: (Math.random() - 0.5) * 0.2,
+      radius: persona.cluster === 'Algorithm' ? 24 : 18,
       state: 'idle',
       reachLevel: 1,
     };
   });
 
   const edges: NetworkEdge[] = [];
-  // Connect algorithm node (ALGO_NODE_01) to key influencers, and connect influencers to casual viewers
   nodes.forEach((node, i) => {
     nodes.forEach((targetNode, j) => {
       if (i < j) {
-        const dx = node.x - targetNode.x;
-        const dy = node.y - targetNode.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        // Connect nearby nodes or algorithm hub
-        if (
-          dist < 140 ||
-          node.role.includes('Algorithm') ||
-          targetNode.role.includes('Algorithm') ||
-          (i % 2 === 0 && j % 2 === 0)
-        ) {
+        const sameCluster = node.cluster === targetNode.cluster;
+        const isAlgo = node.cluster === 'Algorithm' || targetNode.cluster === 'Algorithm';
+        const isInfluencer = node.cluster === 'Influencers' || targetNode.cluster === 'Influencers';
+
+        if (sameCluster || isAlgo || isInfluencer || (i % 2 === 0 && j % 2 === 0)) {
           edges.push({
             id: `edge-${node.id}-${targetNode.id}`,
             sourceId: node.id,
             targetId: targetNode.id,
-            strength: Math.max(0.2, 1 - dist / 250),
+            strength: sameCluster ? 0.9 : 0.4,
             activePulse: false,
           });
         }
@@ -83,7 +78,6 @@ export function generateInitialNetwork(personas: Persona[] = PERSONAS): {
   return { nodes, edges };
 }
 
-// Generate realistic simulated comments matching content topic & persona biases
 export function generateSimulatedComments(
   content: ContentInput,
   appliedFixes: boolean = false
@@ -94,9 +88,9 @@ export function generateSimulatedComments(
       authorHandle: '@alexvance_tech',
       authorAvatar: '⚡',
       authorRole: 'Tech Founder',
-      authorColor: '#6366f1',
+      authorColor: '#818cf8',
       content: appliedFixes
-        ? 'This hook hits way harder now. The simulation physics view makes total sense.'
+        ? 'This hook hits way harder now. The galactic neural network view makes total sense.'
         : 'The concept is brilliant, but the intro took 6 seconds too long to get to the demo.',
       sentiment: appliedFixes ? 'viral' : 'analytical',
       likes: 142,
@@ -108,7 +102,7 @@ export function generateSimulatedComments(
       authorHandle: '@chloez_genz',
       authorAvatar: '✨',
       authorRole: 'Gen Z Trendsetter',
-      authorColor: '#ec4899',
+      authorColor: '#f472b6',
       content: appliedFixes
         ? 'OK wait this visual preview is insane 🔥 Saving this instantly!!'
         : 'Stopped watching at 0:08 because the text was too small to read on mobile.',
@@ -122,7 +116,7 @@ export function generateSimulatedComments(
       authorHandle: '@sam_hater',
       authorAvatar: '🧐',
       authorRole: 'Resident Critic',
-      authorColor: '#ef4444',
+      authorColor: '#f87171',
       content: appliedFixes
         ? 'Can’t believe I’m saying this, but the data visualization actually backs up the claims.'
         : 'Is this actually real AI simulation or just scripted CSS animations? Prove it.',
@@ -136,7 +130,7 @@ export function generateSimulatedComments(
       authorHandle: '@zara_viral',
       authorAvatar: '🚀',
       authorRole: 'Viral Curator',
-      authorColor: '#10b981',
+      authorColor: '#34d399',
       content:
         'Just retweeted this to 150k followers. Flight Simulator for creators is a billion dollar category.',
       sentiment: 'viral',
@@ -149,7 +143,7 @@ export function generateSimulatedComments(
       authorHandle: '@msterling_b2b',
       authorAvatar: '👔',
       authorRole: 'B2B Executive',
-      authorColor: '#3b82f6',
+      authorColor: '#60a5fa',
       content:
         'Where is the link to try this? Need to run our Q3 launch video through this simulator.',
       sentiment: 'positive',
@@ -162,9 +156,9 @@ export function generateSimulatedComments(
       authorHandle: '@devin_builds',
       authorAvatar: '💻',
       authorRole: 'Indie Builder',
-      authorColor: '#8b5cf6',
+      authorColor: '#a78bfa',
       content:
-        'The live node animation in the center column is Apple-level smooth. What tech stack are you using?',
+        'The neural galaxy visualization in the center column is Apple-level smooth. What tech stack are you using?',
       sentiment: 'positive',
       likes: 176,
       replies: 24,
@@ -175,7 +169,7 @@ export function generateSimulatedComments(
       authorHandle: '@system_algo',
       authorAvatar: '🤖',
       authorRole: 'For You Feed Bot',
-      authorColor: '#eab308',
+      authorColor: '#c084fc',
       content:
         '⚡ High engagement velocity detected in first 15 seconds. Amplifying reach to Tier 1 creator cohort (+300%).',
       sentiment: 'bot',
@@ -185,7 +179,6 @@ export function generateSimulatedComments(
     },
   ];
 
-  // Distribute timestamps along the 60-second simulation window
   const timestamps = [3, 8, 14, 22, 31, 44, 52];
 
   return baseComments.map((comment, index) => {
@@ -203,7 +196,6 @@ export function generateSimulatedComments(
   });
 }
 
-// Generate Retention Timeline (0 to 60 seconds) with spikes & dips
 export function generateRetentionTimeline(appliedFixes: boolean = false): RetentionPoint[] {
   const points: RetentionPoint[] = [];
 
@@ -219,7 +211,6 @@ export function generateRetentionTimeline(appliedFixes: boolean = false): Retent
     let isKeyMoment = false;
 
     if (appliedFixes) {
-      // Improved retention after applying recommendations
       retentionPct = Math.max(65, Math.round(100 - sec * 0.5 + Math.sin(sec / 4) * 4));
       excitementScore = Math.round(85 + Math.cos(sec / 5) * 10);
       if (sec === 0) {
@@ -238,7 +229,6 @@ export function generateRetentionTimeline(appliedFixes: boolean = false): Retent
         status = retentionPct > 75 ? 'fire' : 'neutral';
       }
     } else {
-      // Un-optimized retention with drop-offs
       if (sec === 0) {
         retentionPct = 100;
         excitementScore = 92;
@@ -246,8 +236,7 @@ export function generateRetentionTimeline(appliedFixes: boolean = false): Retent
         note = '🔥 Strong title hook grabs initial curiosity';
         isKeyMoment = true;
       } else if (sec <= 9) {
-        // Slow intro drop
-        retentionPct = 100 - sec * 3.5; // drops to ~68%
+        retentionPct = 100 - sec * 3.5;
         excitementScore = 45;
         if (sec === 9) {
           status = 'ice';
@@ -255,17 +244,15 @@ export function generateRetentionTimeline(appliedFixes: boolean = false): Retent
           isKeyMoment = true;
         }
       } else if (sec <= 27) {
-        // Demo recovery
         retentionPct = 68 + (sec - 9) * 0.6;
         excitementScore = 80;
         if (sec === 18) {
           status = 'fire';
-          note = '🔥 Visual node graph preview sparks sudden excitement spike (+14%)';
+          note = '🔥 Neural galaxy ecosystem preview sparks sudden excitement (+14%)';
           isKeyMoment = true;
         }
       } else if (sec <= 42) {
-        // Text density drop
-        retentionPct = 78 - (sec - 27) * 1.8; // drops to ~51%
+        retentionPct = 78 - (sec - 27) * 1.8;
         if (sec === 39) {
           status = 'ice';
           note = '❄ Dense text block without visual pattern interrupt';
@@ -291,7 +278,6 @@ export function generateRetentionTimeline(appliedFixes: boolean = false): Retent
   return points;
 }
 
-// Generate Actionable Recommendations
 export function generateRecommendations(appliedFixes: boolean = false): Recommendation[] {
   return [
     {
@@ -339,7 +325,6 @@ export function generateRecommendations(appliedFixes: boolean = false): Recommen
   ];
 }
 
-// Compute full simulation bundle for a given content input
 export function runSimulationEngine(
   content: ContentInput,
   appliedFixes: boolean = false
@@ -349,7 +334,6 @@ export function runSimulationEngine(
   const retentionTimeline = generateRetentionTimeline(appliedFixes);
   const recommendations = generateRecommendations(appliedFixes);
 
-  // Compute metrics with boosted stats if fixes applied
   const baseVirality = appliedFixes ? 96 : 88;
   const baseAttention = appliedFixes ? 94 : 79;
   const baseHook = appliedFixes ? 97 : 81;
