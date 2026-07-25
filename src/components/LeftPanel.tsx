@@ -14,7 +14,8 @@ import {
   Film,
   Zap,
   AlignLeft,
-  Tag,
+  Link as LinkIcon,
+  Globe,
 } from 'lucide-react';
 import { ContentType, Platform, ContentInput } from '@/types/simulator';
 import { PERSONAS } from '@/data/personas';
@@ -40,6 +41,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'upload' | 'summary' | 'timeline' | 'audience'>('upload');
 
+  const [inputMode, setInputMode] = useState<'file' | 'url' | 'samples'>('file');
+  const [socialUrlInput, setSocialUrlInput] = useState<string>('');
+
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
   const [analysisStep, setAnalysisStep] = useState<string>('');
   const [analysisProgress, setAnalysisProgress] = useState<number>(0);
@@ -54,20 +58,44 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
     { id: 'linkedin', label: 'LinkedIn' },
   ];
 
+  const sampleMediaFiles = [
+    {
+      id: 'sample-1',
+      title: 'Tech Founder Hot Take Video',
+      platform: 'tiktok' as Platform,
+      url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80',
+      tag: '🔥 15s High Retention',
+    },
+    {
+      id: 'sample-2',
+      title: 'B2B SaaS 0-to-1 Product Pitch',
+      platform: 'twitter' as Platform,
+      url: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&auto=format&fit=crop&q=80',
+      tag: '🚀 B2B Conversion',
+    },
+    {
+      id: 'sample-3',
+      title: 'Gen Z Viral Trend Hook',
+      platform: 'instagram' as Platform,
+      url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80',
+      tag: '✨ Gen Z Viral',
+    },
+  ];
+
   // Automatic Video Intelligence Workflow via NVIDIA AI
-  const processUploadedFile = async (file: File) => {
-    const mediaUrl = URL.createObjectURL(file);
+  const processUploadedFile = async (fileOrTitle: File | string, mediaPreviewUrl?: string) => {
+    const isFile = typeof fileOrTitle !== 'string';
+    const mediaUrl = isFile ? URL.createObjectURL(fileOrTitle) : mediaPreviewUrl || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80';
+
     setIsAnalyzing(true);
     setAnalysisProgress(5);
 
     try {
-      // 1. Call NVIDIA AI Video Intelligence API
-      const intel = await analyzeUploadedVideo(file, (stepName, pct) => {
+      const intel = await analyzeUploadedVideo(fileOrTitle, (stepName, pct) => {
         setAnalysisStep(stepName);
         setAnalysisProgress(pct);
       });
 
-      // 2. Automatically populate UI fields with extracted metadata
       onChangeContent({
         mediaFileUrl: mediaUrl,
         title: intel.title,
@@ -77,7 +105,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 
       setActiveTab('summary');
 
-      // 3. Automatically launch Social World Simulation using extracted data!
+      // Auto-launch simulation
       setTimeout(() => {
         onRunSimulation();
       }, 500);
@@ -99,8 +127,10 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
     if (file) processUploadedFile(file);
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleUrlSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!socialUrlInput) return;
+    processUploadedFile(`Social Post: ${socialUrlInput}`);
   };
 
   const handleRemoveMedia = (e: React.MouseEvent) => {
@@ -143,7 +173,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         className="hidden"
       />
 
-      {/* Top Drawer Header & Collapse Toggle */}
+      {/* Top Drawer Header */}
       <div className="p-4 border-b border-white/[0.06] flex items-center justify-between bg-zinc-950/40">
         <div className="flex items-center space-x-2">
           <Sparkles className="w-4 h-4 text-purple-400" />
@@ -205,7 +235,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       </div>
 
       {/* Main Drawer Body */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-5">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* AUTOMATIC NVIDIA AI ANALYSIS PROGRESS */}
         {isAnalyzing && (
           <div className="p-5 rounded-2xl border border-purple-500/30 bg-purple-950/20 backdrop-blur-xl space-y-4">
@@ -216,7 +246,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   NVIDIA Llama 3.3 70B AI Engine
                 </span>
                 <span className="text-[10px] text-purple-300 font-mono">
-                  {analysisProgress}% Analyzing Video...
+                  {analysisProgress}% Analyzing Payload...
                 </span>
               </div>
             </div>
@@ -234,16 +264,43 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
           </div>
         )}
 
+        {/* MEDIA TAB: FILE UPLOAD + SOCIAL LINK + SAMPLES */}
         {activeTab === 'upload' && !isAnalyzing && (
           <div className="space-y-4">
-            <div>
-              <span className="text-xs font-bold text-zinc-300 block mb-2">
-                Upload Target Video File
-              </span>
+            {/* Mode Switcher Pills */}
+            <div className="flex p-1 bg-zinc-900/60 rounded-xl border border-white/5 text-[10px] font-bold">
+              <button
+                onClick={() => setInputMode('file')}
+                className={`flex-1 py-1 rounded-lg transition-all ${
+                  inputMode === 'file' ? 'bg-purple-600 text-white' : 'text-zinc-400'
+                }`}
+              >
+                File Upload
+              </button>
+              <button
+                onClick={() => setInputMode('url')}
+                className={`flex-1 py-1 rounded-lg transition-all ${
+                  inputMode === 'url' ? 'bg-purple-600 text-white' : 'text-zinc-400'
+                }`}
+              >
+                Post Link
+              </button>
+              <button
+                onClick={() => setInputMode('samples')}
+                className={`flex-1 py-1 rounded-lg transition-all ${
+                  inputMode === 'samples' ? 'bg-purple-600 text-white' : 'text-zinc-400'
+                }`}
+              >
+                Test Samples
+              </button>
+            </div>
+
+            {/* MODE 1: FILE UPLOAD DROPZONE */}
+            {inputMode === 'file' && (
               <div
                 onClick={() => fileInputRef.current?.click()}
                 onDrop={handleDrop}
-                onDragOver={handleDragOver}
+                onDragOver={(e) => e.preventDefault()}
                 className="border-2 border-dashed border-white/15 hover:border-purple-500/60 rounded-2xl p-4 bg-zinc-950/60 transition-all text-center group cursor-pointer relative overflow-hidden"
               >
                 {content.mediaFileUrl ? (
@@ -267,7 +324,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                       <Upload className="w-5 h-5" />
                     </div>
                     <p className="text-xs text-zinc-300 font-semibold">
-                      Upload Video for NVIDIA AI Analysis
+                      Upload Video File
                     </p>
                     <span className="text-[10px] text-zinc-500 font-mono">
                       MP4, MOV, WEBP (Auto-Launches Simulation)
@@ -275,12 +332,72 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   </div>
                 )}
               </div>
-            </div>
+            )}
+
+            {/* MODE 2: PASTE SOCIAL POST LINK */}
+            {inputMode === 'url' && (
+              <form onSubmit={handleUrlSubmit} className="space-y-3">
+                <span className="text-xs font-bold text-zinc-300 block">
+                  Paste Live TikTok / Tweet / IG Link
+                </span>
+                <div className="relative">
+                  <input
+                    type="url"
+                    value={socialUrlInput}
+                    onChange={(e) => setSocialUrlInput(e.target.value)}
+                    placeholder="https://tiktok.com/@user/video/123..."
+                    className="w-full p-3 pl-9 rounded-2xl text-xs font-mono bg-zinc-950/80 border border-white/10 text-white placeholder-zinc-600 focus:outline-none focus:border-purple-500/60"
+                  />
+                  <LinkIcon className="w-4 h-4 text-purple-400 absolute left-3 top-3.5" />
+                </div>
+                <button
+                  type="submit"
+                  disabled={!socialUrlInput}
+                  className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-lg shadow-purple-600/20 disabled:opacity-50"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Analyze Link with NVIDIA AI</span>
+                </button>
+              </form>
+            )}
+
+            {/* MODE 3: 1-CLICK TEST SAMPLES GALLERY */}
+            {inputMode === 'samples' && (
+              <div className="space-y-2">
+                <span className="text-xs font-bold text-zinc-300 block">
+                  Select 1-Click Test Media Payload:
+                </span>
+                {sampleMediaFiles.map((s) => (
+                  <div
+                    key={s.id}
+                    onClick={() => {
+                      onChangeContent({ platform: s.platform });
+                      processUploadedFile(s.title, s.url);
+                    }}
+                    className="p-3 rounded-2xl bg-zinc-900/60 hover:bg-zinc-900 border border-white/10 hover:border-purple-500/40 transition-all cursor-pointer flex items-center space-x-3 group"
+                  >
+                    <img
+                      src={s.url}
+                      alt={s.title}
+                      className="w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[9px] font-mono text-purple-300 font-bold block uppercase">
+                        {s.tag}
+                      </span>
+                      <h4 className="text-xs font-bold text-white truncate group-hover:text-purple-300 transition-colors">
+                        {s.title}
+                      </h4>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Platform Selector Pills */}
             <div>
               <span className="text-xs font-bold text-zinc-300 block mb-2">
-                Target Distribution Platform
+                Target Distribution Channel
               </span>
               <div className="grid grid-cols-2 gap-2">
                 {platforms.map((p) => {
