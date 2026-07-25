@@ -190,7 +190,6 @@ export function PrismaLandingPage({
     { label: 'Home', action: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
     { label: 'Features', action: () => scrollToSection('features-section') },
     { label: 'How It Works', action: () => scrollToSection('how-it-works-section') },
-    { label: 'Pricing', action: () => scrollToSection('pricing-section') },
     { label: 'About', action: () => scrollToSection('about-section') },
     { label: 'Login', action: onOpenAuthModal || onLaunchPlatform, isLogin: true },
     { label: 'Get Started', action: onOpenAuthModal || onLaunchPlatform, isGetStarted: true },
