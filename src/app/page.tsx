@@ -24,6 +24,7 @@ import { FeatureDocDrawer, FeatureDocData } from '@/components/FeatureDocDrawer'
 import { HelpCenterModal } from '@/components/HelpCenterModal';
 import { ProductCoachSpotlight } from '@/components/ProductCoachSpotlight';
 import { AtlasProductGuideDrawer } from '@/components/AtlasProductGuideDrawer';
+import { LandingPage } from '@/components/LandingPage';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput, NetworkNode } from '@/types/simulator';
@@ -71,6 +72,7 @@ export default function Home() {
   const [isCoachActive, setIsCoachActive] = useState<boolean>(false);
   const [isAtlasOpen, setIsAtlasOpen] = useState<boolean>(false);
   const [atlasTopic, setAtlasTopic] = useState<string | null>(null);
+  const [showLandingPage, setShowLandingPage] = useState<boolean>(true);
   const [selectedFeatureDoc, setSelectedFeatureDoc] = useState<FeatureDocData | null>(null);
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
@@ -300,6 +302,23 @@ export default function Home() {
   // Compute stage based on current time
   const stage: 1 | 2 | 3 | 4 =
     currentTime < 10 ? 1 : currentTime < 25 ? 2 : currentTime < 45 ? 3 : 4;
+
+  if (showLandingPage) {
+    return (
+      <LandingPage
+        onLaunchPlatform={() => setShowLandingPage(false)}
+        onOpenAtlas={() => {
+          setShowLandingPage(false);
+          setAtlasTopic('upload');
+          setIsAtlasOpen(true);
+        }}
+        onOpenWorkspace={() => {
+          setShowLandingPage(false);
+          setIsSponsorsOpen(true);
+        }}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen w-screen overflow-hidden bg-zinc-950">
