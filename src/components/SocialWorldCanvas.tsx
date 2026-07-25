@@ -26,6 +26,7 @@ interface SocialWorldCanvasProps {
   onChangeSpeed: (speed: number) => void;
   activeComments: Comment[];
   stage: 1 | 2 | 3 | 4;
+  onSelectNode?: (node: NetworkNode) => void;
 }
 
 export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
@@ -40,6 +41,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
   onChangeSpeed,
   activeComments,
   stage,
+  onSelectNode,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animFrameId = useRef<number | null>(null);
@@ -397,7 +399,28 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
 
       {/* Hero Canvas Area */}
       <div className="flex-1 relative w-full h-full">
-        <canvas ref={canvasRef} className="w-full h-full block cursor-crosshair" />
+        <canvas
+          ref={canvasRef}
+          onClick={(e) => {
+            if (!onSelectNode || !canvasRef.current) return;
+            const rect = canvasRef.current.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+
+            // Find closest node to click
+            const clickedNode = nodesRef.current.find((node) => {
+              const dx = (node.x || 0) - clickX;
+              const dy = (node.y || 0) - clickY;
+              const nodeRadius = (node as any).radius || 20;
+              return Math.sqrt(dx * dx + dy * dy) <= nodeRadius + 10;
+            });
+
+            if (clickedNode) {
+              onSelectNode(clickedNode);
+            }
+          }}
+          className="w-full h-full block cursor-pointer"
+        />
       </div>
 
       {/* Integrated Bottom Timeline & Heatmap Scrubber */}

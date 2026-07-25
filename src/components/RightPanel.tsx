@@ -16,6 +16,7 @@ import {
 } from '@/types/simulator';
 import { RetentionGraph } from './RetentionGraph';
 import { CommentFeed } from './CommentFeed';
+import { LiveEventFeed } from './LiveEventFeed';
 import confetti from 'canvas-confetti';
 
 interface RightPanelProps {
@@ -117,7 +118,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                         onClick={onOpenABModal}
                         className="p-2 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 text-[10px] font-bold transition-all cursor-pointer flex items-center justify-center space-x-1"
                       >
-                        <span>⚔️ A/B Compare</span>
+                        <span>A/B Compare</span>
                       </button>
                     )}
                     {onOpenReportModal && (
@@ -125,7 +126,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                         onClick={onOpenReportModal}
                         className="p-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold transition-all cursor-pointer flex items-center justify-center space-x-1"
                       >
-                        <span>📄 Audit Report</span>
+                        <span>Audit Report</span>
                       </button>
                     )}
                   </div>
@@ -134,6 +135,9 @@ export const RightPanel: React.FC<RightPanelProps> = ({
             )}
           </AnimatePresence>
         </div>
+
+        {/* LIVE STORYTELLING EVENT FEED */}
+        <LiveEventFeed currentTime={currentTime} />
 
         {/* SECTION 2: AUDIENCE KPIs */}
         <div className="glass-card overflow-hidden">

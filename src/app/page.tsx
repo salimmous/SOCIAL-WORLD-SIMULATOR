@@ -12,9 +12,11 @@ import { ABComparisonModal } from '@/components/ABComparisonModal';
 import { PreFlightAuditReportModal } from '@/components/PreFlightAuditReportModal';
 import { CinematicPipelineModal } from '@/components/CinematicPipelineModal';
 import { MobileAppLayout } from '@/components/MobileAppLayout';
+import { AICopilotWidget } from '@/components/AICopilotWidget';
+import { PersonaModal } from '@/components/PersonaModal';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
-import { PresetScenario, ContentInput } from '@/types/simulator';
+import { PresetScenario, ContentInput, NetworkNode } from '@/types/simulator';
 import { runSimulationEngine, GeneratedSimulationData } from '@/services/simulatorEngine';
 import {
   SavedProject,
@@ -51,6 +53,7 @@ export default function Home() {
   const [isABOpen, setIsABOpen] = useState<boolean>(false);
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
   const [isPipelineLoading, setIsPipelineLoading] = useState<boolean>(false);
+  const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
 
   useEffect(() => {
@@ -279,6 +282,20 @@ export default function Home() {
         }}
       />
 
+      {/* Floating AI Copilot Widget */}
+      <AICopilotWidget
+        currentTime={currentTime}
+        duration={duration}
+        onApplyFixes={handleApplyFixes}
+        appliedFixes={appliedFixes}
+      />
+
+      {/* Persona AI Reasoning Bottom Sheet Modal */}
+      <PersonaModal
+        node={selectedNode}
+        onClose={() => setSelectedNode(null)}
+      />
+
       {/* MOBILE NATIVE APP EXPERIENCE (block md:hidden) */}
       <div className="block md:hidden w-full h-full">
         <MobileAppLayout
@@ -342,6 +359,7 @@ export default function Home() {
             onChangeSpeed={(s) => setSpeed(s)}
             activeComments={simData.comments}
             stage={stage}
+            onSelectNode={(node) => setSelectedNode(node)}
           />
 
           <RightPanel
