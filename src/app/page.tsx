@@ -305,21 +305,29 @@ export default function Home() {
 
   if (showLandingPage) {
     return (
-      <LandingPage
-        onLaunchPlatform={() => setShowLandingPage(false)}
-        onOpenAtlas={() => {
-          setShowLandingPage(false);
-          setAtlasTopic('upload');
-          setIsAtlasOpen(true);
-        }}
-        onOpenWorkspace={() => {
-          setShowLandingPage(false);
-          setIsSponsorsOpen(true);
-        }}
-        onOpenAuthModal={() => {
-          setIsAuthModalOpen(true);
-        }}
-      />
+      <>
+        <LandingPage
+          onLaunchPlatform={() => setShowLandingPage(false)}
+          onOpenAtlas={() => {
+            setShowLandingPage(false);
+            setAtlasTopic('upload');
+            setIsAtlasOpen(true);
+          }}
+          onOpenWorkspace={() => {
+            setShowLandingPage(false);
+            setIsSponsorsOpen(true);
+          }}
+          onOpenAuthModal={() => {
+            setIsAuthModalOpen(true);
+          }}
+        />
+
+        {/* Auth & Social OAuth Accounts Modal Overlay */}
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+        />
+      </>
     );
   }
 

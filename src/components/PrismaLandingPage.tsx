@@ -215,7 +215,10 @@ export function PrismaLandingPage({
               {navItems.map((item, idx) => (
                 <button
                   key={idx}
-                  onClick={item.action}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    item.action?.();
+                  }}
                   className={`text-[10px] sm:text-xs md:text-sm transition-all duration-200 cursor-pointer ${
                     item.isLogin
                       ? 'bg-[#DEDBC8] text-black font-extrabold px-3.5 py-1.5 rounded-full hover:bg-white shadow-md active:scale-95'
