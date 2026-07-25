@@ -161,12 +161,14 @@ interface PrismaLandingPageProps {
   onLaunchPlatform?: () => void;
   onOpenAtlas?: () => void;
   onOpenWorkspace?: () => void;
+  onOpenAuthModal?: () => void;
 }
 
 export function PrismaLandingPage({
   onLaunchPlatform,
   onOpenAtlas,
   onOpenWorkspace,
+  onOpenAuthModal,
 }: PrismaLandingPageProps) {
   const scrollToPricing = () => {
     const pricingEl = document.getElementById('pricing-section');
@@ -183,6 +185,7 @@ export function PrismaLandingPage({
     { label: 'Simulations', action: onLaunchPlatform },
     { label: 'Pricing', action: scrollToPricing },
     { label: 'Documentation', action: onOpenAtlas },
+    { label: 'Login', action: onOpenAuthModal || onLaunchPlatform, isLogin: true },
   ];
 
   return (
@@ -208,15 +211,16 @@ export function PrismaLandingPage({
 
           {/* Navbar Pill */}
           <header className="absolute top-0 left-0 right-0 z-20 flex justify-center pointer-events-auto">
-            <nav className="bg-black rounded-b-2xl md:rounded-b-3xl px-4 py-2 md:px-8 flex items-center gap-3 sm:gap-6 md:gap-12 lg:gap-14 shadow-2xl border-x border-b border-white/5">
+            <nav className="bg-black rounded-b-2xl md:rounded-b-3xl px-4 py-2 md:px-8 flex items-center gap-3 sm:gap-5 md:gap-8 shadow-2xl border-x border-b border-white/5">
               {navItems.map((item, idx) => (
                 <button
                   key={idx}
                   onClick={item.action}
-                  className="text-[10px] sm:text-xs md:text-sm transition-colors duration-200 cursor-pointer font-medium"
-                  style={{ color: 'rgba(225, 224, 204, 0.8)' }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#E1E0CC')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(225, 224, 204, 0.8)')}
+                  className={`text-[10px] sm:text-xs md:text-sm transition-all duration-200 cursor-pointer ${
+                    item.isLogin
+                      ? 'bg-[#DEDBC8] text-black font-extrabold px-3.5 py-1.5 rounded-full hover:bg-white shadow-md active:scale-95'
+                      : 'font-medium text-[rgba(225,224,204,0.8)] hover:text-[#E1E0CC]'
+                  }`}
                 >
                   {item.label}
                 </button>

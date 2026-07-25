@@ -316,6 +316,9 @@ export default function Home() {
           setShowLandingPage(false);
           setIsSponsorsOpen(true);
         }}
+        onOpenAuthModal={() => {
+          setIsAuthModalOpen(true);
+        }}
       />
     );
   }

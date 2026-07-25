@@ -7,14 +7,21 @@ interface LandingPageProps {
   onLaunchPlatform?: () => void;
   onOpenAtlas?: () => void;
   onOpenWorkspace?: () => void;
+  onOpenAuthModal?: () => void;
 }
 
-export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: LandingPageProps) {
+export function LandingPage({
+  onLaunchPlatform,
+  onOpenAtlas,
+  onOpenWorkspace,
+  onOpenAuthModal,
+}: LandingPageProps) {
   return (
     <PrismaLandingPage
       onLaunchPlatform={onLaunchPlatform}
       onOpenAtlas={onOpenAtlas}
       onOpenWorkspace={onOpenWorkspace}
+      onOpenAuthModal={onOpenAuthModal}
     />
   );
 }
