@@ -6,6 +6,7 @@ import { LeftPanel } from '@/components/LeftPanel';
 import { SocialWorldCanvas } from '@/components/SocialWorldCanvas';
 import { RightPanel } from '@/components/RightPanel';
 import { HistoryDrawer } from '@/components/HistoryDrawer';
+import { AuthModal } from '@/components/AuthModal';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput } from '@/types/simulator';
@@ -38,8 +39,9 @@ export default function Home() {
   const [appliedFixes, setAppliedFixes] = useState<boolean>(false);
   const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
 
-  // History Drawer state
+  // History Drawer & Auth Modal State
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
 
   useEffect(() => {
@@ -219,6 +221,7 @@ export default function Home() {
         onOpenHistory={() => setIsHistoryOpen(true)}
         historyCount={savedProjects.length}
         onNewProject={handleNewProject}
+        onOpenAuthModal={() => setIsAuthModalOpen(true)}
       />
 
       {/* History Slide-over Drawer Modal */}
@@ -229,6 +232,12 @@ export default function Home() {
         onSelectProject={handleSelectSavedProject}
         onNewProject={handleNewProject}
         onUpdateProjects={(updated) => setSavedProjects(updated)}
+      />
+
+      {/* Auth & Social OAuth Accounts Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
       />
 
       {/* Main Hero Layout Interface */}

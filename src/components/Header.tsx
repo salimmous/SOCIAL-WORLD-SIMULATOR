@@ -25,6 +25,7 @@ interface HeaderProps {
   onOpenHistory: () => void;
   historyCount: number;
   onNewProject: () => void;
+  onOpenAuthModal: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -36,11 +37,11 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenHistory,
   historyCount,
   onNewProject,
+  onOpenAuthModal,
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState<boolean>(false);
 
-  // Share link handler
   const handleShare = () => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(window.location.href);
@@ -49,7 +50,6 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
-  // Export JSON report handler
   const handleExport = () => {
     const report = {
       title: currentPreset.title,
@@ -99,7 +99,6 @@ export const Header: React.FC<HeaderProps> = ({
           <ChevronDown className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
         </button>
 
-        {/* Dropdown Menu */}
         {showPresetDropdown && (
           <div className="absolute top-full left-0 mt-2 w-64 p-1.5 rounded-2xl bg-zinc-950 border border-white/10 shadow-2xl z-50 space-y-1 backdrop-blur-2xl">
             <span className="text-[9px] font-bold text-zinc-500 px-2 py-1 block uppercase font-mono">
@@ -129,9 +128,8 @@ export const Header: React.FC<HeaderProps> = ({
         )}
       </div>
 
-      {/* Right: Actions (New Project, History, Fixes, Share, Export) */}
+      {/* Right: Actions (New Project, History, Fixes, Share, Export, Account) */}
       <div className="flex items-center space-x-2 shrink-0">
-        {/* NEW PROJECT BUTTON */}
         <button
           onClick={onNewProject}
           className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-lg shadow-purple-600/20 shrink-0"
@@ -141,7 +139,6 @@ export const Header: React.FC<HeaderProps> = ({
           <span className="hidden sm:inline">New Project</span>
         </button>
 
-        {/* HISTORY DRAWER BUTTON */}
         <button
           onClick={onOpenHistory}
           className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer relative shrink-0"
@@ -196,9 +193,14 @@ export const Header: React.FC<HeaderProps> = ({
           <span className="hidden lg:inline">Export</span>
         </button>
 
-        <div className="w-8 h-8 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-white text-xs font-bold shadow-sm shrink-0">
+        {/* PROFILE / ACCOUNT / SOCIAL CONNECTIONS BUTTON */}
+        <button
+          onClick={onOpenAuthModal}
+          className="w-8 h-8 rounded-full bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 flex items-center justify-center text-white text-xs font-bold shadow-sm shrink-0 cursor-pointer transition-all hover:scale-105"
+          title="Account Settings & Social OAuth Connections"
+        >
           <User className="w-4 h-4 text-purple-300" />
-        </div>
+        </button>
       </div>
     </header>
   );
