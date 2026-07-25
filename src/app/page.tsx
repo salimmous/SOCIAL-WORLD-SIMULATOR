@@ -26,6 +26,7 @@ import { ProductCoachSpotlight } from '@/components/ProductCoachSpotlight';
 import { AtlasProductGuideDrawer } from '@/components/AtlasProductGuideDrawer';
 import { SecretsDrawer } from '@/components/SecretsDrawer';
 import { LiveSystemLogsModal } from '@/components/LiveSystemLogsModal';
+import { LiveSocialFeedMockupModal } from '@/components/LiveSocialFeedMockupModal';
 import { LandingPage } from '@/components/LandingPage';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
@@ -65,6 +66,7 @@ export default function Home() {
   const [isSponsorsOpen, setIsSponsorsOpen] = useState<boolean>(false);
   const [isSecretsOpen, setIsSecretsOpen] = useState<boolean>(false);
   const [isSystemLogsOpen, setIsSystemLogsOpen] = useState<boolean>(false);
+  const [isFeedMockupOpen, setIsFeedMockupOpen] = useState<boolean>(false);
   const [isABOpen, setIsABOpen] = useState<boolean>(false);
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
   const [isPipelineLoading, setIsPipelineLoading] = useState<boolean>(false);
@@ -415,6 +417,7 @@ export default function Home() {
         onOpenSecrets={() => setIsSecretsOpen(true)}
         onOpenSystemLogs={() => setIsSystemLogsOpen(true)}
         onOpenAIWorkspace={() => setIsSponsorsOpen(true)}
+        onOpenFeedMockup={() => setIsFeedMockupOpen(true)}
       />
 
       {/* Apple-Quality Guided Onboarding Tour Modal */}
@@ -493,6 +496,16 @@ export default function Home() {
         onClose={() => setIsSystemLogsOpen(false)}
       />
 
+      {/* Live Social Feed Mockup Simulator Modal */}
+      <LiveSocialFeedMockupModal
+        isOpen={isFeedMockupOpen}
+        onClose={() => setIsFeedMockupOpen(false)}
+        content={content}
+        comments={simData.comments}
+        appliedFixes={appliedFixes}
+        onApplyFixes={handleApplyFixes}
+      />
+
       {/* MOBILE NATIVE APP EXPERIENCE (block md:hidden) */}
       <div className="block md:hidden w-full h-full">
         <MobileAppLayout
@@ -534,6 +547,7 @@ export default function Home() {
           onOpenSettings={() => setIsSettingsOpen(true)}
           onOpenExport={() => setIsExportOpen(true)}
           onOpenHelp={() => setIsHelpCenterOpen(true)}
+          onOpenFeedMockup={() => setIsFeedMockupOpen(true)}
           onOpenAtlas={() => {
             setAtlasTopic('upload');
             setIsAtlasOpen(true);

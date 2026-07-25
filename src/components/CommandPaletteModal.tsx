@@ -18,6 +18,7 @@ import {
   Database,
   Terminal,
   X,
+  Smartphone,
 } from 'lucide-react';
 
 interface CommandPaletteModalProps {
@@ -32,6 +33,7 @@ interface CommandPaletteModalProps {
   onOpenSecrets: () => void;
   onOpenSystemLogs: () => void;
   onOpenAIWorkspace: () => void;
+  onOpenFeedMockup?: () => void;
 }
 
 export function CommandPaletteModal({
@@ -46,6 +48,7 @@ export function CommandPaletteModal({
   onOpenSecrets,
   onOpenSystemLogs,
   onOpenAIWorkspace,
+  onOpenFeedMockup,
 }: CommandPaletteModalProps) {
   const [query, setQuery] = useState('');
 
@@ -79,6 +82,16 @@ export function CommandPaletteModal({
       icon: RotateCcw,
       action: () => {
         onReset();
+        onClose();
+      },
+    },
+    {
+      id: 'feed-mockup',
+      title: 'Open Live Social Feed Mockup Simulator (TikTok, X, Reels, LinkedIn)',
+      category: 'Visualizer',
+      icon: Smartphone,
+      action: () => {
+        if (onOpenFeedMockup) onOpenFeedMockup();
         onClose();
       },
     },

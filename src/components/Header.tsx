@@ -14,6 +14,7 @@ import {
   ChevronDown,
   Cpu,
   HelpCircle,
+  Smartphone,
 } from 'lucide-react';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PresetScenario } from '@/types/simulator';
@@ -33,6 +34,7 @@ interface HeaderProps {
   onOpenExport?: () => void;
   onOpenHelp?: () => void;
   onOpenAtlas?: () => void;
+  onOpenFeedMockup?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -50,6 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenExport,
   onOpenHelp,
   onOpenAtlas,
+  onOpenFeedMockup,
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState<boolean>(false);
@@ -145,6 +148,17 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Right: Actions (New Project, History, Fixes, Share, Export, Account) */}
       <div className="flex items-center space-x-2 shrink-0">
+        {onOpenFeedMockup && (
+          <button
+            onClick={onOpenFeedMockup}
+            className="px-3 py-1.5 rounded-xl bg-[#DEDBC8]/15 hover:bg-[#DEDBC8]/25 text-[#DEDBC8] border border-[#DEDBC8]/30 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0 shadow-sm"
+            title="Preview Live Feed Mockup on TikTok, X, Reels, and LinkedIn"
+          >
+            <Smartphone className="w-3.5 h-3.5 text-[#DEDBC8]" />
+            <span className="hidden sm:inline">Live Feed Preview</span>
+          </button>
+        )}
+
         {onOpenAtlas && (
           <button
             onClick={onOpenAtlas}
