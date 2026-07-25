@@ -3,15 +3,15 @@
 # 🌐 SOCIAL WORLD SIMULATOR
 ### *Unified Enterprise AI Platform for Content Virality Simulation*
 
-[![Platform](https://img.shields.io/badge/Platform-Enterprise_AI_SaaS-6B21A8?style=for-the-badge&logo=openai&logoColor=white)](https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR)
-[![Infrastructure](https://img.shields.io/badge/Infrastructure-NVIDIA_--_OpenAI_--_ElevenLabs_--_fal.ai_--_Firecrawl-3B82F6?style=for-the-badge&logo=cloudflare&logoColor=white)](https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR)
+[![Platform](https://img.shields.io/badge/Platform-Enterprise_AI_SaaS-DEDBC8?style=for-the-badge&logo=openai&logoColor=black)](https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR)
+[![Design System](https://img.shields.io/badge/Theme-Warm_Ivory_%23DEDBC8-ECE8D9?style=for-the-badge&logo=apple&logoColor=black)](https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR)
 [![Status](https://img.shields.io/badge/Status-Operational_Healthy-10B981?style=for-the-badge&logo=checkmarx&logoColor=white)](https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR)
 
 ---
 
 **Social World Simulator** is an enterprise-grade pre-publishing intelligence platform. Before releasing digital media online, creators and enterprise marketing teams simulate audience reactions, 2D force-directed community graph propagation, second-by-second retention heatmaps, and autonomous AI persona feedback.
 
-[View Architecture](./ARCHITECTURE.md) • [Getting Started](#-getting-started) • [The 6 Platform Modules](#-the-6-platform-modules) • [AI Workspace Infrastructure](#-ai-workspace-infrastructure)
+[View Architecture](./ARCHITECTURE.md) • [View Demo Script](./DEMO_PITCH_SCRIPT.md) • [Getting Started](#-getting-started) • [Deployment](#-deployment)
 
 </div>
 
@@ -25,6 +25,7 @@ Publishing digital content today is inherently reactive. Marketing teams invest 
 - **Simulate Before Publishing**: Test scripts, video content, and social posts across 200+ distinct AI persona clusters.
 - **Identify Retention Drop-offs**: Pinpoint precise timestamps where audience interest degrades.
 - **Automated AI Optimization**: Receive strict, actionable feedback and apply high-retention script rewrites with a single click.
+- **Live Platform Mockups**: Preview content across native dark-mode feeds for TikTok, X, LinkedIn, and YouTube Shorts.
 
 ---
 
@@ -35,53 +36,18 @@ Publishing digital content today is inherently reactive. Marketing teams invest 
 | **1. Content Intelligence** | Automated video analysis, Whisper transcript extraction, hook energy detection, visual tone, and audience targeting. | NVIDIA AI + OpenAI Whisper + Vision APIs |
 | **2. 60 FPS Simulation Engine** | Living canvas rendering 200+ autonomous AI personas, community graph physics, share propagation, and retention curves. | Custom HTML5 Canvas 2D Physics Engine |
 | **3. AI Copilot Engine** | Persistent live assistant observing network simulation, emitting real-time commentary, and executing 1-click script rewrites. | Floating AI Live Engine (`AICopilotWidget.tsx`) |
-| **4. Optimization Lab** | Side-by-side A/B variant testing, 1-click auto rewrites, and instant virality score recalculations. | A/B Comparison Engine (`ABComparisonModal.tsx`) |
-| **5. Executive Reports** | McKinsey-style 6-section report (Summary, Findings, Weaknesses, Risk, Confidence) with multi-format exports. | Executive Report & Audit Exporter |
+| **4. Live Feed Visualizer** | Dark-mode platform feed previews (TikTok 9:16, X, LinkedIn, Shorts) with real engagement overlays. | Live Feed Mockup (`LiveSocialFeedMockupModal.tsx`) |
+| **5. Pitch Script Player** | Interactive 2-minute pitch player with 6 scenes, visual directions, and voiceover script timeline. | Pitch Player (`CinematicDemoPlayerModal.tsx`) |
 | **6. Project History & Analytics** | Auto-saved simulation runs drawer with search, filter, reopen, duplicate, and delete options. | LocalStorage History Store (`HistoryDrawer.tsx`) |
-
----
-
-## ⚡️ AI Workspace Unified Infrastructure
-
-The **AI Workspace** dashboard provides realtime operational telemetry across 7 enterprise infrastructure layers:
-
-| Infrastructure Layer | Connected Services & Capabilities | Latency / Health |
-| :--- | :--- | :--- |
-| **1. AI Providers** | NVIDIA Nemotron 70B, OpenAI GPT-4o, Anthropic Claude 3.5, Gemini 1.5 Pro, Groq LPU (800 t/s), OpenRouter | `42ms` • 99.9% Health |
-| **2. Media Generation** | ElevenLabs Voice Synthesis & fal.ai Generative Media Engine (`FLUX.1`) | `0.4s` • Operational |
-| **3. Research Engine** | Firecrawl Web Crawler (14,280 indexed pages) & Trend Discovery | `180ms` • 99.8% Success |
-| **4. Automation Pipeline** | n8n Webhook Pipeline (8 active workflows, 1,420 daily executions) | Queue: `0` • Operational |
-| **5. Cloud Deployment** | Render Cloud Host (99.99% uptime) & Vercel Edge Network | Build: `Success` |
-| **6. Enterprise Storage** | 24 Saved Projects, 18.4 MB Export History, 98.2 GB Available Storage | Operational |
-| **7. Realtime Telemetry** | System Monitoring: CPU (`12%`), Memory (`1.2 GB`), Response Time (`142ms`), API (`420/min`) | Operational |
-
----
-
-## ⌨️ Native Productivity & Keyboard Shortcuts
-
-- **`⌘K` / `Ctrl+K`**: Linear-Style Command Palette (`CommandPaletteModal.tsx`) for instant global search and quick actions.
-- **`Space`**: Play / Pause simulation playback.
-- **`R`**: Reset simulation timeline to `0:00`.
-- **`C`**: Open Side-by-Side A/B Variant Comparison.
-- **`E`**: Open Multi-Format Export Suite.
-
----
-
-## 📱 Native iOS Mobile Experience
-
-On mobile viewports, the platform switches to a dedicated 3-Screen Native iOS Experience (`MobileAppLayout.tsx`):
-1. **Screen 1 (Upload)**: Fullscreen native input view with large touch targets.
-2. **Screen 2 (Simulation)**: 100vh Fullscreen Social Graph with floating playback pill.
-3. **Screen 3 (Results)**: Native iOS swipeable analytics & AI critique cards.
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Frontend Core**: Next.js 16 (App Router), React 19, TypeScript
-- **Styling**: Tailwind CSS v4, Dark Theme (`#09090b`), Glassmorphism tokens
-- **Physics & Motion**: Custom HTML5 Canvas 2D Engine, Framer Motion
-- **Exports**: PDF Report, JSON Payload, PNG Snapshot, Share Link
+- **Framework**: Next.js 16 (App Router with Turbopack), React 19, TypeScript
+- **Design System**: Enterprise Warm Ivory (`#DEDBC8`), Tailwind CSS v4, Dark Theme
+- **Physics & Graphics**: Custom 60 FPS HTML5 Canvas 2D Physics Engine, Framer Motion
+- **AI Integrations**: NVIDIA Nemotron 70B, OpenAI Whisper, ElevenLabs Speech, fal.ai FLUX.1, Firecrawl
 
 ---
 
@@ -91,21 +57,53 @@ On mobile viewports, the platform switches to a dedicated 3-Screen Native iOS Ex
 - **Node.js**: v18.0.0 or higher
 - **npm**: v9.0.0 or higher
 
-### Local Installation
+### 1. Clone & Install
 
 ```bash
-# 1. Clone repository
+# Clone repository
 git clone https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR.git
 cd SOCIAL-WORLD-SIMULATOR
 
-# 2. Install dependencies
+# Install dependencies
 npm install
+```
 
-# 3. Verify TypeScript build
-npx tsc --noEmit
+### 2. Configure Environment (Optional)
 
-# 4. Start development server
+Copy `.env.example` to `.env.local`:
+
+```bash
+cp .env.example .env.local
+```
+
+*(Note: If no API keys are supplied, the application automatically uses high-fidelity local fallback engines).*
+
+### 3. Run Development Server
+
+```bash
 npm run dev
 ```
 
 Open **[http://localhost:3000](http://localhost:3000)** in your browser.
+
+### 4. Build Verification
+
+```bash
+npx tsc --noEmit
+npm run build
+```
+
+---
+
+## 🌐 Deployment (Vercel)
+
+### Option A: Automatic GitHub Deployment (Recommended)
+1. Go to [**vercel.com/new**](https://vercel.com/new).
+2. Select repository: `salimmous/SOCIAL-WORLD-SIMULATOR`.
+3. Click **Deploy**. Vercel will automatically build and deploy every `git push` to `main`.
+
+### Option B: Vercel CLI
+```bash
+npx vercel login
+npx vercel --prod
+```
