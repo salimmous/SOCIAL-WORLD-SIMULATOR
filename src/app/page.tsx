@@ -326,6 +326,7 @@ export default function Home() {
         <AuthModal
           isOpen={isAuthModalOpen}
           onClose={() => setIsAuthModalOpen(false)}
+          onLoginSuccess={() => setShowLandingPage(false)}
         />
       </>
     );
@@ -347,6 +348,7 @@ export default function Home() {
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
+        onLoginSuccess={() => setShowLandingPage(false)}
       />
 
       {/* AI Workspace Infrastructure Dashboard Modal */}

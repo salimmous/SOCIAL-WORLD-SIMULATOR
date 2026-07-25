@@ -28,9 +28,10 @@ import {
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onLoginSuccess?: () => void;
 }
 
-export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSuccess }) => {
   const [activeTab, setActiveTab] = useState<'login' | 'socials' | 'apiKeys' | 'security'>('login');
   const [email, setEmail] = useState('salim@simulator.ai');
   const [password, setPassword] = useState('••••••••••••');
@@ -60,14 +61,26 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const handleEmailPasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoggedIn(true);
-    setAuthStatusMessage(`Logged in successfully as ${email}`);
-    setTimeout(() => setAuthStatusMessage(null), 3000);
+    setAuthStatusMessage(`Logged in successfully! Redirecting to Dashboard...`);
+    setTimeout(() => {
+      setAuthStatusMessage(null);
+      onClose();
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
+    }, 1000);
   };
 
   const handleSimulatedOAuthLogin = (provider: string) => {
     setIsLoggedIn(true);
-    setAuthStatusMessage(`Signed in via ${provider}! Workspace synced.`);
-    setTimeout(() => setAuthStatusMessage(null), 3000);
+    setAuthStatusMessage(`Signed in via ${provider}! Launching Dashboard...`);
+    setTimeout(() => {
+      setAuthStatusMessage(null);
+      onClose();
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
+    }, 1000);
   };
 
   const handleLogout = () => {
