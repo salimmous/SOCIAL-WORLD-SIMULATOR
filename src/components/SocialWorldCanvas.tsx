@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, RotateCcw, Activity } from 'lucide-react';
+import { Play, Pause, RotateCcw, Heart, MessageCircle, Share2, Sparkles } from 'lucide-react';
 import { NetworkNode, NetworkEdge, Comment } from '@/types/simulator';
 
 interface FloatingParticle {
@@ -46,14 +46,14 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
   const nodesRef = useRef<NetworkNode[]>(nodes);
   nodesRef.current = nodes;
 
-  const reactionEmojis = ['🔥', '💡', '🚀', '💬', '⚡', '✨'];
+  const reactionEmojis = ['🔥', '💡', '🚀', '💬', '⚡', '✨', '🤩', '💎'];
 
-  // Unlocked TikTok-style live comment popups based on current simulation timestamp
+  // Latest 3 floating social media comment cards unlocked by timeline
   const visibleComments = activeComments
     .filter((c) => c.timestamp <= currentTime)
-    .slice(-3); // Keep latest 3 comments floating on screen
+    .slice(-3);
 
-  // Spawn organic floating particles periodically
+  // Spawn organic floating reaction particles
   useEffect(() => {
     if (!isRunning) return;
 
@@ -63,21 +63,21 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
       const emoji = reactionEmojis[Math.floor(Math.random() * reactionEmojis.length)];
 
       setParticles((prev) => [
-        ...prev.slice(-14),
+        ...prev.slice(-16),
         {
           id: `p-${Date.now()}-${Math.random()}`,
           x: target.x,
-          y: target.y - 15,
+          y: target.y - 18,
           emoji,
           opacity: 1,
         },
       ]);
-    }, 600 / speed);
+    }, 550 / speed);
 
     return () => clearInterval(interval);
   }, [isRunning, speed]);
 
-  // Main Canvas Render Loop (Living Ecosystem Graph)
+  // Main Canvas Render Loop (Community Clusters + Central Content Node)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -89,7 +89,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
     const render = () => {
       pulseTime += 0.04 * speed;
 
-      // Hi-DPI Canvas Sizing
+      // Responsive Hi-DPI Canvas sizing
       const rect = canvas.getBoundingClientRect();
       if (canvas.width !== rect.width || canvas.height !== rect.height) {
         canvas.width = rect.width;
@@ -98,14 +98,17 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const currentNodes = nodesRef.current;
-      const padding = 60;
 
-      // Update position with breathing physics
-      currentNodes.forEach((node) => {
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      // Update positions with community cluster physics
+      currentNodes.forEach((node, idx) => {
         if (isRunning) {
           node.x += node.vx * speed;
           node.y += node.vy * speed;
 
+          const padding = 70;
           if (node.x < padding || node.x > canvas.width - padding) node.vx *= -1;
           if (node.y < padding || node.y > canvas.height - padding) node.vy *= -1;
         }
@@ -123,8 +126,8 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
 
         const isActive = stage >= 2;
         if (isActive) {
-          ctx.strokeStyle = `rgba(139, 92, 246, ${0.25 + Math.sin(pulseTime) * 0.1})`;
-          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = `rgba(139, 92, 246, ${0.22 + Math.sin(pulseTime) * 0.12})`;
+          ctx.lineWidth = 1.6;
         } else {
           ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
           ctx.lineWidth = 1;
@@ -138,22 +141,52 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
           const py = source.y + (target.y - source.y) * pos;
 
           ctx.beginPath();
-          ctx.arc(px, py, 3, 0, Math.PI * 2);
+          ctx.arc(px, py, 3.5, 0, Math.PI * 2);
           ctx.fillStyle = '#a78bfa';
           ctx.shadowColor = '#8b5cf6';
-          ctx.shadowBlur = 10;
+          ctx.shadowBlur = 12;
           ctx.fill();
           ctx.shadowBlur = 0;
         }
       });
 
-      // 2. Draw Breathing Nodes
+      // 2. Draw Hero Central Content Payload Node in Center
+      const heroPulse = (Math.sin(pulseTime * 2) + 1) * 6;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 36 + heroPulse, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(124, 58, 237, 0.15)';
+      ctx.strokeStyle = 'rgba(139, 92, 246, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 28, 0, Math.PI * 2);
+      ctx.fillStyle = '#1e1b4b';
+      ctx.shadowColor = '#8b5cf6';
+      ctx.shadowBlur = 25;
+      ctx.fill();
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = '#a78bfa';
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      ctx.font = '20px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🚀', centerX, centerY + 1);
+
+      ctx.font = 'bold 11px Geist, sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText('UPLOADED CONTENT', centerX, centerY + 42);
+
+      // 3. Draw Community Audience Nodes
       currentNodes.forEach((node) => {
         const isAlgo = node.role.includes('Algorithm');
         const breathe = Math.sin(pulseTime * 1.5 + node.x) * 2;
-        const radius = (isAlgo ? 26 : 20) + breathe;
+        const radius = (isAlgo ? 24 : 18) + breathe;
 
-        // Expanding ambient glow ring
+        // Ambient reach heatwave ring
         if (stage >= 3) {
           ctx.beginPath();
           ctx.arc(node.x, node.y, radius + 10, 0, Math.PI * 2);
@@ -162,7 +195,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
           ctx.stroke();
         }
 
-        // Main Node Fill & Border
+        // Node Circle
         ctx.beginPath();
         ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
         ctx.fillStyle = '#0d0d12';
@@ -175,7 +208,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         ctx.shadowBlur = 0;
 
         // Avatar Symbol
-        ctx.font = '16px sans-serif';
+        ctx.font = '15px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(node.avatar, node.x, node.y + 1);
@@ -183,7 +216,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         // Name Label
         ctx.font = '500 11px Geist, sans-serif';
         ctx.fillStyle = '#a1a1aa';
-        ctx.fillText(node.name, node.x, node.y + radius + 15);
+        ctx.fillText(node.name, node.x, node.y + radius + 14);
       });
 
       animFrameId.current = requestAnimationFrame(render);
@@ -197,7 +230,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
   }, [edges, isRunning, speed, stage]);
 
   const stageTitles = {
-    1: 'Stage 1: Content Ingestion',
+    1: 'Stage 1: Ingestion & Persona Match',
     2: 'Stage 2: Early Impression Wave',
     3: 'Stage 3: Algorithm Feed Boost',
     4: 'Stage 4: Exponential Viral Cascade',
@@ -207,7 +240,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
 
   return (
     <div className="flex-1 flex flex-col h-[calc(100vh-3.5rem)] relative bg-zinc-950/80 overflow-hidden">
-      {/* Minimal Top Stage Badge */}
+      {/* Minimal Stage Badge */}
       <div className="absolute top-5 left-6 z-20 pointer-events-none">
         <div className="glass-panel px-4 py-2 rounded-2xl flex items-center space-x-2.5 pointer-events-auto shadow-xl">
           <div className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-ping" />
@@ -230,20 +263,20 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         ))}
       </div>
 
-      {/* FLOATING TIKTOK-STYLE LIVE COMMENTS OVERLAY */}
+      {/* FLOATING SOCIAL MEDIA COMMENT CARDS (TikTok Style) */}
       <div className="absolute bottom-20 left-6 z-20 pointer-events-none max-w-sm space-y-2">
         <AnimatePresence>
           {visibleComments.map((comment) => (
             <motion.div
               key={comment.id}
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              initial={{ opacity: 0, y: 25, scale: 0.94 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10 }}
+              exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="glass-card p-3 rounded-2xl border border-white/10 shadow-2xl flex items-start space-x-2.5 pointer-events-auto"
+              className="glass-card p-3 rounded-2xl border border-white/10 shadow-2xl flex items-start space-x-3 pointer-events-auto"
             >
               <div
-                className="w-7 h-7 rounded-xl flex items-center justify-center text-xs shrink-0 font-bold"
+                className="w-8 h-8 rounded-xl flex items-center justify-center text-sm shrink-0 font-bold shadow-sm"
                 style={{ backgroundColor: `${comment.authorColor}30` }}
               >
                 {comment.authorAvatar}
@@ -260,20 +293,36 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
                 <p className="text-xs text-zinc-200 mt-1 line-clamp-2 leading-snug font-sans">
                   "{comment.content}"
                 </p>
+
+                {/* Social Actions Pill */}
+                <div className="flex items-center space-x-4 mt-2 text-[10px] font-mono text-zinc-400">
+                  <span className="flex items-center space-x-1 hover:text-red-400 transition-colors">
+                    <Heart className="w-3 h-3 text-red-500 fill-red-500/20" />
+                    <span>{comment.likes}</span>
+                  </span>
+                  <span className="flex items-center space-x-1 hover:text-purple-400 transition-colors">
+                    <MessageCircle className="w-3 h-3 text-purple-400" />
+                    <span>{comment.replies}</span>
+                  </span>
+                  <span className="flex items-center space-x-1 hover:text-emerald-400 transition-colors">
+                    <Share2 className="w-3 h-3 text-emerald-400" />
+                    <span>{comment.shares}</span>
+                  </span>
+                </div>
               </div>
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
 
-      {/* Hero Canvas Visualizer */}
+      {/* Hero Canvas Area (60% Viewport Center) */}
       <div className="flex-1 relative w-full h-full">
         <canvas ref={canvasRef} className="w-full h-full block cursor-crosshair" />
       </div>
 
       {/* Integrated Bottom Timeline & Heatmap Scrubber */}
       <div className="p-4 border-t border-white/[0.06] glass-panel rounded-none border-b-0 border-l-0 border-r-0 z-20 space-y-3">
-        {/* Scrubber Bar */}
+        {/* Timeline Scrubber */}
         <div className="flex items-center space-x-3">
           <span className="text-xs font-mono font-bold text-purple-400 w-10 text-right">
             0:{currentTime.toString().padStart(2, '0')}
@@ -300,7 +349,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
           </span>
         </div>
 
-        {/* Minimal Actions */}
+        {/* Minimal Controls */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <button
