@@ -26,6 +26,7 @@ interface HeaderProps {
   historyCount: number;
   onNewProject: () => void;
   onOpenAuthModal: () => void;
+  onOpenSponsors: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -38,6 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
   historyCount,
   onNewProject,
   onOpenAuthModal,
+  onOpenSponsors,
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState<boolean>(false);
@@ -130,6 +132,15 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Right: Actions (New Project, History, Fixes, Share, Export, Account) */}
       <div className="flex items-center space-x-2 shrink-0">
+        <button
+          onClick={onOpenSponsors}
+          className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-600/30 via-pink-600/30 to-blue-600/30 hover:from-purple-600/50 hover:to-blue-600/50 text-white border border-purple-500/40 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-sm hover:scale-105 shrink-0"
+          title="Hackathon Sponsor Integrations (ElevenLabs, fal.ai, Firecrawl, n8n, Render)"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+          <span className="hidden sm:inline">AI Sponsor Hub</span>
+        </button>
+
         <button
           onClick={onNewProject}
           className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-lg shadow-purple-600/20 shrink-0"

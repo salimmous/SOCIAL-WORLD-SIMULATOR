@@ -7,6 +7,9 @@ import { SocialWorldCanvas } from '@/components/SocialWorldCanvas';
 import { RightPanel } from '@/components/RightPanel';
 import { HistoryDrawer } from '@/components/HistoryDrawer';
 import { AuthModal } from '@/components/AuthModal';
+import { SponsorEcosystemModal } from '@/components/SponsorEcosystemModal';
+import { ABComparisonModal } from '@/components/ABComparisonModal';
+import { PreFlightAuditReportModal } from '@/components/PreFlightAuditReportModal';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput } from '@/types/simulator';
@@ -39,9 +42,12 @@ export default function Home() {
   const [appliedFixes, setAppliedFixes] = useState<boolean>(false);
   const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
 
-  // History Drawer & Auth Modal State
+  // History Drawer & Auth Modal & Practical Feature States
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+  const [isSponsorsOpen, setIsSponsorsOpen] = useState<boolean>(false);
+  const [isABOpen, setIsABOpen] = useState<boolean>(false);
+  const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
 
   useEffect(() => {
@@ -231,6 +237,7 @@ export default function Home() {
         historyCount={savedProjects.length}
         onNewProject={handleNewProject}
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
+        onOpenSponsors={() => setIsSponsorsOpen(true)}
       />
 
       {/* History Slide-over Drawer Modal */}
@@ -247,6 +254,31 @@ export default function Home() {
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
+      />
+
+      {/* Hackathon AI Sponsors Hub Modal */}
+      <SponsorEcosystemModal
+        isOpen={isSponsorsOpen}
+        onClose={() => setIsSponsorsOpen(false)}
+        scriptText={content.contentBody}
+      />
+
+      {/* A/B Test Comparison Modal */}
+      <ABComparisonModal
+        isOpen={isABOpen}
+        onClose={() => setIsABOpen(false)}
+        originalMetrics={simData.metrics}
+        onApplyFixes={handleApplyFixes}
+        appliedFixes={appliedFixes}
+      />
+
+      {/* Pre-Flight Audit Executive Report Modal */}
+      <PreFlightAuditReportModal
+        isOpen={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+        content={content}
+        metrics={simData.metrics}
+        appliedFixes={appliedFixes}
       />
 
       {/* Main Hero Layout Interface */}
@@ -286,6 +318,8 @@ export default function Home() {
           onSeek={(t) => setCurrentTime(t)}
           onApplyFixes={handleApplyFixes}
           appliedFixes={appliedFixes}
+          onOpenABModal={() => setIsABOpen(true)}
+          onOpenReportModal={() => setIsReportOpen(true)}
         />
       </div>
     </div>

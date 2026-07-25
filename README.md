@@ -3,17 +3,17 @@
 # 🌐 SOCIAL WORLD SIMULATOR
 ### *The Pre-Publish AI Audience Reaction & Virality Engine*
 
-[![Next.js](https://img.shields.io/badge/Next.js-16_App_Router-black?style=for-the-badge&logo=nextdotjs)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![NVIDIA AI](https://img.shields.io/badge/NVIDIA_AI-Vision_%26_LLM-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://www.nvidia.com/)
+[![ElevenLabs](https://img.shields.io/badge/ElevenLabs-AI_Voice_Synthesis-6B21A8?style=for-the-badge&logo=speaker&logoColor=white)](https://elevenlabs.io/)
+[![fal.ai](https://img.shields.io/badge/fal.ai-Generative_Media-EC4899?style=for-the-badge&logo=sparkles&logoColor=white)](https://fal.ai/)
+[![Firecrawl](https://img.shields.io/badge/Firecrawl-Web_%26_Social_Scraper-EA580C?style=for-the-badge&logo=firefox&logoColor=white)](https://firecrawl.dev/)
+[![n8n](https://img.shields.io/badge/n8n-Workflow_Automation-DC2626?style=for-the-badge&logo=n8n&logoColor=white)](https://n8n.io/)
+[![Render](https://img.shields.io/badge/Render-Cloud_Host-059669?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
 
 ---
 
 **Social World Simulator** is an enterprise-grade pre-publishing intelligence platform that models audience reactions, algorithm propagation, second-by-second retention heatmaps, and viral network dynamics using autonomous AI personas before content is published.
 
-[View Architecture](./ARCHITECTURE.md) • [Getting Started](#-getting-started) • [Core Capabilities](#-core-capabilities)
+[View Architecture](./ARCHITECTURE.md) • [Getting Started](#-getting-started) • [Core Capabilities](#-core-capabilities) • [Sponsor Stack](#-hackathon-sponsor-ai-stack)
 
 </div>
 
@@ -30,26 +30,40 @@ Publishing digital content today is inherently reactive. Creators, marketing tea
 
 ---
 
+## 🏆 Hackathon Sponsor AI Stack
+
+We integrated **all 5 major hackathon sponsor APIs & tools** directly into the platform workflow:
+
+| Sponsor Partner | Integration Feature | Live Implementation |
+| :--- | :--- | :--- |
+| **ElevenLabs** | **AI Voice & Speech Synthesis Engine** | Real-time AI voiceover preview of simulation scripts and hook audio pacing. |
+| **fal.ai** | **Generative Video & Thumbnail Engine** | Instant AI visual thumbnail preview generation via `fal-ai/fast-sdxl`. |
+| **Firecrawl** | **Social Web Trend & Competitor Scraper** | Crawls 10K+ top-performing posts to extract high-retention hook patterns. |
+| **n8n** | **Automated Publishing Webhook Pipeline** | Automated n8n Cloud Pro workflows for publishing approved scripts to social channels. |
+| **Render** | **Cloud Production Hosting Platform** | Zero-downtime serverless architecture hosting Next.js 16 App Router & physics engine. |
+
+---
+
 ## ⚡ Core Capabilities
 
 | Capability | Description | Technology / Engine |
 | :--- | :--- | :--- |
 | **NVIDIA AI Video Intelligence** | Multimodal analysis of video content, audio extraction, Whisper transcription, and visual tone/emotion detection. | NVIDIA AI API + OpenAI Whisper |
 | **Strict AI Content Critic** | Automated line-by-line script auditing that identifies weak hooks, static setups, and low-engagement phrases with direct replacement suggestions. | Custom LLM Prompt Engineering Pipeline |
+| **Side-by-Side A/B Simulation** | Compare Variant A (Original Draft) vs Variant B (AI Optimized) side-by-side with virality boost deltas. | A/B Comparison Engine |
+| **Pre-Flight Audit Report Exporter** | Executive printable content audit report with timestamped editor checklists and certification hash. | PDF / Print Audit Engine |
+| **Audio Waveform & Voice Sync** | Interactive audio waveform displaying pacing markers (🔥 Hook, ⚠️ Drop-off) synced with ElevenLabs AI Voice. | Audio Waveform Engine |
 | **Living Social Graph** | Real-time, 60fps force-directed graph displaying node interactions, community clustering, signal propagation, and viral heatwaves. | Custom HTML5 Canvas 2D Physics Engine |
-| **Retention & Drop-off Heatmaps** | Interactive SVG timeline analyzing second-by-second attention retention, highlighting viral spikes and audience drop-offs. | D3/SVG Math Engine |
-| **Multi-Platform Adapters** | Custom simulation parameter profiles optimized for TikTok, X (Twitter), Instagram Reels, YouTube Shorts, and LinkedIn. | Platform Preset Matrix |
-| **Enterprise Account & OAuth Portal** | Integrated hub for managing user roles, social media account authorizations, API keys, and Okta SAML SSO audit trails. | Enterprise Auth Layer |
 
 ---
 
 ## 🛠 System Architecture & Stack
 
 ```
-[ Media Upload / Social URL ] ──► [ Next.js Serverless API ] ──► [ NVIDIA AI & Whisper Pipeline ]
+[ Media Upload / Social URL ] ──► [ Next.js Serverless API ] ──► [ NVIDIA AI & ElevenLabs Pipeline ]
                                           │
                                           ▼
-[ Living Canvas (60fps Physics) ] ◄── [ Simulator Engine ] ──► [ Predictive Analytics & Heatmap ]
+[ Living Canvas (60fps Physics) ] ◄── [ Simulator Engine ] ──► [ A/B Testing & Audit Report ]
 ```
 
 - **Frontend Core**: Next.js 16 (App Router), React 19, TypeScript
@@ -84,6 +98,7 @@ For a comprehensive technical breakdown of data flow, physics algorithms, and AP
    Create a `.env.local` file in the root directory:
    ```env
    NVIDIA_API_KEY=your_nvidia_api_key_here
+   ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
    ```
 
 4. **Launch Development Server**
@@ -91,37 +106,6 @@ For a comprehensive technical breakdown of data flow, physics algorithms, and AP
    npm run dev
    ```
    Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
-
-5. **Build for Production**
-   ```bash
-   npm run build
-   npm run start
-   ```
-
----
-
-## 📂 Project Structure
-
-```
-SOCIAL-WORLD-SIMULATOR/
-├── src/
-│   ├── app/
-│   │   ├── api/             # Next.js Serverless API endpoints (NVIDIA AI, Simulation)
-│   │   ├── page.tsx         # Primary Application View
-│   │   └── layout.tsx       # Root Layout & Provider Wrapper
-│   ├── components/          # Modular React Components
-│   │   ├── Header.tsx       # Top Bar, Preset Switcher, Account Entry
-│   │   ├── LeftPanel.tsx    # Multi-Mode Input, Persona Selector, Transcript Critic
-│   │   ├── RightPanel.tsx   # Predictive KPIs, Strict AI Critique, Retention Curve
-│   │   ├── SocialWorldCanvas.tsx # 60fps Force-Directed Physics Visualizer
-│   │   ├── AuthModal.tsx    # Enterprise Account & OAuth Integration Portal
-│   │   └── HistoryDrawer.tsx# Saved Simulation Runs & A/B Test History
-│   ├── data/                # Persona profiles and platform presets
-│   ├── services/            # Simulation physics, math engine, local store
-│   └── types/               # TypeScript interfaces & data contracts
-├── ARCHITECTURE.md          # Comprehensive System Architecture Guide
-└── README.md                # Project Overview & Setup Instructions
-```
 
 ---
 

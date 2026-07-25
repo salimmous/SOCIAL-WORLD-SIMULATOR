@@ -27,6 +27,8 @@ interface RightPanelProps {
   onSeek: (time: number) => void;
   onApplyFixes: () => void;
   appliedFixes: boolean;
+  onOpenABModal?: () => void;
+  onOpenReportModal?: () => void;
 }
 
 export const RightPanel: React.FC<RightPanelProps> = ({
@@ -38,6 +40,8 @@ export const RightPanel: React.FC<RightPanelProps> = ({
   onSeek,
   onApplyFixes,
   appliedFixes,
+  onOpenABModal,
+  onOpenReportModal,
 }) => {
   // Collapsible Accordion Sections
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
@@ -90,7 +94,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                 transition={{ duration: 0.2 }}
                 className="px-4 pb-4 border-t border-white/[0.04]"
               >
-                <div className="pt-3 text-center">
+                <div className="pt-3 text-center space-y-3">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-purple-300 block mb-1">
                     Predicted Virality Index
                   </span>
@@ -105,6 +109,26 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                       ? '🚀 Optimal viral cascade potential. Algorithm feed boost unlocked.'
                       : '⚠️ Strong baseline, but 0:08 retention dip lowers tier 1 viral boost.'}
                   </p>
+
+                  {/* Practical Action Buttons */}
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/5">
+                    {onOpenABModal && (
+                      <button
+                        onClick={onOpenABModal}
+                        className="p-2 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 text-[10px] font-bold transition-all cursor-pointer flex items-center justify-center space-x-1"
+                      >
+                        <span>⚔️ A/B Compare</span>
+                      </button>
+                    )}
+                    {onOpenReportModal && (
+                      <button
+                        onClick={onOpenReportModal}
+                        className="p-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold transition-all cursor-pointer flex items-center justify-center space-x-1"
+                      >
+                        <span>📄 Audit Report</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             )}

@@ -20,6 +20,7 @@ import {
 import { ContentType, Platform, ContentInput } from '@/types/simulator';
 import { PERSONAS } from '@/data/personas';
 import { analyzeUploadedVideo } from '@/services/videoAnalyzer';
+import { AudioPacingWaveform } from './AudioPacingWaveform';
 
 interface LeftPanelProps {
   content: ContentInput;
@@ -490,6 +491,14 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                 rows={5}
                 className="w-full p-3 rounded-2xl text-xs font-mono bg-zinc-950/80 border border-white/10 text-zinc-200 focus:outline-none focus:border-purple-500/60 leading-relaxed resize-none"
               />
+
+              <div className="mt-3">
+                <AudioPacingWaveform
+                  scriptText={content.contentBody}
+                  currentTime={10}
+                  duration={60}
+                />
+              </div>
               
               {intel?.transcriptHighlights && intel.transcriptHighlights.length > 0 && (
                 <div className="mt-3 space-y-2">
