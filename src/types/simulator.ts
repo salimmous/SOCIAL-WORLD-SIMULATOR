@@ -130,6 +130,38 @@ export interface PresetScenario {
   tags: string[];
 }
 
+export interface VideoTimelineItem {
+  timestamp: string;
+  title: string;
+  description: string;
+  type: 'hook' | 'main' | 'proof' | 'cta';
+}
+
+export interface VideoIntelligence {
+  metadata: {
+    duration: string;
+    resolution: string;
+    fps: number;
+    fileSize: string;
+    aspectRatio: string;
+  };
+  title: string;
+  summary: string;
+  hook: string;
+  hookStartTime: string;
+  transcript: string;
+  timeline: VideoTimelineItem[];
+  analysis: {
+    platform: string;
+    style: string;
+    tone: string;
+    emotion: string;
+    targetAudience: string;
+    creatorType: string;
+    language: string;
+  };
+}
+
 export interface ContentInput {
   title: string;
   contentType: ContentType;
@@ -137,4 +169,5 @@ export interface ContentInput {
   contentBody: string;
   mediaFileUrl?: string;
   targetAudience: string;
+  videoIntelligence?: VideoIntelligence;
 }

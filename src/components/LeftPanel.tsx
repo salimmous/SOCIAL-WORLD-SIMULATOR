@@ -9,11 +9,19 @@ import {
   ChevronRight,
   CheckCircle2,
   X,
-  FileVideo,
-  FileImage,
+  Sparkles,
+  Loader2,
+  Film,
+  Clock,
+  Zap,
+  AlignLeft,
+  Sliders,
+  Tag,
+  Edit3,
 } from 'lucide-react';
-import { ContentType, Platform, ContentInput } from '@/types/simulator';
+import { ContentType, Platform, ContentInput, VideoIntelligence } from '@/types/simulator';
 import { PERSONAS } from '@/data/personas';
+import { analyzeUploadedVideo, ANALYSIS_STEPS } from '@/services/videoAnalyzer';
 
 interface LeftPanelProps {
   content: ContentInput;
@@ -33,40 +41,58 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
   isRunning,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'upload' | 'platform' | 'audience' | 'settings'>('upload');
+  const [activeTab, setActiveTab] = useState<'upload' | 'summary' | 'timeline' | 'audience'>('upload');
+
+  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
+  const [analysisStep, setAnalysisStep] = useState<string>('');
+  const [analysisProgress, setAnalysisProgress] = useState<number>(0);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const platforms: { id: Platform; label: string }[] = [
-    { id: 'twitter', label: 'X / Twitter' },
     { id: 'tiktok', label: 'TikTok' },
+    { id: 'twitter', label: 'X / Twitter' },
     { id: 'instagram', label: 'Instagram' },
     { id: 'youtube', label: 'YouTube' },
     { id: 'linkedin', label: 'LinkedIn' },
   ];
 
-  // Handle file upload selection
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const mediaUrl = URL.createObjectURL(file);
+  // Trigger Automatic Video Intelligence Pipeline upon file upload
+  const processUploadedFile = async (file: File) => {
+    const mediaUrl = URL.createObjectURL(file);
+    setIsAnalyzing(true);
+    setAnalysisProgress(5);
+
+    try {
+      const intel = await analyzeUploadedVideo(file, (stepName, pct) => {
+        setAnalysisStep(stepName);
+        setAnalysisProgress(pct);
+      });
+
       onChangeContent({
         mediaFileUrl: mediaUrl,
-        title: file.name,
+        title: intel.title,
+        contentBody: intel.transcript,
+        videoIntelligence: intel,
       });
+
+      setActiveTab('summary');
+    } catch (err) {
+      console.error('Analysis failed', err);
+    } finally {
+      setIsAnalyzing(false);
     }
   };
 
-  // Handle Drag & Drop
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) processUploadedFile(file);
+  };
+
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
-    if (file) {
-      const mediaUrl = URL.createObjectURL(file);
-      onChangeContent({
-        mediaFileUrl: mediaUrl,
-        title: file.name,
-      });
-    }
+    if (file) processUploadedFile(file);
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -75,9 +101,12 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 
   const handleRemoveMedia = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onChangeContent({ mediaFileUrl: undefined });
+    onChangeContent({ mediaFileUrl: undefined, videoIntelligence: undefined });
     if (fileInputRef.current) fileInputRef.current.value = '';
+    setActiveTab('upload');
   };
+
+  const intel = content.videoIntelligence;
 
   if (isCollapsed) {
     return (
@@ -85,7 +114,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         <button
           onClick={() => setIsCollapsed(false)}
           className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-white/10 transition-all cursor-pointer"
-          title="Expand Setup Drawer"
+          title="Expand Studio Setup"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
@@ -102,7 +131,6 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 
   return (
     <div className="w-[320px] shrink-0 border-r border-white/[0.06] glass-panel rounded-none border-t-0 border-b-0 border-l-0 flex flex-col h-[calc(100vh-3.5rem)] z-20 relative">
-      {/* Hidden File Input */}
       <input
         ref={fileInputRef}
         type="file"
@@ -113,13 +141,16 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 
       {/* Top Drawer Header & Collapse Toggle */}
       <div className="p-4 border-b border-white/[0.06] flex items-center justify-between bg-zinc-950/40">
-        <span className="text-xs font-bold text-white uppercase tracking-wider">
-          Simulation Studio
-        </span>
+        <div className="flex items-center space-x-2">
+          <Sparkles className="w-4 h-4 text-purple-400" />
+          <span className="text-xs font-bold text-white uppercase tracking-wider">
+            Video Intelligence Studio
+          </span>
+        </div>
         <button
           onClick={() => setIsCollapsed(true)}
           className="p-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/10 transition-all cursor-pointer"
-          title="Collapse Setup"
+          title="Collapse Studio"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -135,17 +166,27 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
               : 'text-zinc-400 hover:text-zinc-200'
           }`}
         >
-          Upload
+          Media
         </button>
         <button
-          onClick={() => setActiveTab('platform')}
+          onClick={() => setActiveTab('summary')}
           className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
-            activeTab === 'platform'
+            activeTab === 'summary'
               ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
               : 'text-zinc-400 hover:text-zinc-200'
           }`}
         >
-          Platform
+          Summary
+        </button>
+        <button
+          onClick={() => setActiveTab('timeline')}
+          className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+            activeTab === 'timeline'
+              ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
+              : 'text-zinc-400 hover:text-zinc-200'
+          }`}
+        >
+          Timeline
         </button>
         <button
           onClick={() => setActiveTab('audience')}
@@ -157,25 +198,44 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         >
           Audience
         </button>
-        <button
-          onClick={() => setActiveTab('settings')}
-          className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
-            activeTab === 'settings'
-              ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
-              : 'text-zinc-400 hover:text-zinc-200'
-          }`}
-        >
-          Settings
-        </button>
       </div>
 
       {/* Main Drawer Body */}
       <div className="flex-1 overflow-y-auto p-4 space-y-5">
-        {activeTab === 'upload' && (
+        {/* AUTOMATIC VIDEO ANALYSIS PROGRESS OVERLAY */}
+        {isAnalyzing && (
+          <div className="p-5 rounded-2xl border border-purple-500/30 bg-purple-950/20 backdrop-blur-xl space-y-4">
+            <div className="flex items-center space-x-3">
+              <Loader2 className="w-5 h-5 text-purple-400 animate-spin" />
+              <div>
+                <span className="text-xs font-bold text-white block">
+                  AI Video Intelligence Engine
+                </span>
+                <span className="text-[10px] text-purple-300 font-mono">
+                  {analysisProgress}% Complete
+                </span>
+              </div>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-zinc-900 rounded-full h-1.5 overflow-hidden">
+              <div
+                className="bg-gradient-to-r from-purple-600 to-indigo-400 h-full transition-all duration-300"
+                style={{ width: `${analysisProgress}%` }}
+              />
+            </div>
+
+            <p className="text-[11px] font-mono text-zinc-300 animate-pulse">
+              {analysisStep}
+            </p>
+          </div>
+        )}
+
+        {activeTab === 'upload' && !isAnalyzing && (
           <div className="space-y-4">
             <div>
               <span className="text-xs font-bold text-zinc-300 block mb-2">
-                Media & Content File
+                Upload Target Media
               </span>
               <div
                 onClick={() => fileInputRef.current?.click()}
@@ -186,17 +246,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                 {content.mediaFileUrl ? (
                   <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-white/10 shadow-lg">
                     {content.mediaFileUrl.includes('blob:') || content.mediaFileUrl.endsWith('.mp4') || content.mediaFileUrl.endsWith('.webm') ? (
-                      <video
-                        src={content.mediaFileUrl}
-                        controls
-                        className="w-full h-full object-cover"
-                      />
+                      <video src={content.mediaFileUrl} controls className="w-full h-full object-cover" />
                     ) : (
-                      <img
-                        src={content.mediaFileUrl}
-                        alt="Preview"
-                        className="w-full h-full object-cover opacity-90"
-                      />
+                      <img src={content.mediaFileUrl} alt="Preview" className="w-full h-full object-cover opacity-90" />
                     )}
                     <button
                       onClick={handleRemoveMedia}
@@ -212,63 +264,183 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                       <Upload className="w-5 h-5" />
                     </div>
                     <p className="text-xs text-zinc-300 font-semibold">
-                      Click or Drag & Drop image/video file
+                      Click or Drag & Drop video file
                     </p>
                     <span className="text-[10px] text-zinc-500 font-mono">
-                      MP4, MOV, PNG, JPG, WEBP (Max 100MB)
+                      MP4, MOV, WEBP (Automatic AI Analysis)
                     </span>
                   </div>
                 )}
               </div>
             </div>
 
+            {/* Platform Selector Pills */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-zinc-300">
-                  Hook & Script Text
+              <span className="text-xs font-bold text-zinc-300 block mb-2">
+                Target Distribution Platform
+              </span>
+              <div className="grid grid-cols-2 gap-2">
+                {platforms.map((p) => {
+                  const isSelected = content.platform === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      onClick={() => onChangeContent({ platform: p.id })}
+                      className={`py-2 px-3 rounded-xl text-xs font-medium border text-center transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-purple-600/30 text-purple-200 border-purple-500/50 font-bold'
+                          : 'bg-zinc-900/60 text-zinc-400 border-white/[0.04] hover:text-zinc-200'
+                      }`}
+                    >
+                      {p.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* AUTOMATIC AI SUMMARY & ANALYSIS VIEW */}
+        {activeTab === 'summary' && !isAnalyzing && (
+          <div className="space-y-4">
+            {/* Metadata Pill Specs */}
+            {intel && (
+              <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-zinc-950/80 border border-white/10 text-[10px] font-mono">
+                <div>
+                  <span className="text-zinc-500 block">Duration</span>
+                  <span className="text-zinc-200 font-bold">{intel.metadata.duration}</span>
+                </div>
+                <div>
+                  <span className="text-zinc-500 block">Resolution</span>
+                  <span className="text-zinc-200 font-bold">{intel.metadata.resolution}</span>
+                </div>
+                <div>
+                  <span className="text-zinc-500 block">FPS / Quality</span>
+                  <span className="text-zinc-200 font-bold">{intel.metadata.fps} FPS</span>
+                </div>
+                <div>
+                  <span className="text-zinc-500 block">Aspect Ratio</span>
+                  <span className="text-purple-400 font-bold">{intel.metadata.aspectRatio}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Editable Title */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs font-bold text-zinc-300 flex items-center space-x-1">
+                  <Film className="w-3.5 h-3.5 text-purple-400" />
+                  <span>Video Title</span>
                 </span>
-                <span className="text-[10px] font-mono text-zinc-500">
-                  {content.contentBody.length} chars
+                <span className="text-[9px] text-purple-400 font-mono uppercase">AI Extracted</span>
+              </div>
+              <input
+                type="text"
+                value={content.title}
+                onChange={(e) => onChangeContent({ title: e.target.value })}
+                className="w-full p-2.5 rounded-xl text-xs font-medium bg-zinc-950/80 border border-white/10 text-white focus:outline-none focus:border-purple-500/60"
+              />
+            </div>
+
+            {/* Detected Opening Hook */}
+            {intel && (
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-xs font-bold text-purple-300 flex items-center space-x-1">
+                    <Zap className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Detected Opening Hook</span>
+                  </span>
+                  <span className="text-[9px] text-amber-400 font-mono">{intel.hookStartTime}</span>
+                </div>
+                <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200 font-sans italic leading-relaxed">
+                  "{intel.hook}"
+                </div>
+              </div>
+            )}
+
+            {/* Full Speech Transcript */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs font-bold text-zinc-300 flex items-center space-x-1">
+                  <AlignLeft className="w-3.5 h-3.5 text-blue-400" />
+                  <span>Whisper Speech Transcript</span>
                 </span>
+                <span className="text-[9px] text-zinc-500 font-mono">{content.contentBody.length} chars</span>
               </div>
               <textarea
                 value={content.contentBody}
                 onChange={(e) => onChangeContent({ contentBody: e.target.value })}
-                rows={6}
-                className="w-full rounded-2xl p-3 text-xs font-mono bg-zinc-950/80 border border-white/10 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-purple-500/60 transition-all resize-none leading-relaxed"
-                placeholder="Paste script or post hook here..."
+                rows={5}
+                className="w-full p-3 rounded-2xl text-xs font-mono bg-zinc-950/80 border border-white/10 text-zinc-200 focus:outline-none focus:border-purple-500/60 leading-relaxed resize-none"
               />
             </div>
+
+            {/* AI Classification Tag Matrix */}
+            {intel && (
+              <div className="space-y-2 pt-1 border-t border-white/[0.06]">
+                <span className="text-xs font-bold text-zinc-300 block">
+                  Content Intelligence Classification
+                </span>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <div className="p-2 rounded-xl bg-zinc-900/60 border border-white/5">
+                    <span className="text-[9px] text-zinc-500 block uppercase font-mono">Style</span>
+                    <span className="text-xs font-medium text-zinc-200">{intel.analysis.style}</span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-zinc-900/60 border border-white/5">
+                    <span className="text-[9px] text-zinc-500 block uppercase font-mono">Tone</span>
+                    <span className="text-xs font-medium text-zinc-200">{intel.analysis.tone}</span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-zinc-900/60 border border-white/5">
+                    <span className="text-[9px] text-zinc-500 block uppercase font-mono">Emotion</span>
+                    <span className="text-xs font-medium text-purple-300">{intel.analysis.emotion}</span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-zinc-900/60 border border-white/5">
+                    <span className="text-[9px] text-zinc-500 block uppercase font-mono">Audience</span>
+                    <span className="text-xs font-medium text-emerald-300 line-clamp-1">{intel.analysis.targetAudience}</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
-        {activeTab === 'platform' && (
+        {/* SCENE BREAKDOWN TIMELINE VIEW */}
+        {activeTab === 'timeline' && !isAnalyzing && (
           <div className="space-y-3">
             <span className="text-xs font-bold text-zinc-300 block">
-              Target Distribution Channel
+              AI Video Scene Breakdown
             </span>
-            <div className="grid grid-cols-2 gap-2">
-              {platforms.map((p) => {
-                const isSelected = content.platform === p.id;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => onChangeContent({ platform: p.id })}
-                    className={`py-2 px-3 rounded-xl text-xs font-medium border text-center transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-purple-600/30 text-purple-200 border-purple-500/50 font-bold'
-                        : 'bg-zinc-900/60 text-zinc-400 border-white/[0.04] hover:text-zinc-200'
+            {intel?.timeline.map((item, idx) => (
+              <div
+                key={idx}
+                className="p-3 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-1 hover:border-purple-500/40 transition-all"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-purple-400 font-mono">
+                    {item.timestamp}
+                  </span>
+                  <span
+                    className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase ${
+                      item.type === 'hook'
+                        ? 'bg-amber-500/20 text-amber-300'
+                        : item.type === 'cta'
+                        ? 'bg-emerald-500/20 text-emerald-300'
+                        : 'bg-zinc-800 text-zinc-300'
                     }`}
                   >
-                    {p.label}
-                  </button>
-                );
-              })}
-            </div>
+                    {item.type}
+                  </span>
+                </div>
+                <h4 className="text-xs font-bold text-white">{item.title}</h4>
+                <p className="text-[11px] text-zinc-400 leading-snug">{item.description}</p>
+              </div>
+            ))}
           </div>
         )}
 
-        {activeTab === 'audience' && (
+        {/* AUDIENCE SELECTOR VIEW */}
+        {activeTab === 'audience' && !isAnalyzing && (
           <div className="space-y-2">
             <span className="text-xs font-bold text-zinc-300 block mb-2">
               Target AI Audience Cohorts
@@ -327,43 +499,14 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
             })}
           </div>
         )}
-
-        {activeTab === 'settings' && (
-          <div className="space-y-5">
-            <div>
-              <span className="text-xs font-bold text-zinc-300 block mb-2">
-                Algorithm Retention Bias
-              </span>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                defaultValue="75"
-                className="w-full accent-purple-500 bg-zinc-800 rounded-lg cursor-pointer h-1.5"
-              />
-            </div>
-
-            <div>
-              <span className="text-xs font-bold text-zinc-300 block mb-2">
-                Viral Cascade Threshold
-              </span>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                defaultValue="85"
-                className="w-full accent-purple-500 bg-zinc-800 rounded-lg cursor-pointer h-1.5"
-              />
-            </div>
-          </div>
-        )}
       </div>
 
       {/* THE ONE PRIMARY CTA BUTTON */}
       <div className="p-4 border-t border-white/[0.06] bg-zinc-950/60">
         <button
           onClick={onRunSimulation}
-          className="w-full h-12 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm tracking-wide shadow-xl shadow-purple-600/30 transition-all flex items-center justify-center space-x-2.5 active:scale-[0.98] cursor-pointer border border-purple-400/30"
+          disabled={isAnalyzing}
+          className="w-full h-12 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm tracking-wide shadow-xl shadow-purple-600/30 transition-all flex items-center justify-center space-x-2.5 active:scale-[0.98] cursor-pointer border border-purple-400/30 disabled:opacity-50"
         >
           <Play className={`w-4 h-4 fill-current ${isRunning ? 'animate-spin' : ''}`} />
           <span>{isRunning ? 'SIMULATING...' : '▶ START SIMULATION'}</span>
