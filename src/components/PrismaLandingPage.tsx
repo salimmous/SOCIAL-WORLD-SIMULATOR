@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check, Zap, Sparkles, Shield, Star } from 'lucide-react';
 
 // ==========================================
 // SHARED ANIMATION COMPONENTS
@@ -168,11 +168,20 @@ export function PrismaLandingPage({
   onOpenAtlas,
   onOpenWorkspace,
 }: PrismaLandingPageProps) {
+  const scrollToPricing = () => {
+    const pricingEl = document.getElementById('pricing-section');
+    if (pricingEl) {
+      pricingEl.scrollIntoView({ behavior: 'smooth' });
+    } else if (onLaunchPlatform) {
+      onLaunchPlatform();
+    }
+  };
+
   const navItems = [
     { label: 'Platform', action: onLaunchPlatform },
     { label: 'Personas', action: onLaunchPlatform },
     { label: 'Simulations', action: onLaunchPlatform },
-    { label: 'Optimization', action: onLaunchPlatform },
+    { label: 'Pricing', action: scrollToPricing },
     { label: 'Documentation', action: onOpenAtlas },
   ];
 
@@ -286,7 +295,7 @@ export function PrismaLandingPage({
       </section>
 
       {/* SECTION 3: FEATURES */}
-      <section className="min-h-screen bg-black py-24 sm:py-32 px-4 md:px-6 relative overflow-hidden">
+      <section className="bg-black py-24 sm:py-32 px-4 md:px-6 relative overflow-hidden">
         {/* Subtle noise background */}
         <div className="absolute inset-0 bg-noise opacity-[0.15] pointer-events-none" />
 
@@ -450,6 +459,162 @@ export function PrismaLandingPage({
                 </button>
               </div>
             </FeatureCardWrapper>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: PRICING PACKAGES */}
+      <section id="pricing-section" className="py-24 sm:py-32 px-4 md:px-6 bg-black relative z-10 border-t border-white/5">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-2">
+            <span className="text-[#DEDBC8] text-[10px] sm:text-xs tracking-widest uppercase block font-medium">
+              Transparent Pricing Packages
+            </span>
+            <WordsPullUpMultiStyle
+              segments={[
+                { text: 'Predict audience reaction at any scale.', className: 'text-[#E1E0CC] font-normal block text-2xl sm:text-3xl md:text-4xl' },
+              ]}
+            />
+            <p className="text-gray-400 text-xs sm:text-sm md:text-base font-normal pt-2">
+              Start with our free demo, or unlock enterprise AI audience intelligence.
+            </p>
+          </div>
+
+          {/* 3 Pricing Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Card 1: Free Demo */}
+            <div className="bg-[#101010] rounded-3xl p-8 border border-white/5 flex flex-col justify-between relative overflow-hidden group hover:border-[#DEDBC8]/30 transition-all shadow-2xl">
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-white/5 text-gray-400 border border-white/10">
+                    Free Demo
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-2xl font-bold text-[#E1E0CC]">Starter Demo</h3>
+                  <div className="flex items-baseline space-x-1 mt-2">
+                    <span className="text-4xl font-extrabold text-[#E1E0CC] font-mono">$0</span>
+                    <span className="text-xs text-gray-400 font-sans">/ free forever</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-2 font-normal">
+                    Ideal for individual creators testing pre-publish virality.
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-white/5 space-y-3">
+                  {[
+                    '3 Free AI Content Simulations',
+                    'Access to 25 Basic Persona Nodes',
+                    'Standard Retention Heatmap',
+                    'Whisper Speech Transcripts',
+                  ].map((feat, idx) => (
+                    <div key={idx} className="flex items-center space-x-2.5 text-xs text-gray-300">
+                      <Check className="w-4 h-4 text-[#DEDBC8] shrink-0" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={onLaunchPlatform}
+                className="mt-8 w-full py-3.5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-[#E1E0CC] border border-white/10 text-xs font-bold transition-all cursor-pointer shadow-lg active:scale-95 text-center"
+              >
+                Start Free Demo →
+              </button>
+            </div>
+
+            {/* Card 2: Pro Creator ($25/mo) */}
+            <div className="bg-[#161616] rounded-3xl p-8 border-2 border-[#DEDBC8] flex flex-col justify-between relative overflow-hidden group shadow-[0_0_50px_rgba(222,219,200,0.12)]">
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-[#DEDBC8] text-black font-bold">
+                    ★ Most Popular
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-2xl font-bold text-[#E1E0CC]">Pro Creator</h3>
+                  <div className="flex items-baseline space-x-1.5 mt-2">
+                    <span className="text-4xl font-extrabold text-[#E1E0CC] font-mono">$25</span>
+                    <span className="text-xs text-gray-300 font-sans">USD / month</span>
+                  </div>
+                  <p className="text-xs text-gray-300 mt-2 font-normal">
+                    For professional creators & growth teams scaling reach.
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-white/10 space-y-3">
+                  {[
+                    'Unlimited AI Audience Simulations',
+                    'Full 200+ Autonomous Persona Network',
+                    '1-Click Script Optimization Lab',
+                    'A/B Variant Comparison Studio',
+                    'NVIDIA Llama 70B Vision Intelligence',
+                    'Priority API Execution Speed',
+                  ].map((feat, idx) => (
+                    <div key={idx} className="flex items-center space-x-2.5 text-xs text-white font-medium">
+                      <Check className="w-4 h-4 text-[#DEDBC8] shrink-0" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={onLaunchPlatform}
+                className="mt-8 w-full py-3.5 rounded-2xl bg-[#DEDBC8] hover:bg-white text-black text-xs font-extrabold transition-all cursor-pointer shadow-xl active:scale-95 text-center"
+              >
+                Upgrade to Pro ($25/mo) →
+              </button>
+            </div>
+
+            {/* Card 3: Enterprise ($100/mo) */}
+            <div className="bg-[#101010] rounded-3xl p-8 border border-white/5 flex flex-col justify-between relative overflow-hidden group hover:border-[#DEDBC8]/30 transition-all shadow-2xl">
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    Enterprise Scale
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-2xl font-bold text-[#E1E0CC]">Enterprise</h3>
+                  <div className="flex items-baseline space-x-1.5 mt-2">
+                    <span className="text-4xl font-extrabold text-[#E1E0CC] font-mono">$100</span>
+                    <span className="text-xs text-gray-400 font-sans">USD / month</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-2 font-normal">
+                    For media agencies, brands & high-frequency production houses.
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-white/5 space-y-3">
+                  {[
+                    'Everything in Pro + Custom Personas',
+                    'Dedicated Atlas AI Senior Mentor',
+                    'Executive Pre-Flight Audit PDF Reports',
+                    'Custom API Integrations & Webhooks',
+                    'Team Workspace & Multi-User Seats',
+                    '24/7 Priority SLA Support',
+                  ].map((feat, idx) => (
+                    <div key={idx} className="flex items-center space-x-2.5 text-xs text-gray-300">
+                      <Check className="w-4 h-4 text-[#DEDBC8] shrink-0" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={onLaunchPlatform}
+                className="mt-8 w-full py-3.5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-[#E1E0CC] border border-white/10 text-xs font-bold transition-all cursor-pointer shadow-lg active:scale-95 text-center"
+              >
+                Get Enterprise ($100/mo) →
+              </button>
+            </div>
           </div>
         </div>
       </section>
