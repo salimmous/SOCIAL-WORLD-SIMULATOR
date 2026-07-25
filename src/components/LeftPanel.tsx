@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Upload,
   Play,
@@ -8,6 +8,9 @@ import {
   ChevronLeft,
   ChevronRight,
   CheckCircle2,
+  X,
+  FileVideo,
+  FileImage,
 } from 'lucide-react';
 import { ContentType, Platform, ContentInput } from '@/types/simulator';
 import { PERSONAS } from '@/data/personas';
@@ -31,6 +34,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'upload' | 'platform' | 'audience' | 'settings'>('upload');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const platforms: { id: Platform; label: string }[] = [
     { id: 'twitter', label: 'X / Twitter' },
@@ -39,6 +43,41 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
     { id: 'youtube', label: 'YouTube' },
     { id: 'linkedin', label: 'LinkedIn' },
   ];
+
+  // Handle file upload selection
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const mediaUrl = URL.createObjectURL(file);
+      onChangeContent({
+        mediaFileUrl: mediaUrl,
+        title: file.name,
+      });
+    }
+  };
+
+  // Handle Drag & Drop
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      const mediaUrl = URL.createObjectURL(file);
+      onChangeContent({
+        mediaFileUrl: mediaUrl,
+        title: file.name,
+      });
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleRemoveMedia = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onChangeContent({ mediaFileUrl: undefined });
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
   if (isCollapsed) {
     return (
@@ -63,6 +102,15 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 
   return (
     <div className="w-[320px] shrink-0 border-r border-white/[0.06] glass-panel rounded-none border-t-0 border-b-0 border-l-0 flex flex-col h-[calc(100vh-3.5rem)] z-20 relative">
+      {/* Hidden File Input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*,video/*,.txt"
+        onChange={handleFileSelect}
+        className="hidden"
+      />
+
       {/* Top Drawer Header & Collapse Toggle */}
       <div className="p-4 border-b border-white/[0.06] flex items-center justify-between bg-zinc-950/40">
         <span className="text-xs font-bold text-white uppercase tracking-wider">
@@ -129,28 +177,45 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
               <span className="text-xs font-bold text-zinc-300 block mb-2">
                 Media & Content File
               </span>
-              <div className="border border-dashed border-white/10 hover:border-purple-500/40 rounded-2xl p-4 bg-zinc-950/60 transition-all text-center group cursor-pointer">
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                className="border-2 border-dashed border-white/15 hover:border-purple-500/60 rounded-2xl p-4 bg-zinc-950/60 transition-all text-center group cursor-pointer relative overflow-hidden"
+              >
                 {content.mediaFileUrl ? (
-                  <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-white/10">
-                    <img
-                      src={content.mediaFileUrl}
-                      alt="Preview"
-                      className="w-full h-full object-cover opacity-80"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-2.5">
-                      <span className="text-xs text-white font-medium line-clamp-1">
-                        {content.title}
-                      </span>
-                    </div>
+                  <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-white/10 shadow-lg">
+                    {content.mediaFileUrl.includes('blob:') || content.mediaFileUrl.endsWith('.mp4') || content.mediaFileUrl.endsWith('.webm') ? (
+                      <video
+                        src={content.mediaFileUrl}
+                        controls
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={content.mediaFileUrl}
+                        alt="Preview"
+                        className="w-full h-full object-cover opacity-90"
+                      />
+                    )}
+                    <button
+                      onClick={handleRemoveMedia}
+                      className="absolute top-2 right-2 p-1.5 rounded-full bg-black/80 hover:bg-black text-white text-xs border border-white/20 shadow-md cursor-pointer transition-transform hover:scale-110"
+                      title="Remove file"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 ) : (
-                  <div className="py-5 flex flex-col items-center justify-center space-y-2">
-                    <Upload className="w-5 h-5 text-purple-400" />
-                    <p className="text-xs text-zinc-300 font-medium">
-                      Upload video, image or script
+                  <div className="py-6 flex flex-col items-center justify-center space-y-2">
+                    <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
+                      <Upload className="w-5 h-5" />
+                    </div>
+                    <p className="text-xs text-zinc-300 font-semibold">
+                      Click or Drag & Drop image/video file
                     </p>
-                    <span className="text-[10px] text-zinc-500">
-                      MP4, MOV, TXT up to 100MB
+                    <span className="text-[10px] text-zinc-500 font-mono">
+                      MP4, MOV, PNG, JPG, WEBP (Max 100MB)
                     </span>
                   </div>
                 )}
@@ -221,7 +286,6 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   }`}
                 >
                   <div className="flex items-center space-x-2.5">
-                    {/* Professional Profile Image */}
                     <div className="relative shrink-0">
                       <img
                         src={persona.avatarUrl}
