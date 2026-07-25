@@ -24,6 +24,8 @@ import { FeatureDocDrawer, FeatureDocData } from '@/components/FeatureDocDrawer'
 import { HelpCenterModal } from '@/components/HelpCenterModal';
 import { ProductCoachSpotlight } from '@/components/ProductCoachSpotlight';
 import { AtlasProductGuideDrawer } from '@/components/AtlasProductGuideDrawer';
+import { SecretsDrawer } from '@/components/SecretsDrawer';
+import { LiveSystemLogsModal } from '@/components/LiveSystemLogsModal';
 import { LandingPage } from '@/components/LandingPage';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
@@ -61,6 +63,8 @@ export default function Home() {
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [isSponsorsOpen, setIsSponsorsOpen] = useState<boolean>(false);
+  const [isSecretsOpen, setIsSecretsOpen] = useState<boolean>(false);
+  const [isSystemLogsOpen, setIsSystemLogsOpen] = useState<boolean>(false);
   const [isABOpen, setIsABOpen] = useState<boolean>(false);
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
   const [isPipelineLoading, setIsPipelineLoading] = useState<boolean>(false);
@@ -282,6 +286,11 @@ export default function Home() {
     setIsRunning(true);
   };
 
+  const handleReset = () => {
+    setCurrentTime(0);
+    setIsRunning(false);
+  };
+
   // Simulation Timeline Tick Loop
   useEffect(() => {
     if (!isRunning) return;
@@ -355,7 +364,8 @@ export default function Home() {
       <AIWorkspaceModal
         isOpen={isSponsorsOpen}
         onClose={() => setIsSponsorsOpen(false)}
-        scriptText={content.contentBody}
+        onOpenSecrets={() => setIsSecretsOpen(true)}
+        onOpenSystemLogs={() => setIsSystemLogsOpen(true)}
       />
 
       {/* A/B Test Comparison Modal */}
@@ -397,24 +407,21 @@ export default function Home() {
         isOpen={isCmdKOpen}
         onClose={() => setIsCmdKOpen(false)}
         onRunSimulation={handleRunSimulation}
+        onReset={handleReset}
         onApplyFixes={handleApplyFixes}
-        onOpenABModal={() => setIsABOpen(true)}
         onOpenReportModal={() => setIsReportOpen(true)}
-        onOpenExportModal={() => setIsExportOpen(true)}
-        onOpenSettingsModal={() => setIsSettingsOpen(true)}
-        onOpenSponsorsModal={() => setIsSponsorsOpen(true)}
-        onExplainPage={() => setIsCoachActive(true)}
-        onOpenAtlas={() => {
-          setAtlasTopic('upload');
-          setIsAtlasOpen(true);
-        }}
+        onOpenHelpCenter={() => setIsHelpCenterOpen(true)}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+        onOpenSecrets={() => setIsSecretsOpen(true)}
+        onOpenSystemLogs={() => setIsSystemLogsOpen(true)}
+        onOpenAIWorkspace={() => setIsSponsorsOpen(true)}
       />
 
       {/* Apple-Quality Guided Onboarding Tour Modal */}
       <AppleOnboardingModal
         isOpen={isOnboardingOpen}
         onClose={() => setIsOnboardingOpen(false)}
-        onStartDemo={handleStartDemoProject}
+        onRunDemo={handleStartDemoProject}
       />
 
       {/* Floating Getting Started Progress Checklist */}
@@ -462,9 +469,9 @@ export default function Home() {
 
       {/* In-Product Coach Spotlight Component */}
       <ProductCoachSpotlight
-        isActive={isCoachActive}
+        isOpen={isCoachActive}
         onClose={() => setIsCoachActive(false)}
-        onStartDemo={handleStartDemoProject}
+        onRunDemo={handleStartDemoProject}
       />
 
       {/* Atlas Official Dedicated AI Product Guide Drawer */}
@@ -472,6 +479,18 @@ export default function Home() {
         isOpen={isAtlasOpen}
         topicId={atlasTopic}
         onClose={() => setIsAtlasOpen(false)}
+      />
+
+      {/* Encrypted Secrets Manager Drawer */}
+      <SecretsDrawer
+        isOpen={isSecretsOpen}
+        onClose={() => setIsSecretsOpen(false)}
+      />
+
+      {/* Realtime System Audit Logs Modal */}
+      <LiveSystemLogsModal
+        isOpen={isSystemLogsOpen}
+        onClose={() => setIsSystemLogsOpen(false)}
       />
 
       {/* MOBILE NATIVE APP EXPERIENCE (block md:hidden) */}

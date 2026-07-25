@@ -67,7 +67,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
   };
 
   return (
-    <div className="w-[360px] shrink-0 border-l border-white/[0.06] glass-panel rounded-none border-t-0 border-b-0 border-r-0 flex flex-col h-[calc(100vh-3.5rem)] z-20 overflow-hidden">
+    <div className="w-[360px] shrink-0 border-l border-white/[0.08] glass-panel rounded-none border-t-0 border-b-0 border-r-0 flex flex-col h-[calc(100vh-3.5rem)] z-20 overflow-hidden bg-[#0A0A0A]/90 text-[#F7F6F1]">
       {/* Scrollable Panel Body with Collapsible Accordions */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* SECTION 1: OVERVIEW */}
@@ -76,7 +76,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
             onClick={() => toggleSection('overview')}
             className="w-full px-4 py-3.5 flex items-center justify-between text-left cursor-pointer"
           >
-            <span className="text-sm font-bold text-white tracking-wide">
+            <span className="text-sm font-bold text-[#F7F6F1] tracking-wide">
               Overview
             </span>
             <ChevronDown
@@ -96,14 +96,14 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                 className="px-4 pb-4 border-t border-white/[0.04]"
               >
                 <div className="pt-3 text-center space-y-3">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-purple-300 block mb-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#DEDBC8] block mb-1">
                     Predicted Virality Index
                   </span>
                   <div className="my-1">
-                    <span className="text-5xl font-extrabold text-white font-mono tracking-tight">
+                    <span className="text-5xl font-extrabold text-[#F7F6F1] font-mono tracking-tight">
                       {metrics.viralityScore}
                     </span>
-                    <span className="text-lg font-bold text-purple-400 ml-1">/100</span>
+                    <span className="text-lg font-bold text-[#DEDBC8] ml-1">/100</span>
                   </div>
                   <p className="text-xs text-zinc-300 leading-relaxed mt-1">
                     {appliedFixes
@@ -116,7 +116,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                     {onOpenABModal && (
                       <button
                         onClick={onOpenABModal}
-                        className="p-2 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 text-[10px] font-bold transition-all cursor-pointer flex items-center justify-center space-x-1"
+                        className="p-2 rounded-xl bg-[#DEDBC8]/15 hover:bg-[#DEDBC8]/25 text-[#DEDBC8] border border-[#DEDBC8]/30 text-[10px] font-bold transition-all cursor-pointer flex items-center justify-center space-x-1"
                       >
                         <span>A/B Compare</span>
                       </button>
@@ -145,7 +145,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
             onClick={() => toggleSection('audience')}
             className="w-full px-4 py-3.5 flex items-center justify-between text-left cursor-pointer"
           >
-            <span className="text-sm font-bold text-white tracking-wide">
+            <span className="text-sm font-bold text-[#F7F6F1] tracking-wide">
               Audience & Metrics
             </span>
             <ChevronDown
@@ -165,44 +165,44 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                 className="px-4 pb-4 border-t border-white/[0.04]"
               >
                 <div className="grid grid-cols-2 gap-2.5 pt-3">
-                  <div className="p-3 rounded-xl bg-zinc-950/60 border border-white/[0.04]">
+                  <div className="p-3 rounded-xl bg-[#111111] border border-white/[0.04]">
                     <span className="text-xs text-zinc-400 block font-medium">
                       Audience Fit
                     </span>
-                    <span className="text-xl font-bold text-white font-mono">
+                    <span className="text-xl font-bold text-[#F7F6F1] font-mono">
                       {metrics.audienceFit}%
                     </span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-zinc-950/60 border border-white/[0.04]">
+                  <div className="p-3 rounded-xl bg-[#111111] border border-white/[0.04]">
                     <span className="text-xs text-zinc-400 block font-medium">
                       Attention Score
                     </span>
-                    <span className="text-xl font-bold text-white font-mono">
+                    <span className="text-xl font-bold text-[#F7F6F1] font-mono">
                       {metrics.attentionScore}%
                     </span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-zinc-950/60 border border-white/[0.04]">
+                  <div className="p-3 rounded-xl bg-[#111111] border border-white/[0.04]">
                     <span className="text-xs text-zinc-400 block font-medium">
                       Share Rate
                     </span>
-                    <span className="text-xl font-bold text-white font-mono">
+                    <span className="text-xl font-bold text-[#F7F6F1] font-mono">
                       {metrics.shareProbability}%
                     </span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-zinc-950/60 border border-white/[0.04]">
+                  <div className="p-3 rounded-xl bg-[#111111] border border-white/[0.04]">
                     <span className="text-xs text-zinc-400 block font-medium">
                       Brand Safety
                     </span>
-                    <span className="text-xl font-bold text-white font-mono">
+                    <span className="text-xl font-bold text-[#F7F6F1] font-mono">
                       {metrics.brandSafety}%
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-3 p-3 rounded-xl bg-zinc-950/60 border border-white/[0.04] flex items-center justify-between text-xs">
+                <div className="mt-3 p-3 rounded-xl bg-[#111111] border border-white/[0.04] flex items-center justify-between text-xs">
                   <span className="text-zinc-400 font-medium">Reach Estimate:</span>
                   <span className="font-mono font-bold text-emerald-400">
                     {metrics.estimatedReach}
@@ -219,7 +219,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
             onClick={() => toggleSection('insights')}
             className="w-full px-4 py-3.5 flex items-center justify-between text-left cursor-pointer"
           >
-            <span className="text-sm font-bold text-white tracking-wide">
+            <span className="text-sm font-bold text-[#F7F6F1] tracking-wide">
               Insights & Retention Timeline
             </span>
             <ChevronDown
@@ -257,7 +257,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
             className="w-full px-4 py-3.5 flex items-center justify-between text-left cursor-pointer"
           >
             <div className="flex items-center space-x-2">
-              <span className="text-sm font-bold text-white tracking-wide">
+              <span className="text-sm font-bold text-[#F7F6F1] tracking-wide">
                 Strict AI Critique
               </span>
               {appliedFixes && (
@@ -301,7 +301,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                         } block`}>
                           {rec.title}
                         </span>
-                        <span className="text-[10px] font-mono text-purple-400 font-bold">
+                        <span className="text-[10px] font-mono text-[#DEDBC8] font-bold">
                           {rec.metricBoost}
                         </span>
                       </div>
@@ -350,7 +350,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
             onClick={() => toggleSection('comments')}
             className="w-full px-4 py-3.5 flex items-center justify-between text-left cursor-pointer"
           >
-            <span className="text-sm font-bold text-white tracking-wide">
+            <span className="text-sm font-bold text-[#F7F6F1] tracking-wide">
               Live Comment Stream
             </span>
             <ChevronDown
@@ -379,12 +379,12 @@ export const RightPanel: React.FC<RightPanelProps> = ({
       </div>
 
       {/* Bottom Sticky Recommendation Trigger */}
-      <div className="p-4 border-t border-white/[0.06] bg-zinc-950/60">
+      <div className="p-4 border-t border-white/[0.08] bg-[#0A0A0A]">
         <button
           onClick={handleApplyFix}
-          className="w-full py-3.5 rounded-2xl bg-purple-600/20 hover:bg-purple-600/40 text-purple-200 border border-purple-500/40 text-xs font-bold transition-all flex items-center justify-center space-x-2 cursor-pointer active:scale-95"
+          className="w-full py-3.5 rounded-2xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black font-extrabold text-xs transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-[0_0_15px_rgba(222,219,200,0.22)] active:scale-95 border border-white/20"
         >
-          <Sparkles className="w-4 h-4 text-purple-300" />
+          <Sparkles className="w-4 h-4 text-black" />
           <span>{appliedFixes ? 'Re-Run Optimization Pass' : 'Apply AI Recommendations'}</span>
         </button>
       </div>

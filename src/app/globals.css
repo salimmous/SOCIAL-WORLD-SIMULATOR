@@ -27,38 +27,44 @@
 @layer base {
   :root {
     --background: #000000;
-    --foreground: #E1E0CC;
+    --foreground: #F7F6F1;
+    --brand-primary: #DEDBC8;
+    --brand-hover: #ECE8D9;
+    --brand-pressed: #CFC9B5;
+    --brand-soft: rgba(222, 219, 200, 0.08);
+    --brand-border: rgba(222, 219, 200, 0.16);
+    --brand-glow: rgba(222, 219, 200, 0.22);
   }
 
   body {
     background-color: #000000;
-    color: #E1E0CC;
+    color: #F7F6F1;
     overflow-x: hidden;
   }
 }
 
-/* Apple Vision Pro Glassmorphism */
+/* Apple Pro & Luxury Software Glassmorphism */
 .glass-panel {
-  background: rgba(13, 13, 18, 0.65);
+  background: rgba(17, 17, 17, 0.75);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(222, 219, 200, 0.14);
   border-radius: 22px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 .glass-card {
-  background: rgba(18, 18, 26, 0.5);
+  background: rgba(17, 17, 17, 0.6);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(222, 219, 200, 0.10);
   border-radius: 18px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  background: rgba(24, 24, 36, 0.7);
-  border-color: rgba(139, 92, 246, 0.3);
-  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+  background: rgba(24, 24, 24, 0.85);
+  border-color: rgba(222, 219, 200, 0.3);
+  box-shadow: 0 10px 30px rgba(222, 219, 200, 0.08);
 }
 
 /* Custom Scrollbars */
@@ -72,12 +78,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(222, 219, 200, 0.16);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.4);
+  background: rgba(222, 219, 200, 0.4);
 }
 
 /* Breathing Node Animations */

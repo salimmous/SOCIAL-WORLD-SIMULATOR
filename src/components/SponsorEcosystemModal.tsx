@@ -101,23 +101,23 @@ export function SponsorEcosystemModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md text-[#F7F6F1]">
         <motion.div
           initial={{ scale: 0.95, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 20 }}
-          className="relative w-full max-w-4xl max-h-[90vh] bg-zinc-950 border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+          className="relative w-full max-w-4xl max-h-[90vh] bg-[#111111] border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
         >
           {/* Top Bar Header */}
-          <div className="px-6 py-4 border-b border-white/10 bg-gradient-to-r from-purple-950/40 via-zinc-900 to-blue-950/40 flex items-center justify-between">
+          <div className="px-6 py-4 border-b border-white/10 bg-[#181818] flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="p-2.5 rounded-2xl bg-purple-500/20 border border-purple-500/30 text-purple-400">
+              <div className="p-2.5 rounded-2xl bg-[#DEDBC8]/15 border border-[#DEDBC8]/30 text-[#DEDBC8]">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
                 <h2 className="text-base font-bold text-white tracking-wide flex items-center space-x-2">
                   <span>Hackathon AI Sponsor Ecosystem</span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30 font-semibold">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-[#DEDBC8]/20 text-[#DEDBC8] border border-[#DEDBC8]/30 font-semibold">
                     5 Integrations Active
                   </span>
                 </h2>
@@ -141,7 +141,7 @@ export function SponsorEcosystemModal({
               onClick={() => setActiveTab('all')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                 activeTab === 'all'
-                  ? 'bg-purple-600 text-white font-bold shadow-lg shadow-purple-900/40'
+                  ? 'bg-[#DEDBC8] text-black font-extrabold shadow-lg'
                   : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
               }`}
             >
@@ -151,18 +151,18 @@ export function SponsorEcosystemModal({
               onClick={() => setActiveTab('elevenlabs')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center space-x-1.5 ${
                 activeTab === 'elevenlabs'
-                  ? 'bg-purple-600 text-white font-bold'
+                  ? 'bg-[#DEDBC8] text-black font-extrabold'
                   : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
               }`}
             >
-              <Volume2 className="w-3.5 h-3.5 text-purple-400" />
+              <Volume2 className="w-3.5 h-3.5 text-zinc-800" />
               <span>ElevenLabs Voice</span>
             </button>
             <button
               onClick={() => setActiveTab('fal')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center space-x-1.5 ${
                 activeTab === 'fal'
-                  ? 'bg-purple-600 text-white font-bold'
+                  ? 'bg-[#DEDBC8] text-black font-extrabold'
                   : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
               }`}
             >
@@ -173,7 +173,7 @@ export function SponsorEcosystemModal({
               onClick={() => setActiveTab('firecrawl')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center space-x-1.5 ${
                 activeTab === 'firecrawl'
-                  ? 'bg-purple-600 text-white font-bold'
+                  ? 'bg-[#DEDBC8] text-black font-extrabold'
                   : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
               }`}
             >
@@ -184,7 +184,7 @@ export function SponsorEcosystemModal({
               onClick={() => setActiveTab('n8n')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center space-x-1.5 ${
                 activeTab === 'n8n'
-                  ? 'bg-purple-600 text-white font-bold'
+                  ? 'bg-[#DEDBC8] text-black font-extrabold'
                   : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
               }`}
             >
@@ -195,7 +195,7 @@ export function SponsorEcosystemModal({
               onClick={() => setActiveTab('render')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center space-x-1.5 ${
                 activeTab === 'render'
-                  ? 'bg-purple-600 text-white font-bold'
+                  ? 'bg-[#DEDBC8] text-black font-extrabold'
                   : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'
               }`}
             >
@@ -208,10 +208,10 @@ export function SponsorEcosystemModal({
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
             {/* SPONSOR 1: ELEVENLABS */}
             {(activeTab === 'all' || activeTab === 'elevenlabs') && (
-              <div className="p-5 rounded-2xl bg-zinc-900/80 border border-purple-500/30 space-y-4">
+              <div className="p-5 rounded-2xl bg-[#181818] border border-[#DEDBC8]/30 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 font-bold text-lg font-mono">
+                    <div className="w-10 h-10 rounded-xl bg-[#DEDBC8]/20 border border-[#DEDBC8]/40 flex items-center justify-center text-[#DEDBC8] font-bold text-lg font-mono">
                       11
                     </div>
                     <div>
@@ -232,10 +232,10 @@ export function SponsorEcosystemModal({
                     className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center space-x-2 ${
                       isPlayingAudio
                         ? 'bg-red-600 text-white animate-pulse'
-                        : 'bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-900/30'
+                        : 'bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black font-extrabold shadow-lg'
                     }`}
                   >
-                    {isPlayingAudio ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white" />}
+                    {isPlayingAudio ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-black text-black" />}
                     <span>{isPlayingAudio ? 'Stop Voice Simulation' : 'Preview ElevenLabs AI Voice'}</span>
                   </button>
                 </div>
@@ -246,7 +246,7 @@ export function SponsorEcosystemModal({
                     <select
                       value={selectedVoice}
                       onChange={(e) => setSelectedVoice(e.target.value)}
-                      className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-zinc-200 focus:outline-none focus:border-purple-500"
+                      className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-zinc-200 focus:outline-none focus:border-[#DEDBC8]"
                     >
                       <option value="Adam (Deep Tech)">Adam (Tech & Growth Master)</option>
                       <option value="Rachel (Gen Z Hype)">Rachel (Gen Z Viral Trendsetter)</option>
@@ -257,7 +257,7 @@ export function SponsorEcosystemModal({
 
                   <div className="p-3 rounded-xl bg-black/60 border border-white/5 space-y-1.5">
                     <span className="text-[10px] font-mono text-zinc-400 block uppercase">Live Hook Script Payload</span>
-                    <p className="text-xs text-purple-300 font-mono italic line-clamp-2">
+                    <p className="text-xs text-[#DEDBC8] font-mono italic line-clamp-2">
                       "{scriptText || 'Creators publish blindly. We change that. Simulate your audience before posting.'}"
                     </p>
                   </div>
@@ -267,7 +267,7 @@ export function SponsorEcosystemModal({
 
             {/* SPONSOR 2: FAL.AI */}
             {(activeTab === 'all' || activeTab === 'fal') && (
-              <div className="p-5 rounded-2xl bg-zinc-900/80 border border-pink-500/30 space-y-4">
+              <div className="p-5 rounded-2xl bg-[#181818] border border-pink-500/30 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-xl bg-pink-500/20 border border-pink-500/40 flex items-center justify-center text-pink-300 font-bold text-sm font-mono">
@@ -289,7 +289,7 @@ export function SponsorEcosystemModal({
                   <button
                     onClick={handleGenerateFal}
                     disabled={isGeneratingImage}
-                    className="px-4 py-2 rounded-xl bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold transition-all cursor-pointer flex items-center space-x-2 shadow-lg shadow-pink-900/30"
+                    className="px-4 py-2 rounded-xl bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold transition-all cursor-pointer flex items-center space-x-2 shadow-lg"
                   >
                     <RefreshCw className={`w-4 h-4 ${isGeneratingImage ? 'animate-spin' : ''}`} />
                     <span>{isGeneratingImage ? 'Generating fal.ai Media...' : 'Generate AI Thumbnail'}</span>
@@ -328,7 +328,7 @@ export function SponsorEcosystemModal({
 
             {/* SPONSOR 3: FIRECRAWL */}
             {(activeTab === 'all' || activeTab === 'firecrawl') && (
-              <div className="p-5 rounded-2xl bg-zinc-900/80 border border-orange-500/30 space-y-4">
+              <div className="p-5 rounded-2xl bg-[#181818] border border-orange-500/30 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-orange-300 font-bold text-sm font-mono">
@@ -350,7 +350,7 @@ export function SponsorEcosystemModal({
                   <button
                     onClick={handleRunFirecrawl}
                     disabled={isCrawling}
-                    className="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all cursor-pointer flex items-center space-x-2 shadow-lg shadow-orange-900/30"
+                    className="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all cursor-pointer flex items-center space-x-2 shadow-lg"
                   >
                     <Search className="w-4 h-4" />
                     <span>{isCrawling ? 'Crawling Social Web...' : 'Run Firecrawl Research'}</span>
@@ -383,7 +383,7 @@ export function SponsorEcosystemModal({
             {(activeTab === 'all' || activeTab === 'n8n' || activeTab === 'render') && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* n8n */}
-                <div className="p-5 rounded-2xl bg-zinc-900/80 border border-red-500/30 space-y-3">
+                <div className="p-5 rounded-2xl bg-[#181818] border border-red-500/30 space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2.5">
                       <div className="p-2 rounded-xl bg-red-500/20 text-red-400 font-bold text-xs font-mono">
@@ -413,7 +413,7 @@ export function SponsorEcosystemModal({
                 </div>
 
                 {/* Render */}
-                <div className="p-5 rounded-2xl bg-zinc-900/80 border border-emerald-500/30 space-y-3">
+                <div className="p-5 rounded-2xl bg-[#181818] border border-emerald-500/30 space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2.5">
                       <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 font-bold text-xs font-mono">
@@ -444,7 +444,7 @@ export function SponsorEcosystemModal({
             </span>
             <button
               onClick={onClose}
-              className="px-4 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold transition-all cursor-pointer"
+              className="px-4 py-1.5 rounded-xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black text-xs font-bold transition-all cursor-pointer"
             >
               Close Hub
             </button>

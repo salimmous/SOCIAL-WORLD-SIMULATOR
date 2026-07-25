@@ -582,7 +582,7 @@ export function PrismaLandingPage({
             <div className="bg-[#101010] rounded-3xl p-8 border border-white/5 flex flex-col justify-between relative overflow-hidden group hover:border-[#DEDBC8]/30 transition-all shadow-2xl">
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                  <span className="text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-[#DEDBC8]/15 text-[#DEDBC8] border border-[#DEDBC8]/30">
                     Enterprise Scale
                   </span>
                 </div>
@@ -632,7 +632,7 @@ export function PrismaLandingPage({
           {/* Brand Col (4 cols) */}
           <div className="md:col-span-4 space-y-4">
             <div className="flex items-center space-x-3 cursor-pointer" onClick={onLaunchPlatform}>
-              <div className="w-8 h-8 rounded-xl bg-purple-600/20 p-0.5 border border-purple-500/40 overflow-hidden flex items-center justify-center">
+              <div className="w-8 h-8 rounded-xl bg-[#DEDBC8]/15 p-0.5 border border-[#DEDBC8]/30 overflow-hidden flex items-center justify-center">
                 <img src="/logo.png" alt="Social World Simulator" className="w-full h-full object-contain" />
               </div>
               <span className="font-extrabold tracking-tight text-[#E1E0CC] text-sm">

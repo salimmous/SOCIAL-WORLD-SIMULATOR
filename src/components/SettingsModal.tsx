@@ -13,7 +13,6 @@ interface SettingsModalProps {
 
 export function SettingsModal({ isOpen, onClose, speed, onChangeSpeed }: SettingsModalProps) {
   const [selectedModel, setSelectedModel] = useState('NVIDIA Nemotron LLM');
-  const [language, setLanguage] = useState('English (US)');
 
   if (!isOpen) return null;
 
@@ -24,15 +23,15 @@ export function SettingsModal({ isOpen, onClose, speed, onChangeSpeed }: Setting
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
-          className="w-full max-w-md bg-zinc-950 border border-white/10 rounded-3xl p-6 space-y-5 shadow-2xl relative overflow-hidden"
+          className="w-full max-w-md bg-[#111111] border border-white/10 rounded-3xl p-6 space-y-5 shadow-2xl relative overflow-hidden text-[#F7F6F1]"
         >
           {/* Header */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+              <div className="w-8 h-8 rounded-xl bg-[#DEDBC8]/15 border border-[#DEDBC8]/30 flex items-center justify-center text-[#DEDBC8]">
                 <Settings className="w-4 h-4" />
               </div>
-              <h3 className="text-base font-bold text-white">Engine Settings</h3>
+              <h3 className="text-base font-bold text-[#F7F6F1]">Engine Settings</h3>
             </div>
             <button
               onClick={onClose}
@@ -46,7 +45,7 @@ export function SettingsModal({ isOpen, onClose, speed, onChangeSpeed }: Setting
             {/* AI Model Selector */}
             <div className="space-y-2">
               <span className="text-xs font-bold text-zinc-300 flex items-center space-x-1.5">
-                <Cpu className="w-4 h-4 text-purple-400" />
+                <Cpu className="w-4 h-4 text-[#DEDBC8]" />
                 <span>Primary AI Intelligence Model</span>
               </span>
               <div className="grid grid-cols-1 gap-2">
@@ -56,8 +55,8 @@ export function SettingsModal({ isOpen, onClose, speed, onChangeSpeed }: Setting
                     onClick={() => setSelectedModel(model)}
                     className={`p-3 rounded-xl border text-xs font-bold text-left transition-all cursor-pointer ${
                       selectedModel === model
-                        ? 'bg-purple-600/20 border-purple-500 text-white'
-                        : 'bg-zinc-900 border-white/10 text-zinc-400'
+                        ? 'bg-[#DEDBC8]/20 border-[#DEDBC8] text-white'
+                        : 'bg-[#181818] border-white/10 text-zinc-400'
                     }`}
                   >
                     {model}
@@ -79,8 +78,8 @@ export function SettingsModal({ isOpen, onClose, speed, onChangeSpeed }: Setting
                     onClick={() => onChangeSpeed(s)}
                     className={`p-2.5 rounded-xl border text-xs font-bold font-mono transition-all cursor-pointer ${
                       speed === s
-                        ? 'bg-emerald-600/20 border-emerald-500 text-emerald-300'
-                        : 'bg-zinc-900 border-white/10 text-zinc-400'
+                        ? 'bg-[#DEDBC8]/20 border-[#DEDBC8] text-[#DEDBC8]'
+                        : 'bg-[#181818] border-white/10 text-zinc-400'
                     }`}
                   >
                     {s}x Speed
@@ -92,7 +91,7 @@ export function SettingsModal({ isOpen, onClose, speed, onChangeSpeed }: Setting
 
           <button
             onClick={onClose}
-            className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all cursor-pointer"
+            className="w-full py-3 rounded-2xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black text-xs font-extrabold transition-all cursor-pointer shadow-lg active:scale-95 text-center"
           >
             Save Preferences
           </button>

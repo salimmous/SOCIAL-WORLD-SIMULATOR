@@ -22,10 +22,10 @@ export function LiveEventFeed({ currentTime }: LiveEventFeedProps) {
   const visibleEvents = EVENTS.filter((e) => e.time <= currentTime);
 
   return (
-    <div className="p-4 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-3 font-mono">
+    <div className="p-4 rounded-2xl bg-[#111111] border border-white/10 space-y-3 font-mono">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-1.5">
-          <Activity className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
+        <span className="text-xs font-bold text-[#F7F6F1] uppercase tracking-wider flex items-center space-x-1.5">
+          <Activity className="w-3.5 h-3.5 text-[#DEDBC8] animate-pulse" />
           <span>Live Storytelling Event Feed</span>
         </span>
         <span className="text-[9px] text-zinc-500 font-mono">0:{(currentTime || 0).toString().padStart(2, '0')}s</span>
@@ -45,7 +45,7 @@ export function LiveEventFeed({ currentTime }: LiveEventFeedProps) {
               className="p-2 rounded-xl bg-black/60 border border-white/5 text-[11px] flex items-center justify-between"
             >
               <div className="flex items-center space-x-2 truncate">
-                <span className="text-purple-400 font-bold">00:{(evt.time || 0).toString().padStart(2, '0')}</span>
+                <span className="text-[#DEDBC8] font-bold">00:{(evt.time || 0).toString().padStart(2, '0')}</span>
                 <span className="text-zinc-300 truncate">{evt.text}</span>
               </div>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />

@@ -51,20 +51,19 @@ export function CinematicPipelineModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-2xl">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-2xl text-[#F7F6F1]">
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
-          className="relative w-full max-w-lg p-8 bg-zinc-950 border border-white/10 rounded-3xl overflow-hidden shadow-2xl text-center space-y-6"
+          className="relative w-full max-w-lg p-8 bg-[#111111] border border-white/10 rounded-3xl overflow-hidden shadow-2xl text-center space-y-6"
         >
           {/* Ambient Glowing Background Orb */}
-          <div className="absolute -top-20 -left-20 w-56 h-56 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -right-20 w-56 h-56 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-20 -left-20 w-56 h-56 bg-[#DEDBC8]/10 rounded-full blur-3xl pointer-events-none" />
 
           {/* Icon Badge */}
-          <div className="relative mx-auto w-16 h-16 rounded-2xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
-            <Globe className="w-8 h-8 animate-pulse text-purple-400" />
+          <div className="relative mx-auto w-16 h-16 rounded-2xl bg-[#DEDBC8]/15 border border-[#DEDBC8]/30 flex items-center justify-center text-[#DEDBC8]">
+            <Globe className="w-8 h-8 animate-pulse text-[#DEDBC8]" />
             <span className="absolute -top-1 -right-1 flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
@@ -72,7 +71,7 @@ export function CinematicPipelineModal({
           </div>
 
           <div className="space-y-2 relative">
-            <h3 className="text-base font-bold text-white tracking-wide">
+            <h3 className="text-base font-bold text-[#F7F6F1] tracking-wide">
               Synthesizing Social World Simulation
             </h3>
             <p className="text-xs text-zinc-400 font-mono">
@@ -91,7 +90,7 @@ export function CinematicPipelineModal({
                   {isDone ? (
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   ) : isCurrent ? (
-                    <div className="w-4 h-4 rounded-full border-2 border-purple-400 border-t-transparent animate-spin shrink-0" />
+                    <div className="w-4 h-4 rounded-full border-2 border-[#DEDBC8] border-t-transparent animate-spin shrink-0" />
                   ) : (
                     <div className="w-4 h-4 rounded-full border border-zinc-700 shrink-0" />
                   )}
@@ -101,7 +100,7 @@ export function CinematicPipelineModal({
                       isDone
                         ? 'text-zinc-400 line-through'
                         : isCurrent
-                        ? 'text-purple-300 font-bold'
+                        ? 'text-[#DEDBC8] font-bold'
                         : 'text-zinc-600'
                     }`}
                   >
@@ -113,18 +112,16 @@ export function CinematicPipelineModal({
           </div>
 
           {/* Progress Bar */}
-          <div className="space-y-1.5 relative">
-            <div className="w-full bg-zinc-900 h-2 rounded-full overflow-hidden border border-white/5">
-              <motion.div
-                className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-emerald-400"
-                initial={{ width: '0%' }}
-                animate={{ width: `${progressPercent}%` }}
-                transition={{ duration: 0.3 }}
+          <div className="space-y-2 relative">
+            <div className="w-full h-2 bg-zinc-900 rounded-full overflow-hidden border border-white/5">
+              <div
+                className="h-full bg-[#DEDBC8] transition-all duration-300"
+                style={{ width: `${progressPercent}%` }}
               />
             </div>
-            <div className="flex justify-between items-center text-[10px] font-mono text-zinc-500">
-              <span>Initializing Quantum Physics Loop</span>
-              <span>{progressPercent}%</span>
+            <div className="flex justify-between text-[10px] font-mono text-zinc-400">
+              <span>NVIDIA Nemotron 70B</span>
+              <span className="font-bold text-[#DEDBC8]">{progressPercent}%</span>
             </div>
           </div>
         </motion.div>

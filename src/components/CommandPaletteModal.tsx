@@ -1,78 +1,61 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Play, Zap, TrendingUp, Download, Settings, Sparkles, Command, X, Globe, Compass } from 'lucide-react';
+import {
+  Command,
+  Search,
+  Play,
+  RotateCcw,
+  Sparkles,
+  Zap,
+  Sliders,
+  Globe,
+  FileText,
+  HelpCircle,
+  Settings,
+  Key,
+  Database,
+  Terminal,
+  X,
+} from 'lucide-react';
 
 interface CommandPaletteModalProps {
   isOpen: boolean;
   onClose: () => void;
   onRunSimulation: () => void;
+  onReset: () => void;
   onApplyFixes: () => void;
-  onOpenABModal: () => void;
   onOpenReportModal: () => void;
-  onOpenExportModal: () => void;
-  onOpenSettingsModal: () => void;
-  onOpenSponsorsModal: () => void;
-  onExplainPage?: () => void;
-  onOpenAtlas?: () => void;
+  onOpenHelpCenter: () => void;
+  onOpenSettings: () => void;
+  onOpenSecrets: () => void;
+  onOpenSystemLogs: () => void;
+  onOpenAIWorkspace: () => void;
 }
 
 export function CommandPaletteModal({
   isOpen,
   onClose,
   onRunSimulation,
+  onReset,
   onApplyFixes,
-  onOpenABModal,
   onOpenReportModal,
-  onOpenExportModal,
-  onOpenSettingsModal,
-  onOpenSponsorsModal,
-  onExplainPage,
-  onOpenAtlas,
+  onOpenHelpCenter,
+  onOpenSettings,
+  onOpenSecrets,
+  onOpenSystemLogs,
+  onOpenAIWorkspace,
 }: CommandPaletteModalProps) {
   const [query, setQuery] = useState('');
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        if (isOpen) {
-          onClose();
-        }
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   const actions = [
     {
-      id: 'ask-atlas',
-      title: 'Ask Atlas (Official AI Product Guide)',
-      category: 'Product Mentor',
-      icon: Compass,
-      action: () => {
-        if (onOpenAtlas) onOpenAtlas();
-        onClose();
-      },
-    },
-    {
-      id: 'explain-page',
-      title: 'Explain This Page (Interactive Coach Spotlight)',
-      category: 'Learning Mode',
-      icon: Sparkles,
-      action: () => {
-        if (onExplainPage) onExplainPage();
-        onClose();
-      },
-    },
-    {
       id: 'run-sim',
-      title: 'Run AI Simulation Engine',
-      category: 'Simulation',
+      title: 'Run Simulation Engine',
+      category: 'Actions',
       icon: Play,
       action: () => {
         onRunSimulation();
@@ -80,9 +63,9 @@ export function CommandPaletteModal({
       },
     },
     {
-      id: 'apply-fix',
-      title: '1-Click Auto Rewrite Script',
-      category: 'Optimization Lab',
+      id: 'apply-fixes',
+      title: 'Apply 1-Click AI Rewrites',
+      category: 'Actions',
       icon: Zap,
       action: () => {
         onApplyFixes();
@@ -90,65 +73,95 @@ export function CommandPaletteModal({
       },
     },
     {
-      id: 'ab-compare',
-      title: 'Open A/B Variant Comparison',
-      category: 'Optimization Lab',
-      icon: TrendingUp,
+      id: 'reset-sim',
+      title: 'Reset Timeline to 0:00',
+      category: 'Controls',
+      icon: RotateCcw,
       action: () => {
-        onOpenABModal();
+        onReset();
         onClose();
       },
     },
     {
-      id: 'export-suite',
-      title: 'Export Simulation Suite (PDF, JSON, Link)',
-      category: 'Executive Reports',
-      icon: Download,
+      id: 'export-report',
+      title: 'Open Pre-Flight Audit Report PDF',
+      category: 'Exporter',
+      icon: FileText,
       action: () => {
-        onOpenExportModal();
+        onOpenReportModal();
         onClose();
       },
     },
     {
-      id: 'engine-settings',
-      title: 'Open AI Engine Settings',
+      id: 'ai-workspace',
+      title: 'Open AI Infrastructure Telemetry Workspace',
+      category: 'System',
+      icon: Database,
+      action: () => {
+        onOpenAIWorkspace();
+        onClose();
+      },
+    },
+    {
+      id: 'secrets',
+      title: 'Open Encrypted API Secrets Manager',
+      category: 'Security',
+      icon: Key,
+      action: () => {
+        onOpenSecrets();
+        onClose();
+      },
+    },
+    {
+      id: 'system-logs',
+      title: 'Stream Realtime Infrastructure Audit Logs',
+      category: 'Developer',
+      icon: Terminal,
+      action: () => {
+        onOpenSystemLogs();
+        onClose();
+      },
+    },
+    {
+      id: 'help-center',
+      title: 'Open Help Center & Product Tour',
+      category: 'Documentation',
+      icon: HelpCircle,
+      action: () => {
+        onOpenHelpCenter();
+        onClose();
+      },
+    },
+    {
+      id: 'settings',
+      title: 'Engine Preferences & Model Switcher',
       category: 'Settings',
       icon: Settings,
       action: () => {
-        onOpenSettingsModal();
-        onClose();
-      },
-    },
-    {
-      id: 'sponsors-hub',
-      title: 'Open Hackathon AI Sponsors Hub',
-      category: 'Sponsors',
-      icon: Sparkles,
-      action: () => {
-        onOpenSponsorsModal();
+        onOpenSettings();
         onClose();
       },
     },
   ];
 
   const filteredActions = actions.filter(
-    (item) =>
-      item.title.toLowerCase().includes(query.toLowerCase()) ||
-      item.category.toLowerCase().includes(query.toLowerCase())
+    (a) =>
+      a.title.toLowerCase().includes(query.toLowerCase()) ||
+      a.category.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/80 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 p-4 bg-black/80 backdrop-blur-md text-[#F7F6F1]">
         <motion.div
           initial={{ scale: 0.95, opacity: 0, y: -20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: -20 }}
-          className="w-full max-w-xl bg-zinc-950 border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
+          className="w-full max-w-xl bg-[#111111] border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
         >
           {/* Search Header Input */}
           <div className="p-4 border-b border-white/10 flex items-center space-x-3">
-            <div className="w-6 h-6 rounded-lg bg-purple-600/20 p-0.5 border border-purple-500/40 overflow-hidden flex items-center justify-center shrink-0">
+            <div className="w-6 h-6 rounded-lg bg-[#DEDBC8]/15 p-0.5 border border-[#DEDBC8]/30 overflow-hidden flex items-center justify-center shrink-0">
               <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <input
@@ -159,7 +172,7 @@ export function CommandPaletteModal({
               placeholder="Type a command or search actions (e.g. 'run', 'export', 'fix')..."
               className="w-full bg-transparent text-sm text-white focus:outline-none placeholder-zinc-500 font-sans"
             />
-            <div className="flex items-center space-x-1.5 px-2 py-1 rounded-lg bg-zinc-900 border border-white/10 text-[10px] font-mono text-zinc-400 shrink-0">
+            <div className="flex items-center space-x-1.5 px-2 py-1 rounded-lg bg-[#181818] border border-white/10 text-[10px] font-mono text-zinc-400 shrink-0">
               <Command className="w-3 h-3" />
               <span>K</span>
             </div>
@@ -184,11 +197,11 @@ export function CommandPaletteModal({
                     className="w-full p-3 rounded-2xl hover:bg-white/5 text-left flex items-center justify-between transition-all cursor-pointer group"
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                      <div className="w-8 h-8 rounded-xl bg-[#DEDBC8]/15 border border-[#DEDBC8]/30 flex items-center justify-center text-[#DEDBC8] group-hover:scale-105 transition-transform">
                         <IconComponent className="w-4 h-4" />
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors">
+                        <h4 className="text-xs font-bold text-white group-hover:text-[#DEDBC8] transition-colors">
                           {item.title}
                         </h4>
                         <span className="text-[10px] text-zinc-500 font-mono">

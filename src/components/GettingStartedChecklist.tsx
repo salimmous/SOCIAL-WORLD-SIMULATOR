@@ -36,18 +36,18 @@ export function GettingStartedChecklist({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="fixed bottom-6 left-6 z-40 max-w-xs font-sans"
+      className="fixed bottom-6 left-6 z-40 max-w-xs font-sans text-[#F7F6F1]"
     >
-      <div className="p-4 rounded-3xl bg-zinc-950/90 border border-purple-500/30 backdrop-blur-2xl shadow-2xl space-y-3 relative overflow-hidden">
+      <div className="p-4 rounded-3xl bg-[#111111]/95 border border-[#DEDBC8]/30 backdrop-blur-2xl shadow-2xl space-y-3 relative overflow-hidden">
         {/* Header Bar */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-7 h-7 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+            <div className="w-7 h-7 rounded-xl bg-[#DEDBC8]/15 border border-[#DEDBC8]/30 flex items-center justify-center text-[#DEDBC8]">
               <CheckSquare className="w-4 h-4" />
             </div>
             <div>
               <span className="text-xs font-bold text-white block leading-none">Getting Started</span>
-              <span className="text-[9px] text-purple-400 font-mono">{progressPct}% Complete</span>
+              <span className="text-[9px] text-[#DEDBC8] font-mono">{progressPct}% Complete</span>
             </div>
           </div>
 
@@ -70,7 +70,7 @@ export function GettingStartedChecklist({
         {/* Progress Bar */}
         <div className="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-purple-600 to-indigo-500 transition-all duration-500"
+            className="h-full bg-[#DEDBC8] transition-all duration-500"
             style={{ width: `${progressPct}%` }}
           />
         </div>
@@ -92,9 +92,9 @@ export function GettingStartedChecklist({
 
             <button
               onClick={onOpenTour}
-              className="w-full mt-2 pt-2 border-t border-white/5 text-[10px] text-purple-400 hover:text-purple-300 font-bold flex items-center justify-center space-x-1 cursor-pointer"
+              className="w-full mt-2 pt-2 border-t border-white/5 text-[10px] text-[#DEDBC8] hover:text-[#ECE8D9] font-bold flex items-center justify-center space-x-1 cursor-pointer"
             >
-              <Sparkles className="w-3 h-3" />
+              <Sparkles className="w-3 h-3 text-[#DEDBC8]" />
               <span>Replay Product Tour</span>
             </button>
           </div>

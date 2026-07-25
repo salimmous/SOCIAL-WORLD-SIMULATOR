@@ -15,13 +15,13 @@ export function PersonaModal({ node, onClose }: PersonaModalProps) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md text-[#F7F6F1]">
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-lg bg-zinc-950 border border-white/10 rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl p-6 space-y-5"
+          className="relative w-full max-w-lg bg-[#111111] border border-white/10 rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl p-6 space-y-5"
         >
           {/* Header */}
           <div className="flex items-start justify-between">
@@ -30,19 +30,19 @@ export function PersonaModal({ node, onClose }: PersonaModalProps) {
                 <img
                   src={node.avatarUrl}
                   alt={node.name}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/40 shadow-lg"
+                  className="w-14 h-14 rounded-full object-cover border-2 border-[#DEDBC8]/40 shadow-lg"
                 />
                 <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border-2 border-zinc-950" />
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-white flex items-center space-x-1.5">
+                <h3 className="text-base font-bold text-[#F7F6F1] flex items-center space-x-1.5">
                   <span>{node.name}</span>
                   {node.badge === 'Verified' && (
-                    <CheckCircle2 className="w-4 h-4 text-blue-400 fill-blue-400/20" />
+                    <CheckCircle2 className="w-4 h-4 text-[#DEDBC8]" />
                   )}
                 </h3>
-                <span className="text-xs font-mono text-purple-300 block">{node.role}</span>
+                <span className="text-xs font-mono text-[#DEDBC8] block">{node.role}</span>
                 <span className="text-[10px] text-zinc-400 font-mono">Cluster: {node.cluster}</span>
               </div>
             </div>
@@ -57,15 +57,15 @@ export function PersonaModal({ node, onClose }: PersonaModalProps) {
 
           {/* Scores Grid */}
           <div className="grid grid-cols-3 gap-2 font-mono">
-            <div className="p-3 rounded-2xl bg-zinc-900/60 border border-white/5 text-center space-y-0.5">
+            <div className="p-3 rounded-2xl bg-[#181818] border border-white/5 text-center space-y-0.5">
               <span className="text-[9px] text-zinc-400 uppercase block">Influence</span>
-              <span className="text-base font-extrabold text-purple-300">94 / 100</span>
+              <span className="text-base font-extrabold text-[#DEDBC8]">94 / 100</span>
             </div>
-            <div className="p-3 rounded-2xl bg-zinc-900/60 border border-white/5 text-center space-y-0.5">
+            <div className="p-3 rounded-2xl bg-[#181818] border border-white/5 text-center space-y-0.5">
               <span className="text-[9px] text-zinc-400 uppercase block">Trust Score</span>
               <span className="text-base font-extrabold text-blue-300">88 / 100</span>
             </div>
-            <div className="p-3 rounded-2xl bg-zinc-900/60 border border-white/5 text-center space-y-0.5">
+            <div className="p-3 rounded-2xl bg-[#181818] border border-white/5 text-center space-y-0.5">
               <span className="text-[9px] text-zinc-400 uppercase block">Activity</span>
               <span className="text-base font-extrabold text-emerald-300">High</span>
             </div>
@@ -73,8 +73,8 @@ export function PersonaModal({ node, onClose }: PersonaModalProps) {
 
           {/* Detailed AI Behavioral Reasoning */}
           <div className="p-4 rounded-2xl bg-black/60 border border-white/10 space-y-2">
-            <div className="flex items-center space-x-1.5 text-xs font-bold text-purple-300 font-mono uppercase">
-              <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+            <div className="flex items-center space-x-1.5 text-xs font-bold text-[#DEDBC8] font-mono uppercase">
+              <Sparkles className="w-3.5 h-3.5 text-[#DEDBC8]" />
               <span>AI Behavioral Reasoning</span>
             </div>
             <p className="text-xs text-zinc-200 leading-relaxed font-sans">
@@ -84,7 +84,7 @@ export function PersonaModal({ node, onClose }: PersonaModalProps) {
 
           <button
             onClick={onClose}
-            className="w-full py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold transition-all cursor-pointer"
+            className="w-full py-3 rounded-2xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black text-xs font-extrabold transition-all cursor-pointer shadow-lg active:scale-95 text-center"
           >
             Close Breakdown
           </button>

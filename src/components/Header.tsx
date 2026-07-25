@@ -81,21 +81,21 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="h-14 px-4 sm:px-6 flex items-center justify-between z-30 border-b border-white/[0.06] bg-zinc-950/80 backdrop-blur-xl shrink-0">
+    <header className="h-14 px-4 sm:px-6 flex items-center justify-between z-30 border-b border-white/[0.08] bg-[#0A0A0A]/90 backdrop-blur-xl shrink-0 text-[#F7F6F1]">
       {/* Left: Logo & Live Status */}
       <div className="flex items-center space-x-3 shrink-0">
-        <div className="w-8 h-8 rounded-xl bg-purple-600/20 p-0.5 border border-purple-500/40 shadow-lg shadow-purple-600/20 overflow-hidden flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-[#DEDBC8]/10 p-0.5 border border-[#DEDBC8]/30 shadow-[0_0_15px_rgba(222,219,200,0.12)] overflow-hidden flex items-center justify-center">
           <img src="/logo.png" alt="Social World Simulator" className="w-full h-full object-contain" />
         </div>
         <div className="hidden sm:block">
-          <span className="font-bold tracking-tight text-white text-xs lg:text-sm flex items-center space-x-1.5">
+          <span className="font-bold tracking-tight text-[#F7F6F1] text-xs lg:text-sm flex items-center space-x-1.5">
             <span>SOCIAL WORLD SIMULATOR</span>
-            <span className="px-1.5 py-0.2 rounded-md bg-purple-500/20 text-purple-300 text-[9px] font-mono font-bold border border-purple-500/30">
+            <span className="px-1.5 py-0.2 rounded-md bg-[#DEDBC8]/10 text-[#DEDBC8] text-[9px] font-mono font-bold border border-[#DEDBC8]/25">
               PRO AI OS
             </span>
           </span>
           <div className="flex items-center space-x-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-[10px] text-zinc-400 font-mono">
               Live Network Environment • 60 FPS Engine
             </span>
@@ -107,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="relative mx-2" data-tour="preset-selector">
         <button
           onClick={() => setShowPresetDropdown(!showPresetDropdown)}
-          className="px-3 py-1.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 border border-white/10 text-xs font-semibold flex items-center space-x-2 transition-all cursor-pointer shadow-sm"
+          className="px-3 py-1.5 rounded-xl bg-[#111111] hover:bg-[#181818] text-[#F7F6F1] border border-white/10 text-xs font-semibold flex items-center space-x-2 transition-all cursor-pointer shadow-sm"
         >
           <span className="text-zinc-500 font-mono text-[10px] uppercase">Preset:</span>
           <span className="truncate max-w-[140px] sm:max-w-[200px]">{currentPreset.title}</span>
@@ -115,7 +115,7 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
 
         {showPresetDropdown && (
-          <div className="absolute top-full left-0 mt-2 w-64 p-1.5 rounded-2xl bg-zinc-950 border border-white/10 shadow-2xl z-50 space-y-1 backdrop-blur-2xl">
+          <div className="absolute top-full left-0 mt-2 w-64 p-1.5 rounded-2xl bg-[#111111] border border-[#DEDBC8]/20 shadow-2xl z-50 space-y-1 backdrop-blur-2xl">
             <span className="text-[9px] font-bold text-zinc-500 px-2 py-1 block uppercase font-mono">
               Simulation Presets
             </span>
@@ -130,12 +130,12 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                   className={`w-full text-left px-3 py-2 rounded-xl text-xs transition-all flex items-center justify-between cursor-pointer ${
                     isActive
-                      ? 'bg-purple-600/30 text-purple-200 font-bold border border-purple-500/40'
-                      : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
+                      ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] font-bold border border-[#DEDBC8]/30'
+                      : 'text-zinc-400 hover:text-white hover:bg-[#181818]'
                   }`}
                 >
                   <span className="truncate">{scenario.title}</span>
-                  {isActive && <Check className="w-3.5 h-3.5 text-purple-400 shrink-0" />}
+                  {isActive && <Check className="w-3.5 h-3.5 text-[#DEDBC8] shrink-0" />}
                 </button>
               );
             })}
@@ -148,10 +148,10 @@ export const Header: React.FC<HeaderProps> = ({
         {onOpenAtlas && (
           <button
             onClick={onOpenAtlas}
-            className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-600/30 to-indigo-600/30 hover:from-purple-600/40 hover:to-indigo-600/40 text-purple-200 border border-purple-500/40 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0 shadow-sm"
+            className="px-3 py-1.5 rounded-xl bg-[#DEDBC8]/10 hover:bg-[#DEDBC8]/20 text-[#DEDBC8] border border-[#DEDBC8]/25 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0 shadow-sm"
             title="Open Atlas Official AI Product Guide & Senior Mentor"
           >
-            <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+            <Sparkles className="w-3.5 h-3.5 text-[#DEDBC8] animate-pulse" />
             <span>Ask Atlas</span>
           </button>
         )}
@@ -159,41 +159,41 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           onClick={onOpenSponsors}
           data-tour="ai-workspace-button"
-          className="px-3 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
+          className="px-3 py-1.5 rounded-xl bg-[#111111] hover:bg-[#181818] text-[#DEDBC8] border border-[#DEDBC8]/20 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
           title="AI Workspace Infrastructure & Health Dashboard"
         >
-          <Cpu className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+          <Cpu className="w-3.5 h-3.5 text-[#DEDBC8] animate-pulse" />
           <span className="hidden sm:inline">AI Workspace</span>
         </button>
 
         {onOpenHelp && (
           <button
             onClick={onOpenHelp}
-            className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 text-xs transition-all cursor-pointer shrink-0"
+            className="p-2 rounded-xl bg-[#111111] hover:bg-[#181818] text-zinc-300 hover:text-white border border-white/10 text-xs transition-all cursor-pointer shrink-0"
             title="Open Help Center & Interactive Documentation"
           >
-            <HelpCircle className="w-4 h-4 text-purple-400" />
+            <HelpCircle className="w-4 h-4 text-[#DEDBC8]" />
           </button>
         )}
 
         <button
           onClick={onNewProject}
-          className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-lg shadow-purple-600/20 shrink-0"
+          className="px-3.5 py-1.5 rounded-xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black font-extrabold text-xs transition-all flex items-center space-x-1.5 cursor-pointer shadow-[0_0_15px_rgba(222,219,200,0.18)] active:scale-95 shrink-0"
           title="Start Clean Simulation"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-3.5 h-3.5 text-black stroke-[3]" />
           <span className="hidden sm:inline">New Project</span>
         </button>
 
         <button
           onClick={onOpenHistory}
-          className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer relative shrink-0"
+          className="px-3 py-1.5 rounded-xl bg-[#111111] hover:bg-[#181818] text-zinc-300 hover:text-white border border-white/10 text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer relative shrink-0"
           title="View Project History"
         >
-          <History className="w-3.5 h-3.5 text-purple-400" />
+          <History className="w-3.5 h-3.5 text-[#DEDBC8]" />
           <span className="hidden sm:inline">History</span>
           {historyCount > 0 && (
-            <span className="px-1.5 py-0.2 rounded-full bg-purple-500/20 text-purple-300 text-[9px] font-mono font-bold border border-purple-500/30">
+            <span className="px-1.5 py-0.2 rounded-full bg-[#DEDBC8]/15 text-[#DEDBC8] text-[9px] font-mono font-bold border border-[#DEDBC8]/30">
               {historyCount}
             </span>
           )}
@@ -206,16 +206,16 @@ export const Header: React.FC<HeaderProps> = ({
         ) : (
           <button
             onClick={onApplyFixes}
-            className="px-3 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 text-xs font-medium border border-purple-500/30 transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
+            className="px-3 py-1.5 rounded-xl bg-[#DEDBC8]/10 hover:bg-[#DEDBC8]/20 text-[#DEDBC8] text-xs font-medium border border-[#DEDBC8]/25 transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
           >
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+            <Sparkles className="w-3.5 h-3.5 text-[#DEDBC8]" />
             <span className="hidden md:inline">Apply Fixes</span>
           </button>
         )}
 
         <button
           onClick={onReset}
-          className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/[0.06] transition-all cursor-pointer shrink-0"
+          className="p-1.5 rounded-xl bg-[#111111] hover:bg-[#181818] text-zinc-400 hover:text-white border border-white/10 transition-all cursor-pointer shrink-0"
           title="Reset Timeline"
         >
           <RotateCcw className="w-3.5 h-3.5" />
@@ -223,7 +223,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         <button
           onClick={handleShare}
-          className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/[0.06] text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer shrink-0 relative"
+          className="px-3 py-1.5 rounded-xl bg-[#111111] hover:bg-[#181818] text-zinc-300 hover:text-white border border-white/10 text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer shrink-0 relative"
           title="Share Simulation"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
@@ -233,7 +233,7 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           onClick={onOpenExport || handleExport}
           data-tour="export-button"
-          className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/[0.06] text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
+          className="px-3 py-1.5 rounded-xl bg-[#111111] hover:bg-[#181818] text-zinc-300 hover:text-white border border-white/10 text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
           title="Export Insights Report"
           aria-label="Export Insights Report"
         >
@@ -244,7 +244,7 @@ export const Header: React.FC<HeaderProps> = ({
         {onOpenSettings && (
           <button
             onClick={onOpenSettings}
-            className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/[0.06] transition-all cursor-pointer shrink-0"
+            className="p-1.5 rounded-xl bg-[#111111] hover:bg-[#181818] text-zinc-400 hover:text-white border border-white/10 transition-all cursor-pointer shrink-0"
             title="Open Settings"
             aria-label="Open Engine Settings"
           >
@@ -255,10 +255,10 @@ export const Header: React.FC<HeaderProps> = ({
         {/* PROFILE / ACCOUNT / SOCIAL CONNECTIONS BUTTON */}
         <button
           onClick={onOpenAuthModal}
-          className="w-8 h-8 rounded-full bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 flex items-center justify-center text-white text-xs font-bold shadow-sm shrink-0 cursor-pointer transition-all hover:scale-105"
+          className="w-8 h-8 rounded-full bg-[#DEDBC8] text-black font-extrabold flex items-center justify-center text-xs shadow-[0_0_12px_rgba(222,219,200,0.25)] shrink-0 cursor-pointer transition-all hover:scale-105"
           title="Account Settings & Social OAuth Connections"
         >
-          <User className="w-4 h-4 text-purple-300" />
+          SM
         </button>
       </div>
     </header>

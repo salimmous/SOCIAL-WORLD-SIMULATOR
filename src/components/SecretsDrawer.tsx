@@ -35,21 +35,21 @@ export function SecretsDrawer({ isOpen, onClose }: SecretsDrawerProps) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md text-[#F7F6F1]">
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
-          className="w-full max-w-lg bg-zinc-950 border border-white/10 rounded-3xl p-6 space-y-5 shadow-2xl relative overflow-hidden font-sans"
+          className="w-full max-w-lg bg-[#111111] border border-white/10 rounded-3xl p-6 space-y-5 shadow-2xl relative overflow-hidden font-sans"
         >
           {/* Header */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div className="flex items-center space-x-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+              <div className="w-9 h-9 rounded-2xl bg-[#DEDBC8]/15 border border-[#DEDBC8]/30 flex items-center justify-center text-[#DEDBC8]">
                 <Key className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white">Environment Secrets</h3>
+                <h3 className="text-base font-bold text-[#F7F6F1]">Environment Secrets</h3>
                 <span className="text-[10px] text-zinc-400 font-mono">Encrypted Store</span>
               </div>
             </div>
@@ -66,7 +66,7 @@ export function SecretsDrawer({ isOpen, onClose }: SecretsDrawerProps) {
               const isCopied = copiedKey === sec.name;
 
               return (
-                <div key={sec.name} className="p-3.5 rounded-2xl bg-zinc-900/70 border border-white/10 space-y-2">
+                <div key={sec.name} className="p-3.5 rounded-2xl bg-[#181818] border border-white/10 space-y-2">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-white">{sec.name}</span>
                     <span className="text-[9px] text-emerald-400 font-bold">{sec.status}</span>
@@ -102,9 +102,9 @@ export function SecretsDrawer({ isOpen, onClose }: SecretsDrawerProps) {
 
           <button
             onClick={onClose}
-            className="w-full py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-bold border border-white/10 cursor-pointer"
+            className="w-full py-3 rounded-2xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black text-xs font-extrabold transition-all cursor-pointer shadow-lg active:scale-95 text-center"
           >
-            Close Secrets Manager
+            Done
           </button>
         </motion.div>
       </div>

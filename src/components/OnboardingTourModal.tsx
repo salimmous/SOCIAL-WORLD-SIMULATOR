@@ -46,24 +46,24 @@ export function OnboardingTourModal({ isOpen, onClose, onStartDemo }: Onboarding
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl text-[#F7F6F1]">
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="w-full max-w-md bg-zinc-950 border border-purple-500/30 rounded-3xl p-6 space-y-6 shadow-2xl relative overflow-hidden"
+          className="w-full max-w-md bg-[#111111] border border-[#DEDBC8]/30 rounded-3xl p-6 space-y-6 shadow-2xl relative overflow-hidden"
         >
           {/* Header */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+              <div className="w-8 h-8 rounded-xl bg-[#DEDBC8]/15 border border-[#DEDBC8]/30 flex items-center justify-center text-[#DEDBC8]">
                 <Globe className="w-4 h-4" />
               </div>
               <div>
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider">
                   WELCOME TO SOCIAL WORLD
                 </h3>
-                <span className="text-[10px] text-purple-400 font-mono">Platform Guided Tour</span>
+                <span className="text-[10px] text-[#DEDBC8] font-mono">Platform Guided Tour</span>
               </div>
             </div>
             <button onClick={onClose} className="p-1 text-zinc-400 hover:text-white cursor-pointer">
@@ -72,11 +72,11 @@ export function OnboardingTourModal({ isOpen, onClose, onStartDemo }: Onboarding
           </div>
 
           {/* Active Step Card */}
-          <div className="p-5 rounded-2xl bg-zinc-900/80 border border-white/10 space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+          <div className="p-5 rounded-2xl bg-[#181818] border border-white/10 space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#DEDBC8]/15 border border-[#DEDBC8]/30 flex items-center justify-center text-[#DEDBC8]">
               <StepIcon className="w-5 h-5" />
             </div>
-            <h4 className="text-sm font-extrabold text-white">{TOUR_STEPS[currentStep].title}</h4>
+            <h4 className="text-sm font-extrabold text-[#F7F6F1]">{TOUR_STEPS[currentStep].title}</h4>
             <p className="text-xs text-zinc-300 leading-relaxed font-sans">
               {TOUR_STEPS[currentStep].description}
             </p>
@@ -89,7 +89,7 @@ export function OnboardingTourModal({ isOpen, onClose, onStartDemo }: Onboarding
                 <div
                   key={idx}
                   className={`w-2 h-2 rounded-full transition-all ${
-                    idx === currentStep ? 'w-6 bg-purple-500' : 'bg-zinc-800'
+                    idx === currentStep ? 'w-6 bg-[#DEDBC8]' : 'bg-zinc-800'
                   }`}
                 />
               ))}
@@ -97,10 +97,10 @@ export function OnboardingTourModal({ isOpen, onClose, onStartDemo }: Onboarding
 
             <button
               onClick={handleNext}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-bold shadow-lg shadow-purple-900/30 flex items-center space-x-1.5 cursor-pointer active:scale-95 transition-all"
+              className="px-5 py-2.5 rounded-xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black text-xs font-extrabold shadow-lg flex items-center space-x-1.5 cursor-pointer active:scale-95 transition-all"
             >
-              <span>{currentStep === TOUR_STEPS.length - 1 ? 'Start Interactive Simulation' : 'Next Step'}</span>
-              <ChevronRight className="w-4 h-4" />
+              <span>{currentStep === TOUR_STEPS.length - 1 ? 'Start Simulation' : 'Next Step'}</span>
+              <ChevronRight className="w-4 h-4 text-black" />
             </button>
           </div>
         </motion.div>

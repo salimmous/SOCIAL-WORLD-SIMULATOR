@@ -40,11 +40,11 @@ export const RetentionGraph: React.FC<RetentionGraphProps> = ({
   return (
     <div className="space-y-4">
       {/* Retention Graph Container */}
-      <div className="p-4 rounded-2xl bg-zinc-950/80 border border-white/10 relative overflow-hidden">
+      <div className="p-4 rounded-2xl bg-[#111111] border border-white/10 relative overflow-hidden">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
-            <Sparkles className="w-4 h-4 text-indigo-400" />
-            <span className="text-xs font-bold text-white uppercase tracking-wider">
+            <Sparkles className="w-4 h-4 text-[#DEDBC8]" />
+            <span className="text-xs font-bold text-[#F7F6F1] uppercase tracking-wider">
               Attention & Retention Curve
             </span>
           </div>
@@ -53,13 +53,13 @@ export const RetentionGraph: React.FC<RetentionGraphProps> = ({
           </span>
         </div>
 
-        {/* SVG Area Chart */}
+        {/* SVG Area Chart (Warm Ivory System: #DEDBC8, #7BC89C, #D9B76A, #D96B6B) */}
         <div className="relative w-full h-[140px] cursor-pointer">
           <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`}>
             <defs>
               <linearGradient id="retentionGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#6366f1" stopOpacity="0.0" />
+                <stop offset="0%" stopColor="#DEDBC8" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="#DEDBC8" stopOpacity="0.0" />
               </linearGradient>
             </defs>
 
@@ -70,7 +70,7 @@ export const RetentionGraph: React.FC<RetentionGraphProps> = ({
             <path
               d={pathD}
               fill="none"
-              stroke="#818cf8"
+              stroke="#DEDBC8"
               strokeWidth="2.5"
               strokeLinecap="round"
             />
@@ -81,7 +81,7 @@ export const RetentionGraph: React.FC<RetentionGraphProps> = ({
               y1="0"
               x2={(currentTime / maxTime) * width}
               y2={height}
-              stroke="#ec4899"
+              stroke="#D9B76A"
               strokeWidth="2"
               strokeDasharray="4 2"
             />
@@ -99,7 +99,7 @@ export const RetentionGraph: React.FC<RetentionGraphProps> = ({
                 >
                   <circle
                     r="6"
-                    fill={isFire ? '#ef4444' : '#38bdf8'}
+                    fill={isFire ? '#D96B6B' : '#7BC89C'}
                     className="animate-pulse"
                   />
                   <circle r="3" fill="#ffffff" />
@@ -132,13 +132,13 @@ export const RetentionGraph: React.FC<RetentionGraphProps> = ({
               onClick={() => onSeek(moment.time)}
               className={`p-3 rounded-xl border transition-all cursor-pointer flex items-start space-x-3 ${
                 isFire
-                  ? 'bg-amber-950/20 border-amber-500/30 hover:border-amber-500/50'
-                  : 'bg-cyan-950/20 border-cyan-500/30 hover:border-cyan-500/50'
+                  ? 'bg-amber-950/20 border-[#D9B76A]/30 hover:border-[#D9B76A]/50'
+                  : 'bg-emerald-950/20 border-[#7BC89C]/30 hover:border-[#7BC89C]/50'
               }`}
             >
               <div
                 className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
-                  isFire ? 'bg-amber-500/20 text-amber-400' : 'bg-cyan-500/20 text-cyan-400'
+                  isFire ? 'bg-[#D9B76A]/20 text-[#D9B76A]' : 'bg-[#7BC89C]/20 text-[#7BC89C]'
                 }`}
               >
                 {isFire ? <Flame className="w-3.5 h-3.5" /> : <Snowflake className="w-3.5 h-3.5" />}
@@ -148,11 +148,15 @@ export const RetentionGraph: React.FC<RetentionGraphProps> = ({
                   <span className="text-xs font-bold text-white">
                     @{moment.timeFormatted}
                   </span>
-                  <span className="text-[10px] font-mono font-bold text-zinc-300">
+                  <span
+                    className={`text-[10px] font-mono font-bold ${
+                      isFire ? 'text-[#D96B6B]' : 'text-[#7BC89C]'
+                    }`}
+                  >
                     {moment.retentionPct}% Retention
                   </span>
                 </div>
-                <p className="text-[11px] text-zinc-300 mt-0.5 leading-snug">
+                <p className="text-xs text-zinc-300 mt-1 leading-snug font-normal">
                   {moment.note}
                 </p>
               </div>

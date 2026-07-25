@@ -80,6 +80,8 @@ export interface Comment {
   authorColor: string;
   badge: StatusBadge;
   content: string;
+  text?: string;
+  timestampFormatted?: string;
   sentiment: 'positive' | 'skeptical' | 'hater' | 'analytical' | 'bot' | 'viral';
   likes: number;
   replies: number;
@@ -137,12 +139,19 @@ export interface VideoTimelineItem {
   type: 'hook' | 'main' | 'proof' | 'cta';
 }
 
-export interface TranscriptHighlight { text: string; type: 'weak_hook' | 'boring' | 'confusing' | 'good'; suggestion: string; } export interface VideoIntelligence { transcriptHighlights?: TranscriptHighlight[];
+export interface TranscriptHighlight {
+  text: string;
+  type: 'weak_hook' | 'boring' | 'confusing' | 'good';
+  suggestion: string;
+}
+
+export interface VideoIntelligence {
+  transcriptHighlights?: TranscriptHighlight[];
   metadata: {
     duration: string;
     resolution: string;
-    fps: number;
     fileSize: string;
+    fps: number;
     aspectRatio: string;
   };
   title: string;
@@ -170,4 +179,12 @@ export interface ContentInput {
   mediaFileUrl?: string;
   targetAudience: string;
   videoIntelligence?: VideoIntelligence;
+}
+
+export interface SavedProject {
+  id: string;
+  title: string;
+  date: string;
+  content: ContentInput;
+  metrics: InsightMetrics;
 }

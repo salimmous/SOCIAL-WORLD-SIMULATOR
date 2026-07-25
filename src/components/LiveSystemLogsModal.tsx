@@ -42,21 +42,21 @@ export function LiveSystemLogsModal({ isOpen, onClose }: LiveSystemLogsModalProp
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl text-[#F7F6F1]">
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
-          className="w-full max-w-3xl bg-zinc-950 border border-white/10 rounded-3xl p-6 space-y-4 shadow-2xl relative overflow-hidden font-mono"
+          className="w-full max-w-3xl bg-[#111111] border border-white/10 rounded-3xl p-6 space-y-4 shadow-2xl relative overflow-hidden font-mono"
         >
           {/* Header */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div className="flex items-center space-x-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+              <div className="w-9 h-9 rounded-2xl bg-[#DEDBC8]/15 border border-[#DEDBC8]/30 flex items-center justify-center text-[#DEDBC8]">
                 <Terminal className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white font-sans">Realtime System Audit Logs</h3>
+                <h3 className="text-base font-bold text-[#F7F6F1] font-sans">Realtime System Audit Logs</h3>
                 <span className="text-[10px] text-emerald-400">● Live Stream Enabled</span>
               </div>
             </div>
@@ -67,14 +67,14 @@ export function LiveSystemLogsModal({ isOpen, onClose }: LiveSystemLogsModalProp
           </div>
 
           {/* Search Filter Bar */}
-          <div className="p-3 rounded-2xl bg-zinc-900 border border-white/10 flex items-center space-x-2">
+          <div className="p-3 rounded-2xl bg-[#181818] border border-white/10 flex items-center space-x-2">
             <Search className="w-4 h-4 text-zinc-400 shrink-0" />
             <input
               type="text"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
               placeholder="Filter logs by module or message..."
-              className="w-full bg-transparent text-xs text-white focus:outline-none placeholder-zinc-500"
+              className="w-full bg-transparent text-xs text-white focus:outline-none placeholder-zinc-500 font-sans"
             />
           </div>
 
@@ -85,22 +85,22 @@ export function LiveSystemLogsModal({ isOpen, onClose }: LiveSystemLogsModalProp
                 <span className="text-zinc-500 shrink-0">{log.timestamp}</span>
                 <span
                   className={`font-bold shrink-0 ${
-                    log.level === 'WARN' ? 'text-amber-400' : 'text-purple-400'
+                    log.level === 'WARN' ? 'text-[#D9B76A]' : 'text-[#DEDBC8]'
                   }`}
                 >
                   [{log.level}]
                 </span>
-                <span className="text-purple-300 font-bold shrink-0">[{log.module}]</span>
+                <span className="text-[#DEDBC8] font-bold shrink-0">[{log.module}]</span>
                 <span className="text-zinc-200">{log.message}</span>
               </div>
             ))}
           </div>
 
           {/* Footer Actions */}
-          <div className="flex items-center justify-between pt-2">
+          <div className="flex items-center justify-between pt-2 border-t border-white/10 font-sans">
             <button
               onClick={handleDownloadLogs}
-              className="px-4 py-2 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer font-sans"
+              className="px-4 py-2 rounded-xl bg-[#DEDBC8]/15 hover:bg-[#DEDBC8]/25 text-[#DEDBC8] border border-[#DEDBC8]/30 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Download Logs JSON</span>
@@ -108,9 +108,9 @@ export function LiveSystemLogsModal({ isOpen, onClose }: LiveSystemLogsModalProp
 
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-bold border border-white/10 cursor-pointer font-sans"
+              className="px-5 py-2 rounded-xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black font-bold text-xs cursor-pointer active:scale-95"
             >
-              Close Log Viewer
+              Close Logs
             </button>
           </div>
         </motion.div>

@@ -145,27 +145,27 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 
   if (isCollapsed) {
     return (
-      <div className="w-12 shrink-0 border-r border-white/[0.06] glass-panel rounded-none border-t-0 border-b-0 border-l-0 flex flex-col items-center py-4 justify-between z-20">
+      <div className="w-12 shrink-0 border-r border-white/[0.08] glass-panel rounded-none border-t-0 border-b-0 border-l-0 flex flex-col items-center py-4 justify-between z-20">
         <button
           onClick={() => setIsCollapsed(false)}
-          className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-white/10 transition-all cursor-pointer"
+          className="p-2 rounded-xl bg-[#111111] hover:bg-[#181818] text-zinc-300 border border-white/10 transition-all cursor-pointer"
           title="Expand Studio Setup"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
         <button
           onClick={onRunSimulation}
-          className="w-9 h-9 rounded-xl bg-purple-600 hover:bg-purple-500 text-white flex items-center justify-center shadow-lg shadow-purple-600/30 cursor-pointer"
+          className="w-9 h-9 rounded-xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black flex items-center justify-center shadow-[0_0_15px_rgba(222,219,200,0.25)] cursor-pointer"
           title="Start Simulation"
         >
-          <Play className="w-4 h-4 fill-current" />
+          <Play className="w-4 h-4 fill-current text-black" />
         </button>
       </div>
     );
   }
 
   return (
-    <div className="w-[320px] shrink-0 border-r border-white/[0.06] glass-panel rounded-none border-t-0 border-b-0 border-l-0 flex flex-col h-[calc(100vh-3.5rem)] z-20 relative">
+    <div className="w-[320px] shrink-0 border-r border-white/[0.08] glass-panel rounded-none border-t-0 border-b-0 border-l-0 flex flex-col h-[calc(100vh-3.5rem)] z-20 relative bg-[#0A0A0A]/90 text-[#F7F6F1]">
       <input
         ref={fileInputRef}
         type="file"
@@ -175,16 +175,16 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       />
 
       {/* Top Drawer Header */}
-      <div className="p-4 border-b border-white/[0.06] flex items-center justify-between bg-zinc-950/40">
+      <div className="p-4 border-b border-white/[0.08] flex items-center justify-between bg-[#111111]">
         <div className="flex items-center space-x-2">
-          <Sparkles className="w-4 h-4 text-purple-400" />
-          <span className="text-xs font-bold text-white uppercase tracking-wider">
+          <Sparkles className="w-4 h-4 text-[#DEDBC8]" />
+          <span className="text-xs font-bold text-[#F7F6F1] uppercase tracking-wider">
             NVIDIA AI Studio
           </span>
         </div>
         <button
           onClick={() => setIsCollapsed(true)}
-          className="p-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/10 transition-all cursor-pointer"
+          className="p-1 rounded-lg bg-[#181818] hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/10 transition-all cursor-pointer"
           title="Collapse Studio"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -192,12 +192,12 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       </div>
 
       {/* Segmented Control Bar */}
-      <div className="flex border-b border-white/[0.06] p-1.5 bg-zinc-950/20">
+      <div className="flex border-b border-white/[0.08] p-1.5 bg-[#0D0D0D]">
         <button
           onClick={() => setActiveTab('upload')}
-          className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+          className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer ${
             activeTab === 'upload'
-              ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
+              ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] border border-[#DEDBC8]/30 font-bold'
               : 'text-zinc-400 hover:text-zinc-200'
           }`}
         >
@@ -205,9 +205,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         </button>
         <button
           onClick={() => setActiveTab('summary')}
-          className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+          className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer ${
             activeTab === 'summary'
-              ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
+              ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] border border-[#DEDBC8]/30 font-bold'
               : 'text-zinc-400 hover:text-zinc-200'
           }`}
         >
@@ -215,9 +215,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         </button>
         <button
           onClick={() => setActiveTab('timeline')}
-          className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+          className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer ${
             activeTab === 'timeline'
-              ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
+              ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] border border-[#DEDBC8]/30 font-bold'
               : 'text-zinc-400 hover:text-zinc-200'
           }`}
         >
@@ -225,9 +225,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         </button>
         <button
           onClick={() => setActiveTab('audience')}
-          className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${
+          className={`flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all cursor-pointer ${
             activeTab === 'audience'
-              ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
+              ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] border border-[#DEDBC8]/30 font-bold'
               : 'text-zinc-400 hover:text-zinc-200'
           }`}
         >
@@ -239,22 +239,22 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* AUTOMATIC NVIDIA AI ANALYSIS PROGRESS */}
         {isAnalyzing && (
-          <div className="p-5 rounded-2xl border border-purple-500/30 bg-purple-950/20 backdrop-blur-xl space-y-4">
+          <div className="p-5 rounded-2xl border border-[#DEDBC8]/30 bg-[#111111] backdrop-blur-xl space-y-4">
             <div className="flex items-center space-x-3">
-              <Loader2 className="w-5 h-5 text-purple-400 animate-spin" />
+              <Loader2 className="w-5 h-5 text-[#DEDBC8] animate-spin" />
               <div>
-                <span className="text-xs font-bold text-white block">
+                <span className="text-xs font-bold text-[#F7F6F1] block">
                   NVIDIA Llama 3.3 70B AI Engine
                 </span>
-                <span className="text-[10px] text-purple-300 font-mono">
+                <span className="text-[10px] text-[#DEDBC8] font-mono">
                   {analysisProgress}% Analyzing Payload...
                 </span>
               </div>
             </div>
 
-            <div className="w-full bg-zinc-900 rounded-full h-1.5 overflow-hidden">
+            <div className="w-full bg-[#181818] rounded-full h-1.5 overflow-hidden">
               <div
-                className="bg-gradient-to-r from-purple-600 to-indigo-400 h-full transition-all duration-300"
+                className="bg-[#DEDBC8] h-full transition-all duration-300"
                 style={{ width: `${analysisProgress}%` }}
               />
             </div>
@@ -269,27 +269,27 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         {activeTab === 'upload' && !isAnalyzing && (
           <div className="space-y-4" data-tour="content-input">
             {/* Mode Switcher Pills */}
-            <div className="flex p-1 bg-zinc-900/60 rounded-xl border border-white/5 text-[10px] font-bold">
+            <div className="flex p-1 bg-[#111111] rounded-xl border border-white/10 text-[10px] font-bold">
               <button
                 onClick={() => setInputMode('file')}
-                className={`flex-1 py-1 rounded-lg transition-all ${
-                  inputMode === 'file' ? 'bg-purple-600 text-white' : 'text-zinc-400'
+                className={`flex-1 py-1 rounded-lg transition-all cursor-pointer ${
+                  inputMode === 'file' ? 'bg-[#DEDBC8] text-black font-extrabold' : 'text-zinc-400'
                 }`}
               >
                 File Upload
               </button>
               <button
                 onClick={() => setInputMode('url')}
-                className={`flex-1 py-1 rounded-lg transition-all ${
-                  inputMode === 'url' ? 'bg-purple-600 text-white' : 'text-zinc-400'
+                className={`flex-1 py-1 rounded-lg transition-all cursor-pointer ${
+                  inputMode === 'url' ? 'bg-[#DEDBC8] text-black font-extrabold' : 'text-zinc-400'
                 }`}
               >
                 Post Link
               </button>
               <button
                 onClick={() => setInputMode('samples')}
-                className={`flex-1 py-1 rounded-lg transition-all ${
-                  inputMode === 'samples' ? 'bg-purple-600 text-white' : 'text-zinc-400'
+                className={`flex-1 py-1 rounded-lg transition-all cursor-pointer ${
+                  inputMode === 'samples' ? 'bg-[#DEDBC8] text-black font-extrabold' : 'text-zinc-400'
                 }`}
               >
                 Test Samples
@@ -302,7 +302,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                 onClick={() => fileInputRef.current?.click()}
                 onDrop={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
-                className="border-2 border-dashed border-white/15 hover:border-purple-500/60 rounded-2xl p-4 bg-zinc-950/60 transition-all text-center group cursor-pointer relative overflow-hidden"
+                className="border-2 border-dashed border-white/15 hover:border-[#DEDBC8]/60 rounded-2xl p-4 bg-[#111111] transition-all text-center group cursor-pointer relative overflow-hidden"
               >
                 {content.mediaFileUrl ? (
                   <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-white/10 shadow-lg">
@@ -321,7 +321,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   </div>
                 ) : (
                   <div className="py-6 flex flex-col items-center justify-center space-y-2">
-                    <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
+                    <div className="w-10 h-10 rounded-xl bg-[#DEDBC8]/10 flex items-center justify-center text-[#DEDBC8] group-hover:scale-110 transition-transform">
                       <Upload className="w-5 h-5" />
                     </div>
                     <p className="text-xs text-zinc-300 font-semibold">
@@ -347,14 +347,14 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                     value={socialUrlInput}
                     onChange={(e) => setSocialUrlInput(e.target.value)}
                     placeholder="https://tiktok.com/@user/video/123..."
-                    className="w-full p-3 pl-9 rounded-2xl text-xs font-mono bg-zinc-950/80 border border-white/10 text-white placeholder-zinc-600 focus:outline-none focus:border-purple-500/60"
+                    className="w-full p-3 pl-9 rounded-2xl text-xs font-mono bg-[#111111] border border-white/10 text-white placeholder-zinc-600 focus:outline-none focus:border-[#DEDBC8]"
                   />
-                  <LinkIcon className="w-4 h-4 text-purple-400 absolute left-3 top-3.5" />
+                  <LinkIcon className="w-4 h-4 text-[#DEDBC8] absolute left-3 top-3.5" />
                 </div>
                 <button
                   type="submit"
                   disabled={!socialUrlInput}
-                  className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-lg shadow-purple-600/20 disabled:opacity-50"
+                  className="w-full py-2.5 rounded-xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black font-extrabold text-xs transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-[0_0_15px_rgba(222,219,200,0.18)] disabled:opacity-50"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Analyze Link with NVIDIA AI</span>
@@ -375,7 +375,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                       onChangeContent({ platform: s.platform });
                       processUploadedFile(s.title, s.url);
                     }}
-                    className="p-3 rounded-2xl bg-zinc-900/60 hover:bg-zinc-900 border border-white/10 hover:border-purple-500/40 transition-all cursor-pointer flex items-center space-x-3 group"
+                    className="p-3 rounded-2xl bg-[#111111] hover:bg-[#181818] border border-white/10 hover:border-[#DEDBC8]/40 transition-all cursor-pointer flex items-center space-x-3 group"
                   >
                     <img
                       src={s.url}
@@ -383,10 +383,10 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                       className="w-12 h-12 rounded-xl object-cover border border-white/10 shrink-0"
                     />
                     <div className="flex-1 min-w-0">
-                      <span className="text-[9px] font-mono text-purple-300 font-bold block uppercase">
+                      <span className="text-[9px] font-mono text-[#DEDBC8] font-bold block uppercase">
                         {s.tag}
                       </span>
-                      <h4 className="text-xs font-bold text-white truncate group-hover:text-purple-300 transition-colors">
+                      <h4 className="text-xs font-bold text-white truncate group-hover:text-[#DEDBC8] transition-colors">
                         {s.title}
                       </h4>
                     </div>
@@ -409,8 +409,8 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                       onClick={() => onChangeContent({ platform: p.id })}
                       className={`py-2 px-3 rounded-xl text-xs font-medium border text-center transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-purple-600/30 text-purple-200 border-purple-500/50 font-bold'
-                          : 'bg-zinc-900/60 text-zinc-400 border-white/[0.04] hover:text-zinc-200'
+                          ? 'bg-[#DEDBC8]/20 text-[#DEDBC8] border-[#DEDBC8]/40 font-extrabold'
+                          : 'bg-[#111111] text-zinc-400 border-white/[0.04] hover:text-zinc-200'
                       }`}
                     >
                       {p.label}
@@ -426,7 +426,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         {activeTab === 'summary' && !isAnalyzing && (
           <div className="space-y-4">
             {intel && (
-              <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-zinc-950/80 border border-white/10 text-[10px] font-mono">
+              <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-[#111111] border border-white/10 text-[10px] font-mono">
                 <div>
                   <span className="text-zinc-500 block">Duration</span>
                   <span className="text-zinc-200 font-bold">{intel.metadata.duration}</span>
@@ -437,11 +437,11 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                 </div>
                 <div>
                   <span className="text-zinc-500 block">NVIDIA Model</span>
-                  <span className="text-purple-400 font-bold">Llama 3.3 70B</span>
+                  <span className="text-[#DEDBC8] font-bold">Llama 3.3 70B</span>
                 </div>
                 <div>
                   <span className="text-zinc-500 block">Aspect Ratio</span>
-                  <span className="text-purple-400 font-bold">{intel.metadata.aspectRatio}</span>
+                  <span className="text-[#DEDBC8] font-bold">{intel.metadata.aspectRatio}</span>
                 </div>
               </div>
             )}
@@ -449,23 +449,23 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs font-bold text-zinc-300 flex items-center space-x-1">
-                  <Film className="w-3.5 h-3.5 text-purple-400" />
+                  <Film className="w-3.5 h-3.5 text-[#DEDBC8]" />
                   <span>Video Title</span>
                 </span>
-                <span className="text-[9px] text-purple-400 font-mono uppercase">NVIDIA AI</span>
+                <span className="text-[9px] text-[#DEDBC8] font-mono uppercase">NVIDIA AI</span>
               </div>
               <input
                 type="text"
                 value={content.title}
                 onChange={(e) => onChangeContent({ title: e.target.value })}
-                className="w-full p-2.5 rounded-xl text-xs font-medium bg-zinc-950/80 border border-white/10 text-white focus:outline-none focus:border-purple-500/60"
+                className="w-full p-2.5 rounded-xl text-xs font-medium bg-[#111111] border border-white/10 text-white focus:outline-none focus:border-[#DEDBC8]"
               />
             </div>
 
             {intel && (
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs font-bold text-purple-300 flex items-center space-x-1">
+                  <span className="text-xs font-bold text-[#DEDBC8] flex items-center space-x-1">
                     <Zap className="w-3.5 h-3.5 text-amber-400" />
                     <span>Extracted Opening Hook</span>
                   </span>
@@ -489,7 +489,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                 value={content.contentBody}
                 onChange={(e) => onChangeContent({ contentBody: e.target.value })}
                 rows={5}
-                className="w-full p-3 rounded-2xl text-xs font-mono bg-zinc-950/80 border border-white/10 text-zinc-200 focus:outline-none focus:border-purple-500/60 leading-relaxed resize-none"
+                className="w-full p-3 rounded-2xl text-xs font-mono bg-[#111111] border border-white/10 text-zinc-200 focus:outline-none focus:border-[#DEDBC8] leading-relaxed resize-none"
               />
 
               <div className="mt-3">
@@ -499,54 +499,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   duration={60}
                 />
               </div>
-              
-              {intel?.transcriptHighlights && intel.transcriptHighlights.length > 0 && (
-                <div className="mt-3 space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">
-                    Strict AI Critique
-                  </span>
-                  {intel.transcriptHighlights.map((hl, i) => (
-                    <div key={i} className="p-2.5 rounded-xl bg-red-950/20 border border-red-500/30 text-xs">
-                      <div className="text-red-400 font-mono line-through mb-1 block">"{hl.text}"</div>
-                      <div className="flex items-start space-x-2">
-                        <span className="px-1.5 py-0.5 rounded-md bg-red-500/20 text-red-300 text-[9px] font-bold uppercase shrink-0">
-                          {hl.type.replace('_', ' ')}
-                        </span>
-                        <span className="text-emerald-400 font-medium leading-snug">
-                          {hl.suggestion}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
-
-            {intel && (
-              <div className="space-y-2 pt-1 border-t border-white/[0.06]">
-                <span className="text-xs font-bold text-zinc-300 block">
-                  NVIDIA AI Content Intelligence
-                </span>
-                <div className="grid grid-cols-2 gap-1.5">
-                  <div className="p-2 rounded-xl bg-zinc-900/60 border border-white/5">
-                    <span className="text-[9px] text-zinc-500 block uppercase font-mono">Style</span>
-                    <span className="text-xs font-medium text-zinc-200">{intel.analysis.style}</span>
-                  </div>
-                  <div className="p-2 rounded-xl bg-zinc-900/60 border border-white/5">
-                    <span className="text-[9px] text-zinc-500 block uppercase font-mono">Tone</span>
-                    <span className="text-xs font-medium text-zinc-200">{intel.analysis.tone}</span>
-                  </div>
-                  <div className="p-2 rounded-xl bg-zinc-900/60 border border-white/5">
-                    <span className="text-[9px] text-zinc-500 block uppercase font-mono">Emotion</span>
-                    <span className="text-xs font-medium text-purple-300">{intel.analysis.emotion}</span>
-                  </div>
-                  <div className="p-2 rounded-xl bg-zinc-900/60 border border-white/5">
-                    <span className="text-[9px] text-zinc-500 block uppercase font-mono">Audience</span>
-                    <span className="text-xs font-medium text-emerald-300 line-clamp-1">{intel.analysis.targetAudience}</span>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
@@ -559,10 +512,10 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
             {intel?.timeline.map((item, idx) => (
               <div
                 key={idx}
-                className="p-3 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-1 hover:border-purple-500/40 transition-all"
+                className="p-3 rounded-2xl bg-[#111111] border border-white/10 space-y-1 hover:border-[#DEDBC8]/40 transition-all"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-purple-400 font-mono">
+                  <span className="text-xs font-bold text-[#DEDBC8] font-mono">
                     {item.timestamp}
                   </span>
                   <span
@@ -598,8 +551,8 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   onClick={() => onTogglePersona(persona.id)}
                   className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                     isSelected
-                      ? 'bg-zinc-900/80 border-purple-500/40'
-                      : 'bg-zinc-950/40 border-white/[0.04] opacity-50'
+                      ? 'bg-[#111111] border-[#DEDBC8]/40'
+                      : 'bg-[#111111]/40 border-white/[0.04] opacity-50'
                   }`}
                 >
                   <div className="flex items-center space-x-2.5">
@@ -621,7 +574,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                           {persona.name}
                         </span>
                         {persona.badge === 'Verified' && (
-                          <CheckCircle2 className="w-3 h-3 text-blue-400 fill-blue-400/20" />
+                          <CheckCircle2 className="w-3 h-3 text-[#DEDBC8]" />
                         )}
                       </div>
                       <span className="text-[11px] text-zinc-400">
@@ -633,11 +586,11 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   <div
                     className={`w-4 h-4 rounded-full border flex items-center justify-center ${
                       isSelected
-                        ? 'border-purple-500 bg-purple-600 text-white'
+                        ? 'border-[#DEDBC8] bg-[#DEDBC8] text-black'
                         : 'border-zinc-700'
                     }`}
                   >
-                    {isSelected && <Check className="w-3 h-3" />}
+                    {isSelected && <Check className="w-3 h-3 text-black stroke-[3]" />}
                   </div>
                 </div>
               );
@@ -647,13 +600,13 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       </div>
 
       {/* THE ONE PRIMARY CTA BUTTON */}
-      <div className="p-4 border-t border-white/[0.06] bg-zinc-950/60" data-tour="run-simulation-btn">
+      <div className="p-4 border-t border-white/[0.08] bg-[#0A0A0A]" data-tour="run-simulation-btn">
         <button
           onClick={onRunSimulation}
           disabled={isAnalyzing}
-          className="w-full h-12 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm tracking-wide shadow-xl shadow-purple-600/30 transition-all flex items-center justify-center space-x-2.5 active:scale-[0.98] cursor-pointer border border-purple-400/30 disabled:opacity-50"
+          className="w-full h-12 rounded-2xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black font-extrabold text-sm tracking-wide shadow-[0_0_20px_rgba(222,219,200,0.22)] transition-all flex items-center justify-center space-x-2.5 active:scale-[0.98] cursor-pointer border border-white/20 disabled:opacity-50"
         >
-          <Play className={`w-4 h-4 fill-current ${isRunning ? 'animate-spin' : ''}`} />
+          <Play className={`w-4 h-4 fill-current text-black ${isRunning ? 'animate-spin' : ''}`} />
           <span>{isRunning ? 'SIMULATING...' : '▶ START SIMULATION'}</span>
         </button>
       </div>
