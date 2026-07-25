@@ -11,7 +11,7 @@ import { SponsorEcosystemModal } from '@/components/SponsorEcosystemModal';
 import { ABComparisonModal } from '@/components/ABComparisonModal';
 import { PreFlightAuditReportModal } from '@/components/PreFlightAuditReportModal';
 import { CinematicPipelineModal } from '@/components/CinematicPipelineModal';
-import { MobileNav, MobileTab } from '@/components/MobileNav';
+import { MobileAppLayout } from '@/components/MobileAppLayout';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput } from '@/types/simulator';
@@ -51,7 +51,6 @@ export default function Home() {
   const [isABOpen, setIsABOpen] = useState<boolean>(false);
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
   const [isPipelineLoading, setIsPipelineLoading] = useState<boolean>(false);
-  const [mobileTab, setMobileTab] = useState<MobileTab>('canvas');
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
 
   useEffect(() => {
@@ -229,21 +228,7 @@ export default function Home() {
     currentTime < 10 ? 1 : currentTime < 25 ? 2 : currentTime < 45 ? 3 : 4;
 
   return (
-    <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 overflow-hidden font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
-      {/* Top Header */}
-      <Header
-        currentPreset={currentPreset}
-        onSelectPreset={handleSelectPreset}
-        onReset={() => setCurrentTime(0)}
-        onApplyFixes={handleApplyFixes}
-        appliedFixes={appliedFixes}
-        onOpenHistory={() => setIsHistoryOpen(true)}
-        historyCount={savedProjects.length}
-        onNewProject={handleNewProject}
-        onOpenAuthModal={() => setIsAuthModalOpen(true)}
-        onOpenSponsors={() => setIsSponsorsOpen(true)}
-      />
-
+    <div className="min-h-screen w-screen overflow-hidden bg-zinc-950">
       {/* History Slide-over Drawer Modal */}
       <HistoryDrawer
         isOpen={isHistoryOpen}
@@ -291,14 +276,51 @@ export default function Home() {
         onComplete={() => {
           setIsPipelineLoading(false);
           setIsRunning(true);
-          setMobileTab('canvas');
         }}
       />
 
-      {/* Main Hero Layout Interface */}
-      <div className="flex-1 flex overflow-hidden relative pb-14 md:pb-0">
-        {/* Collapsible Left Setup Drawer */}
-        <div className={`w-full md:w-auto ${mobileTab === 'setup' ? 'block' : 'hidden md:block'}`}>
+      {/* MOBILE NATIVE APP EXPERIENCE (block md:hidden) */}
+      <div className="block md:hidden w-full h-full">
+        <MobileAppLayout
+          content={content}
+          onChangeContent={handleChangeContent}
+          onRunSimulation={handleRunSimulation}
+          isRunning={isRunning}
+          onTogglePlay={() => setIsRunning(!isRunning)}
+          onReset={() => setCurrentTime(0)}
+          simData={simData}
+          currentTime={currentTime}
+          duration={duration}
+          speed={speed}
+          onChangeSpeed={(s) => setSpeed(s)}
+          onSeek={(t) => setCurrentTime(t)}
+          appliedFixes={appliedFixes}
+          onApplyFixes={handleApplyFixes}
+          onOpenSponsors={() => setIsSponsorsOpen(true)}
+          onOpenABModal={() => setIsABOpen(true)}
+          onOpenReportModal={() => setIsReportOpen(true)}
+          onSelectPreset={handleSelectPreset}
+        />
+      </div>
+
+      {/* DESKTOP SUITE INTERFACE (hidden md:flex) */}
+      <div className="hidden md:flex flex-col min-h-screen w-full bg-zinc-950 text-zinc-100 overflow-hidden font-sans">
+        {/* Top Header */}
+        <Header
+          currentPreset={currentPreset}
+          onSelectPreset={handleSelectPreset}
+          onReset={() => setCurrentTime(0)}
+          onApplyFixes={handleApplyFixes}
+          appliedFixes={appliedFixes}
+          onOpenHistory={() => setIsHistoryOpen(true)}
+          historyCount={savedProjects.length}
+          onNewProject={handleNewProject}
+          onOpenAuthModal={() => setIsAuthModalOpen(true)}
+          onOpenSponsors={() => setIsSponsorsOpen(true)}
+        />
+
+        {/* Main Desktop 3-Panel Hero Interface */}
+        <div className="flex-1 flex overflow-hidden">
           <LeftPanel
             content={content}
             onChangeContent={handleChangeContent}
@@ -307,10 +329,7 @@ export default function Home() {
             onRunSimulation={handleRunSimulation}
             isRunning={isRunning || isAiLoading}
           />
-        </div>
 
-        {/* Center Hero living Social World Canvas */}
-        <div className={`flex-1 ${mobileTab === 'canvas' ? 'block' : 'hidden md:block'}`}>
           <SocialWorldCanvas
             nodes={simData.nodes}
             edges={simData.edges}
@@ -324,10 +343,7 @@ export default function Home() {
             activeComments={simData.comments}
             stage={stage}
           />
-        </div>
 
-        {/* Right Intelligence Accordion Panel */}
-        <div className={`w-full md:w-auto ${mobileTab === 'insights' ? 'block' : 'hidden md:block'}`}>
           <RightPanel
             metrics={simData.metrics}
             retentionTimeline={simData.retentionTimeline}
@@ -342,14 +358,6 @@ export default function Home() {
           />
         </div>
       </div>
-
-      {/* Mobile Bottom Navigation Bar */}
-      <MobileNav
-        activeTab={mobileTab}
-        onChangeTab={(tab) => setMobileTab(tab)}
-        onOpenSponsors={() => setIsSponsorsOpen(true)}
-        viralityScore={simData.metrics.viralityScore}
-      />
     </div>
   );
 }
