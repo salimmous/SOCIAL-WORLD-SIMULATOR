@@ -116,12 +116,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 overflow-hidden font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
-      {/* Header */}
+      {/* Minimal Top Header */}
       <Header
         currentPreset={currentPreset}
         onSelectPreset={handleSelectPreset}
-        isRunning={isRunning}
-        onTogglePlay={() => setIsRunning(!isRunning)}
         onReset={() => setCurrentTime(0)}
         onApplyFixes={handleApplyFixes}
         appliedFixes={appliedFixes}

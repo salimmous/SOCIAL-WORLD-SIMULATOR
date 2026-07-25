@@ -1,28 +1,15 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Play,
-  Pause,
-  RotateCcw,
-  FastForward,
-  Activity,
-  Flame,
-  MessageSquare,
-  Share2,
-  Sparkles,
-  Zap,
-  Radio,
-} from 'lucide-react';
+import { Play, Pause, RotateCcw, Activity } from 'lucide-react';
 import { NetworkNode, NetworkEdge, Comment } from '@/types/simulator';
 
-interface FloatingReaction {
+interface FloatingParticle {
   id: string;
   x: number;
   y: number;
   emoji: string;
   opacity: number;
-  scale: number;
 }
 
 interface SocialWorldCanvasProps {
@@ -49,42 +36,41 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
   onSeek,
   speed,
   onChangeSpeed,
-  activeComments,
   stage,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [floatingReactions, setFloatingReactions] = useState<FloatingReaction[]>([]);
+  const [particles, setParticles] = useState<FloatingParticle[]>([]);
   const animFrameId = useRef<number | null>(null);
   const nodesRef = useRef<NetworkNode[]>(nodes);
   nodesRef.current = nodes;
 
-  const reactionsList = ['🔥', '💡', '🚀', '💬', '😡', '✨', '🔁', '⚡', '💎', '🎯'];
+  const reactionEmojis = ['🔥', '💡', '🚀', '💬', '⚡', '✨'];
 
-  // Trigger floating reaction particles periodically as simulation runs
+  // Spawn organic floating particles periodically
   useEffect(() => {
     if (!isRunning) return;
 
     const interval = setInterval(() => {
       if (nodesRef.current.length === 0) return;
-      const randomNode = nodesRef.current[Math.floor(Math.random() * nodesRef.current.length)];
-      const emoji = reactionsList[Math.floor(Math.random() * reactionsList.length)];
+      const target = nodesRef.current[Math.floor(Math.random() * nodesRef.current.length)];
+      const emoji = reactionEmojis[Math.floor(Math.random() * reactionEmojis.length)];
 
-      const newParticle: FloatingReaction = {
-        id: `react-${Date.now()}-${Math.random()}`,
-        x: randomNode.x,
-        y: randomNode.y - 20,
-        emoji,
-        opacity: 1,
-        scale: 0.9 + Math.random() * 0.4,
-      };
-
-      setFloatingReactions((prev) => [...prev.slice(-18), newParticle]);
-    }, 500 / speed);
+      setParticles((prev) => [
+        ...prev.slice(-14),
+        {
+          id: `p-${Date.now()}-${Math.random()}`,
+          x: target.x,
+          y: target.y - 15,
+          emoji,
+          opacity: 1,
+        },
+      ]);
+    }, 600 / speed);
 
     return () => clearInterval(interval);
   }, [isRunning, speed]);
 
-  // Canvas Render Loop
+  // Main Canvas Render Loop (Living Ecosystem Graph)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -94,9 +80,9 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
     let pulseTime = 0;
 
     const render = () => {
-      pulseTime += 0.05 * speed;
+      pulseTime += 0.04 * speed;
 
-      // Handle High-DPI canvas resizing
+      // Handle Hi-DPI responsive canvas sizing
       const rect = canvas.getBoundingClientRect();
       if (canvas.width !== rect.width || canvas.height !== rect.height) {
         canvas.width = rect.width;
@@ -104,11 +90,10 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
       const currentNodes = nodesRef.current;
-      const padding = 50;
+      const padding = 60;
 
-      // Physics update
+      // Update position with breathing physics
       currentNodes.forEach((node) => {
         if (isRunning) {
           node.x += node.vx * speed;
@@ -119,7 +104,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         }
       });
 
-      // 1. Draw Edges
+      // 1. Draw Network Edges
       edges.forEach((edge) => {
         const source = currentNodes.find((n) => n.id === edge.sourceId);
         const target = currentNodes.find((n) => n.id === edge.targetId);
@@ -129,70 +114,69 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         ctx.moveTo(source.x, source.y);
         ctx.lineTo(target.x, target.y);
 
-        const isActive = stage >= 2 && (source.state !== 'idle' || target.state !== 'idle');
-
+        const isActive = stage >= 2;
         if (isActive) {
-          ctx.strokeStyle = `rgba(129, 140, 248, ${0.3 + Math.sin(pulseTime) * 0.15})`;
-          ctx.lineWidth = 1.8;
+          ctx.strokeStyle = `rgba(139, 92, 246, ${0.25 + Math.sin(pulseTime) * 0.1})`;
+          ctx.lineWidth = 1.5;
         } else {
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
           ctx.lineWidth = 1;
         }
         ctx.stroke();
 
-        // Animated signal pulse traveling along active edge
+        // Pulsing signal along line
         if (isActive && isRunning) {
-          const pulsePos = (pulseTime * 0.5) % 1;
-          const px = source.x + (target.x - source.x) * pulsePos;
-          const py = source.y + (target.y - source.y) * pulsePos;
+          const pos = (pulseTime * 0.5) % 1;
+          const px = source.x + (target.x - source.x) * pos;
+          const py = source.y + (target.y - source.y) * pos;
 
           ctx.beginPath();
-          ctx.arc(px, py, 3.5, 0, Math.PI * 2);
-          ctx.fillStyle = '#a5b4fc';
-          ctx.shadowColor = '#818cf8';
-          ctx.shadowBlur = 12;
+          ctx.arc(px, py, 3, 0, Math.PI * 2);
+          ctx.fillStyle = '#a78bfa';
+          ctx.shadowColor = '#8b5cf6';
+          ctx.shadowBlur = 10;
           ctx.fill();
           ctx.shadowBlur = 0;
         }
       });
 
-      // 2. Draw Nodes
+      // 2. Draw Breathing Nodes
       currentNodes.forEach((node) => {
         const isAlgo = node.role.includes('Algorithm');
-        const nodeRadius = isAlgo ? 28 : 20;
+        const breathe = Math.sin(pulseTime * 1.5 + node.x) * 2;
+        const radius = (isAlgo ? 26 : 20) + breathe;
 
-        // Expanding ripple rings if active/viral
-        if (stage >= 3 && (isAlgo || node.reachLevel > 2)) {
-          const rippleRadius = nodeRadius + (Math.sin(pulseTime * 2) + 1) * 14;
+        // Expanding ambient glow ring
+        if (stage >= 3) {
           ctx.beginPath();
-          ctx.arc(node.x, node.y, rippleRadius, 0, Math.PI * 2);
-          ctx.strokeStyle = `${node.color}44`;
-          ctx.lineWidth = 1.5;
+          ctx.arc(node.x, node.y, radius + 10, 0, Math.PI * 2);
+          ctx.strokeStyle = `${node.color}33`;
+          ctx.lineWidth = 1.2;
           ctx.stroke();
         }
 
-        // Node Outer Glow Ring
+        // Main Node Fill & Border
         ctx.beginPath();
-        ctx.arc(node.x, node.y, nodeRadius, 0, Math.PI * 2);
-        ctx.fillStyle = isAlgo ? '#18181b' : '#0c0c0e';
+        ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = '#0d0d12';
         ctx.shadowColor = node.color;
-        ctx.shadowBlur = isRunning ? 20 : 8;
+        ctx.shadowBlur = isRunning ? 16 : 6;
         ctx.fill();
-        ctx.lineWidth = 2.5;
+        ctx.lineWidth = 2;
         ctx.strokeStyle = node.color;
         ctx.stroke();
         ctx.shadowBlur = 0;
 
-        // Avatar Emoji / Symbol rendering
-        ctx.font = isAlgo ? '18px sans-serif' : '16px sans-serif';
+        // Avatar Symbol
+        ctx.font = '16px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(node.avatar, node.x, node.y + 1);
 
-        // Crisp Label Tag below
-        ctx.font = 'bold 11px Geist, sans-serif';
-        ctx.fillStyle = '#e4e4e7';
-        ctx.fillText(node.name, node.x, node.y + nodeRadius + 15);
+        // Name Label
+        ctx.font = '500 11px Geist, sans-serif';
+        ctx.fillStyle = '#a1a1aa';
+        ctx.fillText(node.name, node.x, node.y + radius + 15);
       });
 
       animFrameId.current = requestAnimationFrame(render);
@@ -205,88 +189,54 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
     };
   }, [edges, isRunning, speed, stage]);
 
-  const stageLabels = {
-    1: { title: 'Stage 1: Content Ingestion', desc: 'Analyzing video hook & audience persona match...' },
-    2: { title: 'Stage 2: Early Impression Wave', desc: 'First 20 AI entities evaluating 0-8s retention...' },
-    3: { title: 'Stage 3: Algorithm Feed Boost', desc: 'High retention score triggers 10x distribution wave!' },
-    4: { title: 'Stage 4: Exponential Viral Cascade', desc: 'Cross-platform shares & comment debates emerging!' },
+  const stageTitles = {
+    1: 'Stage 1: Content Ingestion',
+    2: 'Stage 2: Early Impression Wave',
+    3: 'Stage 3: Algorithm Feed Boost',
+    4: 'Stage 4: Exponential Viral Cascade',
   };
 
   const progressPct = (currentTime / duration) * 100;
 
   return (
-    <div className="flex-1 flex flex-col h-[calc(100vh-4rem)] relative bg-zinc-950/90 overflow-hidden">
-      {/* Top Floating Stage Indicator */}
-      <div className="absolute top-4 left-6 right-6 z-20 flex items-center justify-between pointer-events-none">
-        <div className="glass-panel px-4 py-2.5 rounded-2xl flex items-center space-x-3 pointer-events-auto border border-white/10 shadow-2xl">
-          <div className="w-9 h-9 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30">
-            <Radio className="w-4 h-4 text-indigo-400 animate-pulse" />
-          </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="text-xs font-bold text-white">
-                {stageLabels[stage].title}
-              </span>
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-            </div>
-            <p className="text-[11px] text-zinc-400 font-medium">
-              {stageLabels[stage].desc}
-            </p>
-          </div>
-        </div>
-
-        {/* Live Stats Pills */}
-        <div className="hidden sm:flex items-center space-x-2 pointer-events-auto">
-          <div className="glass-panel px-3.5 py-2 rounded-xl flex items-center space-x-2 text-xs border border-white/10 shadow-lg">
-            <Flame className="w-4 h-4 text-amber-400 fill-amber-400/20" />
-            <span className="text-zinc-300 font-mono">
-              Active Reactions: <strong className="text-white">{Math.round(currentTime * 4.2)}</strong>
-            </span>
-          </div>
-          <div className="glass-panel px-3.5 py-2 rounded-xl flex items-center space-x-2 text-xs border border-white/10 shadow-lg">
-            <Share2 className="w-4 h-4 text-indigo-400" />
-            <span className="text-zinc-300 font-mono">
-              Reach Multiplier: <strong className="text-indigo-300">{(1 + currentTime * 0.15).toFixed(1)}x</strong>
-            </span>
-          </div>
+    <div className="flex-1 flex flex-col h-[calc(100vh-3.5rem)] relative bg-zinc-950/80 overflow-hidden">
+      {/* Minimal Top Stage Badge */}
+      <div className="absolute top-5 left-6 z-20 pointer-events-none">
+        <div className="glass-panel px-4 py-2 rounded-2xl flex items-center space-x-2.5 pointer-events-auto shadow-xl">
+          <div className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-ping" />
+          <span className="text-xs font-bold text-white">
+            {stageTitles[stage]}
+          </span>
         </div>
       </div>
 
       {/* Floating Reaction Particles Overlay */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-        {floatingReactions.map((p) => (
+        {particles.map((p) => (
           <div
             key={p.id}
-            className="absolute text-2xl animate-float-particle transition-all drop-shadow-md"
-            style={{
-              left: `${p.x}px`,
-              top: `${p.y}px`,
-              opacity: p.opacity,
-              transform: `scale(${p.scale})`,
-            }}
+            className="absolute text-xl animate-particle-float transition-all"
+            style={{ left: `${p.x}px`, top: `${p.y}px` }}
           >
             {p.emoji}
           </div>
         ))}
       </div>
 
-      {/* Main Interactive HTML5 Canvas */}
+      {/* Hero Canvas Visualizer */}
       <div className="flex-1 relative w-full h-full">
         <canvas ref={canvasRef} className="w-full h-full block cursor-crosshair" />
       </div>
 
-      {/* Bottom Scrubber & Control Bar */}
-      <div className="p-4 border-t border-white/10 glass-panel z-20 space-y-3">
-        {/* Scrubber Slider */}
+      {/* Minimal Bottom Control Bar */}
+      <div className="p-4 border-t border-white/[0.06] glass-panel rounded-none border-b-0 border-l-0 border-r-0 z-20 space-y-3">
+        {/* Scrubber Bar */}
         <div className="flex items-center space-x-3">
-          <span className="text-xs font-mono font-bold text-indigo-400 w-12 text-right">
-            {Math.floor(currentTime / 60)}:
-            {Math.floor(currentTime % 60)
-              .toString()
-              .padStart(2, '0')}
+          <span className="text-xs font-mono font-bold text-purple-400 w-10 text-right">
+            0:{currentTime.toString().padStart(2, '0')}
           </span>
 
-          <div className="flex-1 relative group cursor-pointer">
+          <div className="flex-1 relative cursor-pointer">
             <input
               type="range"
               min="0"
@@ -294,49 +244,46 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
               step="1"
               value={currentTime}
               onChange={(e) => onSeek(Number(e.target.value))}
-              className="w-full h-2.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-500 hover:bg-zinc-700 transition-colors"
+              className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
             />
             <div
-              className="absolute left-0 top-0 h-2.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-lg pointer-events-none"
+              className="absolute left-0 top-0 h-2 bg-purple-600 rounded-lg pointer-events-none"
               style={{ width: `${progressPct}%` }}
             />
           </div>
 
-          <span className="text-xs font-mono text-zinc-500 w-12">
-            01:00
+          <span className="text-xs font-mono text-zinc-500 w-10">
+            1:00
           </span>
         </div>
 
-        {/* Playback Controls */}
+        {/* Minimal Actions */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <button
               onClick={onTogglePlay}
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-600/30 transition-all active:scale-95 flex items-center space-x-2 font-bold cursor-pointer border border-indigo-400/30"
+              className="px-3.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold border border-white/10 transition-all flex items-center space-x-2 cursor-pointer"
             >
-              {isRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
-              <span className="text-xs">{isRunning ? 'PAUSE WORLD' : 'RUN WORLD SIMULATION'}</span>
+              {isRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
+              <span>{isRunning ? 'Pause' : 'Play'}</span>
             </button>
 
             <button
               onClick={() => onSeek(0)}
-              className="p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/10 transition-all cursor-pointer"
-              title="Restart Simulation"
+              className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/10 transition-all cursor-pointer"
             >
-              <RotateCcw className="w-4 h-4" />
+              <RotateCcw className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          {/* Speed Modifiers */}
-          <div className="flex items-center space-x-1 bg-zinc-900/90 p-1.5 rounded-xl border border-white/10">
+          {/* Speed Selector */}
+          <div className="flex items-center space-x-1 bg-zinc-900/80 p-1 rounded-xl border border-white/10">
             {[1, 2, 5].map((s) => (
               <button
                 key={s}
                 onClick={() => onChangeSpeed(s)}
-                className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
-                  speed === s
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'text-zinc-400 hover:text-zinc-200'
+                className={`px-2.5 py-0.5 rounded-lg text-xs font-mono font-bold cursor-pointer transition-all ${
+                  speed === s ? 'bg-purple-600 text-white' : 'text-zinc-400'
                 }`}
               >
                 {s}x

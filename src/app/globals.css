@@ -2,12 +2,13 @@
 
 @layer base {
   :root {
-    --background: #09090b;
-    --foreground: #fafafa;
-    --card: #121217;
-    --card-foreground: #fafafa;
-    --border: rgba(255, 255, 255, 0.08);
-    --ring: #6366f1;
+    --background: #09090d;
+    --foreground: #f4f4f5;
+    --card: #0d0d12;
+    --card-foreground: #f4f4f5;
+    --border: rgba(255, 255, 255, 0.06);
+    --primary: #8b5cf6;
+    --secondary: #3b82f6;
   }
 
   body {
@@ -16,85 +17,75 @@
     font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow-x: hidden;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.08) 0px, transparent 50%),
-      radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%);
+      radial-gradient(ellipse at 15% 15%, rgba(124, 58, 237, 0.08) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 20%, rgba(37, 99, 235, 0.06) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 85%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
     background-attachment: fixed;
   }
 }
 
-/* Glassmorphism utility classes */
+/* Apple Vision Pro Glassmorphism */
 .glass-panel {
-  background: rgba(18, 18, 23, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  background: rgba(13, 13, 18, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 22px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
-.glass-panel-interactive {
-  background: rgba(22, 22, 30, 0.7);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.glass-card {
+  background: rgba(18, 18, 26, 0.5);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glass-panel-interactive:hover {
-  background: rgba(30, 30, 42, 0.85);
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+.glass-card:hover {
+  background: rgba(24, 24, 36, 0.7);
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
 }
 
-.glass-input {
-  background: rgba(12, 12, 16, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #fafafa;
-}
-
-.glass-input:focus {
-  outline: none;
-  border-color: rgba(99, 102, 241, 0.6);
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
-}
-
-/* Custom Scrollbar */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(9, 9, 11, 0.5);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.4);
+  background: rgba(139, 92, 246, 0.4);
 }
 
-/* Custom Animations */
-@keyframes pulseGlow {
+/* Breathing Node Animations */
+@keyframes nodeBreathe {
   0%, 100% {
-    opacity: 0.4;
     transform: scale(1);
+    opacity: 0.95;
   }
   50% {
-    opacity: 0.9;
-    transform: scale(1.05);
+    transform: scale(1.04);
+    opacity: 1;
   }
 }
 
-.animate-pulse-glow {
-  animation: pulseGlow 3s ease-in-out infinite;
+.animate-breathe {
+  animation: nodeBreathe 4s ease-in-out infinite;
 }
 
-@keyframes floatParticle {
+@keyframes particleFloat {
   0% {
-    transform: translateY(0px) scale(0.8);
+    transform: translateY(0px);
     opacity: 0;
   }
   20% {
@@ -104,24 +95,11 @@
     opacity: 1;
   }
   100% {
-    transform: translateY(-40px) scale(1.2);
+    transform: translateY(-35px);
     opacity: 0;
   }
 }
 
-.animate-float-particle {
-  animation: floatParticle 2.5s ease-out infinite;
-}
-
-/* Radial Glow utility */
-.radial-glow-indigo {
-  box-shadow: 0 0 40px rgba(99, 102, 241, 0.25);
-}
-
-.radial-glow-pink {
-  box-shadow: 0 0 40px rgba(236, 72, 153, 0.25);
-}
-
-.radial-glow-emerald {
-  box-shadow: 0 0 40px rgba(16, 185, 129, 0.25);
+.animate-particle-float {
+  animation: particleFloat 2.2s ease-out infinite;
 }
