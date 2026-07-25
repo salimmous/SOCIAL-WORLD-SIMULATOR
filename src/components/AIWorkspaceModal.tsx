@@ -22,7 +22,12 @@ import {
   BarChart3,
   Sliders,
   Settings,
+  Key,
+  Terminal,
 } from 'lucide-react';
+import { ProviderDetailsDrawer, ProviderDetailData } from './ProviderDetailsDrawer';
+import { SecretsDrawer } from './SecretsDrawer';
+import { LiveSystemLogsModal } from './LiveSystemLogsModal';
 
 interface AIWorkspaceModalProps {
   isOpen: boolean;
@@ -34,6 +39,9 @@ export function AIWorkspaceModal({ isOpen, onClose, scriptText }: AIWorkspaceMod
   const [activeTab, setActiveTab] = useState<'providers' | 'media' | 'research' | 'automation' | 'deployment' | 'storage' | 'monitoring'>('providers');
   const [activeModel, setActiveModel] = useState('NVIDIA Nemotron 70B');
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState<ProviderDetailData | null>(null);
+  const [isSecretsOpen, setIsSecretsOpen] = useState(false);
+  const [isLogsOpen, setIsLogsOpen] = useState(false);
 
   if (!isOpen) return null;
 
@@ -66,12 +74,30 @@ export function AIWorkspaceModal({ isOpen, onClose, scriptText }: AIWorkspaceMod
               </div>
             </div>
 
-            <button
-              onClick={onClose}
-              className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setIsSecretsOpen(true)}
+                className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-zinc-300 hover:text-white text-xs font-bold font-mono transition-all flex items-center space-x-1.5 cursor-pointer"
+              >
+                <Key className="w-3.5 h-3.5 text-purple-400" />
+                <span>Secrets</span>
+              </button>
+
+              <button
+                onClick={() => setIsLogsOpen(true)}
+                className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-zinc-300 hover:text-white text-xs font-bold font-mono transition-all flex items-center space-x-1.5 cursor-pointer"
+              >
+                <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Logs</span>
+              </button>
+
+              <button
+                onClick={onClose}
+                className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
           {/* Navigation Tabs Bar */}
@@ -150,7 +176,28 @@ export function AIWorkspaceModal({ isOpen, onClose, scriptText }: AIWorkspaceMod
                       <div className="flex items-center justify-between text-[10px] font-mono pt-2 border-t border-white/5 text-zinc-500">
                         <span>Latency: <strong className="text-emerald-400">{prov.latency}</strong></span>
                         <span>Uptime: <strong className="text-white">{prov.health}</strong></span>
-                        <span>Status: <strong className="text-emerald-400">{prov.status}</strong></span>
+                        <button
+                          onClick={() =>
+                            setSelectedProvider({
+                              name: prov.name,
+                              model: prov.model,
+                              endpoint: `https://api.${prov.name.toLowerCase().replace(/\s+/g, '')}.ai/v1`,
+                              contextWindow: '128K Tokens',
+                              temperature: '0.7',
+                              maxTokens: '4096',
+                              streaming: true,
+                              retryPolicy: 'Exponential Backoff (3x)',
+                              timeout: '30s',
+                              fallback: 'OpenRouter Unified API',
+                              health: prov.health,
+                              latency: prov.latency,
+                              recentRequests: 1420,
+                            })
+                          }
+                          className="text-purple-400 hover:text-purple-300 font-bold underline cursor-pointer"
+                        >
+                          View Details →
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -382,6 +429,24 @@ export function AIWorkspaceModal({ isOpen, onClose, scriptText }: AIWorkspaceMod
           </div>
         </motion.div>
       </div>
+
+      {/* Slide-over Provider Details Drawer */}
+      <ProviderDetailsDrawer
+        provider={selectedProvider}
+        onClose={() => setSelectedProvider(null)}
+      />
+
+      {/* Secrets & API Key Management Drawer */}
+      <SecretsDrawer
+        isOpen={isSecretsOpen}
+        onClose={() => setIsSecretsOpen(false)}
+      />
+
+      {/* Realtime System Logs Viewer Modal */}
+      <LiveSystemLogsModal
+        isOpen={isLogsOpen}
+        onClose={() => setIsLogsOpen(false)}
+      />
     </AnimatePresence>
   );
 }
