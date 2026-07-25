@@ -16,6 +16,8 @@ import { AICopilotWidget } from '@/components/AICopilotWidget';
 import { PersonaModal } from '@/components/PersonaModal';
 import { SettingsModal } from '@/components/SettingsModal';
 import { ExportModal } from '@/components/ExportModal';
+import { CommandPaletteModal } from '@/components/CommandPaletteModal';
+import { OnboardingTourModal } from '@/components/OnboardingTourModal';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput, NetworkNode } from '@/types/simulator';
@@ -57,8 +59,38 @@ export default function Home() {
   const [isPipelineLoading, setIsPipelineLoading] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [isExportOpen, setIsExportOpen] = useState<boolean>(false);
+  const [isCmdKOpen, setIsCmdKOpen] = useState<boolean>(false);
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState<boolean>(false);
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
+
+  // Global Keyboard Shortcuts (Space, R, C, E, CMD+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return;
+
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsCmdKOpen((prev) => !prev);
+      } else if (e.code === 'Space') {
+        e.preventDefault();
+        setIsRunning((prev) => !prev);
+      } else if (e.key.toLowerCase() === 'r') {
+        e.preventDefault();
+        setCurrentTime(0);
+      } else if (e.key.toLowerCase() === 'c') {
+        e.preventDefault();
+        setIsABOpen((prev) => !prev);
+      } else if (e.key.toLowerCase() === 'e') {
+        e.preventDefault();
+        setIsExportOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     setSavedProjects(getSavedProjects());
@@ -291,6 +323,26 @@ export default function Home() {
         onClose={() => setIsSettingsOpen(false)}
         speed={speed}
         onChangeSpeed={(s) => setSpeed(s)}
+      />
+
+      {/* Linear-Style ⌘K Command Palette Modal */}
+      <CommandPaletteModal
+        isOpen={isCmdKOpen}
+        onClose={() => setIsCmdKOpen(false)}
+        onRunSimulation={handleRunSimulation}
+        onApplyFixes={handleApplyFixes}
+        onOpenABModal={() => setIsABOpen(true)}
+        onOpenReportModal={() => setIsReportOpen(true)}
+        onOpenExportModal={() => setIsExportOpen(true)}
+        onOpenSettingsModal={() => setIsSettingsOpen(true)}
+        onOpenSponsorsModal={() => setIsSponsorsOpen(true)}
+      />
+
+      {/* First-Time Interactive Onboarding Tour Modal */}
+      <OnboardingTourModal
+        isOpen={isOnboardingOpen}
+        onClose={() => setIsOnboardingOpen(false)}
+        onStartDemo={handleRunSimulation}
       />
 
       {/* Cinematic AI Pipeline Loading Modal */}
