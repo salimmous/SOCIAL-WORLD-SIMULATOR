@@ -618,6 +618,166 @@ export function PrismaLandingPage({
           </div>
         </div>
       </section>
+
+      {/* SECTION 5: ENTERPRISE FOOTER */}
+      <footer className="bg-black py-16 px-4 md:px-6 relative z-10 border-t border-white/10 text-xs font-sans">
+        <div className="max-w-7xl mx-auto pb-12 border-b border-white/5 grid grid-cols-1 md:grid-cols-12 gap-8">
+          {/* Brand Col (4 cols) */}
+          <div className="md:col-span-4 space-y-4">
+            <div className="flex items-center space-x-3 cursor-pointer" onClick={onLaunchPlatform}>
+              <div className="w-8 h-8 rounded-xl bg-purple-600/20 p-0.5 border border-purple-500/40 overflow-hidden flex items-center justify-center">
+                <img src="/logo.png" alt="Social World Simulator" className="w-full h-full object-contain" />
+              </div>
+              <span className="font-extrabold tracking-tight text-[#E1E0CC] text-sm">
+                SOCIAL WORLD SIMULATOR
+              </span>
+            </div>
+
+            <p className="text-gray-400 text-xs leading-relaxed max-w-sm font-normal">
+              Predict the internet before you publish. Autonomous AI persona audience simulation engine powered by NVIDIA AI.
+            </p>
+
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>All Systems Operational (99.99% Uptime)</span>
+            </div>
+          </div>
+
+          {/* Links Col 1: Platform (2 cols) */}
+          <div className="md:col-span-2 space-y-3">
+            <h4 className="text-[#E1E0CC] font-bold uppercase tracking-wider text-[11px]">Platform</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li>
+                <button onClick={onLaunchPlatform} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Platform Studio
+                </button>
+              </li>
+              <li>
+                <button onClick={onLaunchPlatform} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  200+ Persona Network
+                </button>
+              </li>
+              <li>
+                <button onClick={onLaunchPlatform} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Retention Heatmap
+                </button>
+              </li>
+              <li>
+                <button onClick={onLaunchPlatform} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Script Optimization Lab
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Links Col 2: Resources (2 cols) */}
+          <div className="md:col-span-2 space-y-3">
+            <h4 className="text-[#E1E0CC] font-bold uppercase tracking-wider text-[11px]">Resources</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li>
+                <button onClick={onOpenAtlas} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Atlas Product Guide
+                </button>
+              </li>
+              <li>
+                <button onClick={onLaunchPlatform} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Pre-Flight PDF Report
+                </button>
+              </li>
+              <li>
+                <button onClick={onLaunchPlatform} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Guided Onboarding
+                </button>
+              </li>
+              <li>
+                <button onClick={onLaunchPlatform} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Help Center & Docs
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Links Col 3: Infrastructure (2 cols) */}
+          <div className="md:col-span-2 space-y-3">
+            <h4 className="text-[#E1E0CC] font-bold uppercase tracking-wider text-[11px]">Engine AI</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li>
+                <button onClick={onOpenWorkspace} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  NVIDIA Llama 70B
+                </button>
+              </li>
+              <li>
+                <button onClick={onOpenWorkspace} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Whisper Audio Engine
+                </button>
+              </li>
+              <li>
+                <button onClick={onOpenWorkspace} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Orbital Force Graph
+                </button>
+              </li>
+              <li>
+                <button onClick={onOpenWorkspace} className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Telemetry Dashboard
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Links Col 4: Legal & Code (2 cols) */}
+          <div className="md:col-span-2 space-y-3">
+            <h4 className="text-[#E1E0CC] font-bold uppercase tracking-wider text-[11px]">Connect</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li>
+                <a
+                  href="https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-[#E1E0CC] transition-colors"
+                >
+                  GitHub Repository
+                </a>
+              </li>
+              <li>
+                <span className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Security & Privacy
+                </span>
+              </li>
+              <li>
+                <span className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Enterprise SLAs
+                </span>
+              </li>
+              <li>
+                <span className="hover:text-[#E1E0CC] transition-colors cursor-pointer">
+                  Terms of Service
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between text-gray-500 text-[11px] gap-4">
+          <span>© 2026 Social World Simulator Inc. All rights reserved.</span>
+          <div className="flex items-center space-x-6">
+            <button onClick={onOpenAtlas} className="hover:text-gray-300 transition-colors cursor-pointer">
+              Atlas Mentor
+            </button>
+            <button onClick={onOpenWorkspace} className="hover:text-gray-300 transition-colors cursor-pointer">
+              Workspace Telemetry
+            </button>
+            <a
+              href="https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-gray-300 transition-colors"
+            >
+              GitHub Source
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
