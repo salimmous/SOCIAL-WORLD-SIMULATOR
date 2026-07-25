@@ -43,18 +43,46 @@ export function LiveSocialFeedMockupModal({
 }: LiveSocialFeedMockupModalProps) {
   const [activePlatform, setActivePlatform] = useState<'tiktok' | 'twitter' | 'linkedin' | 'shorts'>('tiktok');
   const [useRewrittenText, setUseRewrittenText] = useState(appliedFixes);
-  const [isSimulatingLikes, setIsSimulatingLikes] = useState(false);
   const [likeCount, setLikeCount] = useState(14820);
   const [hasLiked, setHasLiked] = useState(false);
 
   if (!isOpen) return null;
 
   const displayTitle = content.title || 'SaaS Launch Hook Teaser';
-  const displayBody = useRewrittenText || appliedFixes
-    ? `🔥 REWRITTEN HOOK: Stop wasting 60% of your dev time on manual component tests. Here is how AI autonomous agents simulate 200+ audience personas in 2 seconds.`
-    : content.contentBody || 'Hot take: Writing unit tests for early-stage MVP UI components is a waste of time.';
+  const displayBody =
+    useRewrittenText || appliedFixes
+      ? `🔥 REWRITTEN HOOK: Stop wasting 60% of your dev time on manual component tests. Here is how AI autonomous agents simulate 200+ audience personas in 2 seconds.`
+      : content.contentBody || 'Hot take: Writing unit tests for early-stage MVP UI components is a waste of time.';
 
-  const mediaUrl = content.mediaFileUrl || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80';
+  const fallbackMediaUrl = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80';
+
+  const isUploadedVideo =
+    !!content.mediaFileUrl &&
+    (content.mediaFileUrl.startsWith('data:video/') ||
+      content.mediaFileUrl.startsWith('blob:') ||
+      content.mediaFileUrl.endsWith('.mp4') ||
+      content.mediaFileUrl.endsWith('.webm') ||
+      content.mediaFileUrl.endsWith('.mov') ||
+      content.contentType === 'video');
+
+  const renderMedia = (className: string) => {
+    if (content.mediaFileUrl) {
+      if (isUploadedVideo) {
+        return (
+          <video
+            src={content.mediaFileUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className={className}
+          />
+        );
+      }
+      return <img src={content.mediaFileUrl} alt="Uploaded Media" className={className} />;
+    }
+    return <img src={fallbackMediaUrl} alt="Default Media" className={className} />;
+  };
 
   const handleLike = () => {
     if (!hasLiked) {
@@ -86,7 +114,7 @@ export function LiveSocialFeedMockupModal({
                   Live Social Feed Mockup Simulator
                 </h3>
                 <span className="text-xs text-zinc-400 font-mono">
-                  Pixel-Perfect Dark-Mode Platform Feed Previews
+                  Pixel-Perfect Dark-Mode Platform Feed Previews {content.mediaFileUrl ? '(Uploaded Media Active)' : ''}
                 </span>
               </div>
             </div>
@@ -152,7 +180,7 @@ export function LiveSocialFeedMockupModal({
             {activePlatform === 'tiktok' && (
               <div className="w-[340px] h-[580px] bg-black rounded-[40px] border-4 border-zinc-800 shadow-2xl relative overflow-hidden flex flex-col justify-between select-none">
                 {/* Background Video/Photo preview */}
-                <img src={mediaUrl} alt="TikTok Media" className="absolute inset-0 w-full h-full object-cover opacity-85" />
+                {renderMedia('absolute inset-0 w-full h-full object-cover opacity-90')}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/90 pointer-events-none" />
 
                 {/* Top Bar */}
@@ -242,7 +270,7 @@ export function LiveSocialFeedMockupModal({
 
                 {/* Media Embed */}
                 <div className="rounded-2xl overflow-hidden border border-zinc-800 max-h-64 relative">
-                  <img src={mediaUrl} alt="Media" className="w-full h-full object-cover" />
+                  {renderMedia('w-full h-full object-cover')}
                 </div>
 
                 {/* Engagement Bar */}
@@ -295,7 +323,7 @@ export function LiveSocialFeedMockupModal({
                 </p>
 
                 <div className="rounded-2xl overflow-hidden border border-zinc-800 max-h-72">
-                  <img src={mediaUrl} alt="LinkedIn Media" className="w-full h-full object-cover" />
+                  {renderMedia('w-full h-full object-cover')}
                 </div>
 
                 <div className="flex items-center justify-between pt-2 border-t border-zinc-800 text-xs text-zinc-400 font-mono">
@@ -322,7 +350,7 @@ export function LiveSocialFeedMockupModal({
             {/* PLATFORM 4: YOUTUBE SHORTS */}
             {activePlatform === 'shorts' && (
               <div className="w-[340px] h-[580px] bg-black rounded-[40px] border-4 border-zinc-800 shadow-2xl relative overflow-hidden flex flex-col justify-between select-none">
-                <img src={mediaUrl} alt="Shorts Media" className="absolute inset-0 w-full h-full object-cover opacity-85" />
+                {renderMedia('absolute inset-0 w-full h-full object-cover opacity-90')}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/90 pointer-events-none" />
 
                 <div className="relative z-10 p-4 flex items-center justify-between text-white text-xs font-bold">
