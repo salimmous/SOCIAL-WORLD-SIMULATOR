@@ -12,16 +12,13 @@ import {
   Sparkles,
   Loader2,
   Film,
-  Clock,
   Zap,
   AlignLeft,
-  Sliders,
   Tag,
-  Edit3,
 } from 'lucide-react';
-import { ContentType, Platform, ContentInput, VideoIntelligence } from '@/types/simulator';
+import { ContentType, Platform, ContentInput } from '@/types/simulator';
 import { PERSONAS } from '@/data/personas';
-import { analyzeUploadedVideo, ANALYSIS_STEPS } from '@/services/videoAnalyzer';
+import { analyzeUploadedVideo } from '@/services/videoAnalyzer';
 
 interface LeftPanelProps {
   content: ContentInput;
@@ -57,18 +54,20 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
     { id: 'linkedin', label: 'LinkedIn' },
   ];
 
-  // Trigger Automatic Video Intelligence Pipeline upon file upload
+  // Automatic Video Intelligence Workflow via NVIDIA AI
   const processUploadedFile = async (file: File) => {
     const mediaUrl = URL.createObjectURL(file);
     setIsAnalyzing(true);
     setAnalysisProgress(5);
 
     try {
+      // 1. Call NVIDIA AI Video Intelligence API
       const intel = await analyzeUploadedVideo(file, (stepName, pct) => {
         setAnalysisStep(stepName);
         setAnalysisProgress(pct);
       });
 
+      // 2. Automatically populate UI fields with extracted metadata
       onChangeContent({
         mediaFileUrl: mediaUrl,
         title: intel.title,
@@ -77,8 +76,13 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       });
 
       setActiveTab('summary');
+
+      // 3. Automatically launch Social World Simulation using extracted data!
+      setTimeout(() => {
+        onRunSimulation();
+      }, 500);
     } catch (err) {
-      console.error('Analysis failed', err);
+      console.error('NVIDIA AI Video Analysis failed:', err);
     } finally {
       setIsAnalyzing(false);
     }
@@ -144,7 +148,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         <div className="flex items-center space-x-2">
           <Sparkles className="w-4 h-4 text-purple-400" />
           <span className="text-xs font-bold text-white uppercase tracking-wider">
-            Video Intelligence Studio
+            NVIDIA AI Studio
           </span>
         </div>
         <button
@@ -202,22 +206,21 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 
       {/* Main Drawer Body */}
       <div className="flex-1 overflow-y-auto p-4 space-y-5">
-        {/* AUTOMATIC VIDEO ANALYSIS PROGRESS OVERLAY */}
+        {/* AUTOMATIC NVIDIA AI ANALYSIS PROGRESS */}
         {isAnalyzing && (
           <div className="p-5 rounded-2xl border border-purple-500/30 bg-purple-950/20 backdrop-blur-xl space-y-4">
             <div className="flex items-center space-x-3">
               <Loader2 className="w-5 h-5 text-purple-400 animate-spin" />
               <div>
                 <span className="text-xs font-bold text-white block">
-                  AI Video Intelligence Engine
+                  NVIDIA Llama 3.3 70B AI Engine
                 </span>
                 <span className="text-[10px] text-purple-300 font-mono">
-                  {analysisProgress}% Complete
+                  {analysisProgress}% Analyzing Video...
                 </span>
               </div>
             </div>
 
-            {/* Progress Bar */}
             <div className="w-full bg-zinc-900 rounded-full h-1.5 overflow-hidden">
               <div
                 className="bg-gradient-to-r from-purple-600 to-indigo-400 h-full transition-all duration-300"
@@ -235,7 +238,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
           <div className="space-y-4">
             <div>
               <span className="text-xs font-bold text-zinc-300 block mb-2">
-                Upload Target Media
+                Upload Target Video File
               </span>
               <div
                 onClick={() => fileInputRef.current?.click()}
@@ -264,10 +267,10 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                       <Upload className="w-5 h-5" />
                     </div>
                     <p className="text-xs text-zinc-300 font-semibold">
-                      Click or Drag & Drop video file
+                      Upload Video for NVIDIA AI Analysis
                     </p>
                     <span className="text-[10px] text-zinc-500 font-mono">
-                      MP4, MOV, WEBP (Automatic AI Analysis)
+                      MP4, MOV, WEBP (Auto-Launches Simulation)
                     </span>
                   </div>
                 )}
@@ -301,10 +304,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
           </div>
         )}
 
-        {/* AUTOMATIC AI SUMMARY & ANALYSIS VIEW */}
+        {/* NVIDIA AI EXTRACTED SUMMARY & METADATA */}
         {activeTab === 'summary' && !isAnalyzing && (
           <div className="space-y-4">
-            {/* Metadata Pill Specs */}
             {intel && (
               <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-zinc-950/80 border border-white/10 text-[10px] font-mono">
                 <div>
@@ -316,8 +318,8 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   <span className="text-zinc-200 font-bold">{intel.metadata.resolution}</span>
                 </div>
                 <div>
-                  <span className="text-zinc-500 block">FPS / Quality</span>
-                  <span className="text-zinc-200 font-bold">{intel.metadata.fps} FPS</span>
+                  <span className="text-zinc-500 block">NVIDIA Model</span>
+                  <span className="text-purple-400 font-bold">Llama 3.3 70B</span>
                 </div>
                 <div>
                   <span className="text-zinc-500 block">Aspect Ratio</span>
@@ -326,14 +328,13 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
               </div>
             )}
 
-            {/* Editable Title */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs font-bold text-zinc-300 flex items-center space-x-1">
                   <Film className="w-3.5 h-3.5 text-purple-400" />
                   <span>Video Title</span>
                 </span>
-                <span className="text-[9px] text-purple-400 font-mono uppercase">AI Extracted</span>
+                <span className="text-[9px] text-purple-400 font-mono uppercase">NVIDIA AI</span>
               </div>
               <input
                 type="text"
@@ -343,13 +344,12 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
               />
             </div>
 
-            {/* Detected Opening Hook */}
             {intel && (
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-xs font-bold text-purple-300 flex items-center space-x-1">
                     <Zap className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Detected Opening Hook</span>
+                    <span>Extracted Opening Hook</span>
                   </span>
                   <span className="text-[9px] text-amber-400 font-mono">{intel.hookStartTime}</span>
                 </div>
@@ -359,12 +359,11 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
               </div>
             )}
 
-            {/* Full Speech Transcript */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs font-bold text-zinc-300 flex items-center space-x-1">
                   <AlignLeft className="w-3.5 h-3.5 text-blue-400" />
-                  <span>Whisper Speech Transcript</span>
+                  <span>Full Transcript</span>
                 </span>
                 <span className="text-[9px] text-zinc-500 font-mono">{content.contentBody.length} chars</span>
               </div>
@@ -376,11 +375,10 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
               />
             </div>
 
-            {/* AI Classification Tag Matrix */}
             {intel && (
               <div className="space-y-2 pt-1 border-t border-white/[0.06]">
                 <span className="text-xs font-bold text-zinc-300 block">
-                  Content Intelligence Classification
+                  NVIDIA AI Content Intelligence
                 </span>
                 <div className="grid grid-cols-2 gap-1.5">
                   <div className="p-2 rounded-xl bg-zinc-900/60 border border-white/5">
@@ -405,11 +403,11 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
           </div>
         )}
 
-        {/* SCENE BREAKDOWN TIMELINE VIEW */}
+        {/* TIMELINE VIEW */}
         {activeTab === 'timeline' && !isAnalyzing && (
           <div className="space-y-3">
             <span className="text-xs font-bold text-zinc-300 block">
-              AI Video Scene Breakdown
+              NVIDIA AI Video Scene Breakdown
             </span>
             {intel?.timeline.map((item, idx) => (
               <div
