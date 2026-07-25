@@ -72,7 +72,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       title: 'B2B SaaS 0-to-1 Product Pitch',
       platform: 'twitter' as Platform,
       url: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&auto=format&fit=crop&q=80',
-      tag: '🚀 B2B Conversion',
+      tag: 'B2B Conversion',
     },
     {
       id: 'sample-3',

@@ -22,7 +22,7 @@ export function getSavedProjects(): SavedProject[] {
       const defaultProjects: SavedProject[] = [
         {
           id: 'proj-1',
-          title: 'SaaS Launch Teaser 🚀',
+          title: 'SaaS Launch Teaser',
           timestamp: '2 hours ago',
           platform: 'tiktok',
           viralityScore: 94,

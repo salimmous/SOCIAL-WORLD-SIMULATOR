@@ -10,6 +10,7 @@ import { AuthModal } from '@/components/AuthModal';
 import { SponsorEcosystemModal } from '@/components/SponsorEcosystemModal';
 import { ABComparisonModal } from '@/components/ABComparisonModal';
 import { PreFlightAuditReportModal } from '@/components/PreFlightAuditReportModal';
+import { CinematicPipelineModal } from '@/components/CinematicPipelineModal';
 import { MobileNav, MobileTab } from '@/components/MobileNav';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
@@ -49,6 +50,7 @@ export default function Home() {
   const [isSponsorsOpen, setIsSponsorsOpen] = useState<boolean>(false);
   const [isABOpen, setIsABOpen] = useState<boolean>(false);
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
+  const [isPipelineLoading, setIsPipelineLoading] = useState<boolean>(false);
   const [mobileTab, setMobileTab] = useState<MobileTab>('canvas');
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
 
@@ -132,7 +134,7 @@ export default function Home() {
   // Trigger NVIDIA AI Simulation API Call & Auto-Save Project to History
   const handleRunSimulation = async () => {
     setCurrentTime(0);
-    setIsRunning(true);
+    setIsPipelineLoading(true);
     setIsAiLoading(true);
 
     try {
@@ -281,6 +283,16 @@ export default function Home() {
         content={content}
         metrics={simData.metrics}
         appliedFixes={appliedFixes}
+      />
+
+      {/* Cinematic AI Pipeline Loading Modal */}
+      <CinematicPipelineModal
+        isOpen={isPipelineLoading}
+        onComplete={() => {
+          setIsPipelineLoading(false);
+          setIsRunning(true);
+          setMobileTab('canvas');
+        }}
       />
 
       {/* Main Hero Layout Interface */}

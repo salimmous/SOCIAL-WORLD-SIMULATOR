@@ -13,7 +13,7 @@ We built Social World Simulator — the world's first flight simulator for creat
 
 Upload your video, watch 100 AI personas react in real time, see retention drop-offs before hitting publish.
 
-Stop guessing. Start simulating. 🚀`,
+Stop guessing. Start simulating.`,
     mediaPreview: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
     tags: ['AI Product', 'Viral Teaser', 'Product Launch'],
     baselineMetrics: {

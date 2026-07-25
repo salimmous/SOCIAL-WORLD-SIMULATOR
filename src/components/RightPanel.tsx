@@ -106,8 +106,8 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                   </div>
                   <p className="text-xs text-zinc-300 leading-relaxed mt-1">
                     {appliedFixes
-                      ? '🚀 Optimal viral cascade potential. Algorithm feed boost unlocked.'
-                      : '⚠️ Strong baseline, but 0:08 retention dip lowers tier 1 viral boost.'}
+                      ? 'Optimal viral cascade potential. Algorithm feed boost unlocked.'
+                      : 'Strong baseline, but 0:08 retention dip lowers tier 1 viral boost.'}
                   </p>
 
                   {/* Practical Action Buttons */}
