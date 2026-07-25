@@ -490,6 +490,27 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                 rows={5}
                 className="w-full p-3 rounded-2xl text-xs font-mono bg-zinc-950/80 border border-white/10 text-zinc-200 focus:outline-none focus:border-purple-500/60 leading-relaxed resize-none"
               />
+              
+              {intel?.transcriptHighlights && intel.transcriptHighlights.length > 0 && (
+                <div className="mt-3 space-y-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">
+                    Strict AI Critique
+                  </span>
+                  {intel.transcriptHighlights.map((hl, i) => (
+                    <div key={i} className="p-2.5 rounded-xl bg-red-950/20 border border-red-500/30 text-xs">
+                      <div className="text-red-400 font-mono line-through mb-1 block">"{hl.text}"</div>
+                      <div className="flex items-start space-x-2">
+                        <span className="px-1.5 py-0.5 rounded-md bg-red-500/20 text-red-300 text-[9px] font-bold uppercase shrink-0">
+                          {hl.type.replace('_', ' ')}
+                        </span>
+                        <span className="text-emerald-400 font-medium leading-snug">
+                          {hl.suggestion}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {intel && (

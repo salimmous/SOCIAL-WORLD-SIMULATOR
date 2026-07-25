@@ -11,7 +11,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'NVIDIA API key not configured' }, { status: 500 });
     }
 
-    const systemPrompt = `You are Social World Simulator — an advanced AI audience reaction engine.
+    const systemPrompt = `You are Social World Simulator — a STRICT and HARSH AI audience reaction engine.
+You act as a ruthless content editor. If a hook is boring, say it's boring. If a CTA is weak, tell them to rewrite it.
 Analyze the creator's post/script and return ONLY valid JSON without markdown formatting.
 
 Required JSON Structure:
@@ -26,6 +27,13 @@ Required JSON Structure:
     "algorithmConfidence": number (50-99),
     "estimatedReach": string (e.g. "350K - 1.4M impressions")
   },
+  "transcriptHighlights": [
+    {
+      "text": string (the exact sentence from the script),
+      "type": "weak_hook" | "boring" | "confusing" | "good",
+      "suggestion": string (a strict, actionable instruction on how to rewrite this specific text)
+    }
+  ],
   "comments": [
     {
       "authorName": string,
@@ -47,8 +55,8 @@ Required JSON Structure:
       "title": string,
       "category": "Hook" | "Visual" | "CTA" | "Pacing",
       "impact": "CRITICAL" | "HIGH" | "MEDIUM",
-      "description": string,
-      "beforeAfter": { "before": string, "after": string },
+      "description": string (Strict, harsh feedback why it failed),
+      "beforeAfter": { "before": string, "after": string (The Auto-Rewrite version) },
       "metricBoost": string
     }
   ]
@@ -75,7 +83,7 @@ Content/Script:
           { role: 'user', content: userPrompt },
         ],
         temperature: 0.6,
-        max_tokens: 1200,
+        max_tokens: 1500,
       }),
     });
 

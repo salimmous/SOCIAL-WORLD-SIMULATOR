@@ -157,6 +157,15 @@ export default function Home() {
             applied: appliedFixes,
           }));
         }
+        if (aiResult.transcriptHighlights && Array.isArray(aiResult.transcriptHighlights)) {
+          setContent(prev => ({
+            ...prev,
+            videoIntelligence: prev.videoIntelligence ? {
+              ...prev.videoIntelligence,
+              transcriptHighlights: aiResult.transcriptHighlights
+            } : undefined
+          }));
+        }
 
         setSimData(baseData);
       }

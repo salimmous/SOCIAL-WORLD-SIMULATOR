@@ -137,7 +137,7 @@ export interface VideoTimelineItem {
   type: 'hook' | 'main' | 'proof' | 'cta';
 }
 
-export interface VideoIntelligence {
+export interface TranscriptHighlight { text: string; type: 'weak_hook' | 'boring' | 'confusing' | 'good'; suggestion: string; } export interface VideoIntelligence { transcriptHighlights?: TranscriptHighlight[];
   metadata: {
     duration: string;
     resolution: string;

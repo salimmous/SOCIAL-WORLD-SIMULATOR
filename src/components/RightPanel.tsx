@@ -222,7 +222,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
           </AnimatePresence>
         </div>
 
-        {/* SECTION 4: RECOMMENDATIONS */}
+        {/* SECTION 4: STRICT AI CRITIQUE */}
         <div className="glass-card overflow-hidden">
           <button
             onClick={() => toggleSection('recommendations')}
@@ -230,7 +230,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
           >
             <div className="flex items-center space-x-2">
               <span className="text-sm font-bold text-white tracking-wide">
-                AI Recommendations
+                Strict AI Critique
               </span>
               {appliedFixes && (
                 <span className="text-[10px] text-emerald-400 font-bold flex items-center space-x-1">
@@ -259,14 +259,18 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                   {recommendations.map((rec) => (
                     <div
                       key={rec.id}
-                      className={`p-3.5 rounded-xl border transition-all space-y-2 ${
+                      className={`p-3.5 rounded-xl border transition-all space-y-3 ${
                         rec.applied
                           ? 'bg-emerald-950/20 border-emerald-500/30'
-                          : 'bg-zinc-950/60 border-white/[0.04]'
+                          : rec.impact === 'CRITICAL'
+                          ? 'bg-red-950/10 border-red-500/30'
+                          : 'bg-amber-950/10 border-amber-500/30'
                       }`}
                     >
                       <div className="flex items-start justify-between">
-                        <span className="text-xs font-bold text-white block">
+                        <span className={`text-xs font-bold ${
+                          rec.applied ? 'text-white' : rec.impact === 'CRITICAL' ? 'text-red-400' : 'text-amber-400'
+                        } block`}>
                           {rec.title}
                         </span>
                         <span className="text-[10px] font-mono text-purple-400 font-bold">
@@ -274,18 +278,36 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                         </span>
                       </div>
 
-                      <p className="text-xs text-zinc-300 leading-snug">
-                        {rec.description}
-                      </p>
-
-                      <div className="p-2.5 rounded-lg bg-black/60 border border-white/10 space-y-1 text-[11px] font-mono">
-                        <div className="text-red-400 line-through">
-                          BEFORE: {rec.beforeAfter.before}
-                        </div>
-                        <div className="text-emerald-400 font-bold">
-                          AFTER: {rec.beforeAfter.after}
-                        </div>
+                      <div className="flex space-x-2">
+                        <div className={`w-1 rounded-full ${
+                          rec.applied ? 'bg-emerald-500' : rec.impact === 'CRITICAL' ? 'bg-red-500' : 'bg-amber-500'
+                        }`} />
+                        <p className="text-xs text-zinc-300 leading-snug">
+                          {rec.description}
+                        </p>
                       </div>
+
+                      {!rec.applied ? (
+                        <div className="space-y-2 pt-2 border-t border-white/5">
+                          <div className="p-2.5 rounded-lg bg-black/60 border border-white/10 space-y-1 text-[11px] font-mono">
+                            <span className="text-red-400/80 block line-through mb-1">"{rec.beforeAfter.before}"</span>
+                            <span className="text-emerald-400 block font-bold">"{rec.beforeAfter.after}"</span>
+                          </div>
+                          
+                          <button
+                            onClick={handleApplyFix}
+                            className="w-full py-2 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold transition-all cursor-pointer flex items-center justify-center space-x-1.5"
+                          >
+                            <Zap className="w-3 h-3" />
+                            <span>1-Click Auto Rewrite</span>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold flex items-center justify-center space-x-1.5">
+                          <CheckCircle2 className="w-3 h-3" />
+                          <span>AI Rewrite Applied Successfully</span>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
