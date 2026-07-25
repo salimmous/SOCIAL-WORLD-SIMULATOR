@@ -27,7 +27,6 @@ import { AtlasProductGuideDrawer } from '@/components/AtlasProductGuideDrawer';
 import { SecretsDrawer } from '@/components/SecretsDrawer';
 import { LiveSystemLogsModal } from '@/components/LiveSystemLogsModal';
 import { LiveSocialFeedMockupModal } from '@/components/LiveSocialFeedMockupModal';
-import { CinematicDemoPlayerModal } from '@/components/CinematicDemoPlayerModal';
 import { LandingPage } from '@/components/LandingPage';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
@@ -68,7 +67,6 @@ export default function Home() {
   const [isSecretsOpen, setIsSecretsOpen] = useState<boolean>(false);
   const [isSystemLogsOpen, setIsSystemLogsOpen] = useState<boolean>(false);
   const [isFeedMockupOpen, setIsFeedMockupOpen] = useState<boolean>(false);
-  const [isDemoPlayerOpen, setIsDemoPlayerOpen] = useState<boolean>(false);
   const [isABOpen, setIsABOpen] = useState<boolean>(false);
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
   const [isPipelineLoading, setIsPipelineLoading] = useState<boolean>(false);
@@ -508,12 +506,6 @@ export default function Home() {
         onApplyFixes={handleApplyFixes}
       />
 
-      {/* Official Hackathon Pitch Demo Script Player Modal */}
-      <CinematicDemoPlayerModal
-        isOpen={isDemoPlayerOpen}
-        onClose={() => setIsDemoPlayerOpen(false)}
-      />
-
       {/* MOBILE NATIVE APP EXPERIENCE (block md:hidden) */}
       <div className="block md:hidden w-full h-full">
         <MobileAppLayout
@@ -556,7 +548,6 @@ export default function Home() {
           onOpenExport={() => setIsExportOpen(true)}
           onOpenHelp={() => setIsHelpCenterOpen(true)}
           onOpenFeedMockup={() => setIsFeedMockupOpen(true)}
-          onOpenDemoPlayer={() => setIsDemoPlayerOpen(true)}
           onOpenAtlas={() => {
             setAtlasTopic('upload');
             setIsAtlasOpen(true);

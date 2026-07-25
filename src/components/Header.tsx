@@ -15,7 +15,6 @@ import {
   Cpu,
   HelpCircle,
   Smartphone,
-  Clapperboard,
 } from 'lucide-react';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PresetScenario } from '@/types/simulator';
@@ -36,7 +35,6 @@ interface HeaderProps {
   onOpenHelp?: () => void;
   onOpenAtlas?: () => void;
   onOpenFeedMockup?: () => void;
-  onOpenDemoPlayer?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -55,7 +53,6 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenHelp,
   onOpenAtlas,
   onOpenFeedMockup,
-  onOpenDemoPlayer,
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState<boolean>(false);
@@ -151,17 +148,6 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Right: Actions (New Project, History, Fixes, Share, Export, Account) */}
       <div className="flex items-center space-x-2 shrink-0">
-        {onOpenDemoPlayer && (
-          <button
-            onClick={onOpenDemoPlayer}
-            className="px-3 py-1.5 rounded-xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black border border-[#DEDBC8] text-xs font-extrabold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0 shadow-[0_0_15px_rgba(222,219,200,0.2)] active:scale-95"
-            title="Play Official Hackathon Demo Video Script Player"
-          >
-            <Clapperboard className="w-3.5 h-3.5 text-black" />
-            <span className="hidden sm:inline">Pitch Script</span>
-          </button>
-        )}
-
         {onOpenFeedMockup && (
           <button
             onClick={onOpenFeedMockup}
