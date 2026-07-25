@@ -1,84 +1,130 @@
-# 🌐 SOCIAL WORLD SIMULATOR — Hackathon MVP
-> **The World's First Pre-Publish AI Audience Reaction Engine**
-> *Flight Simulator × GitHub Copilot × Figma for Content Creators*
+<div align="center">
 
-![Social World Simulator Hero](https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80)
+# 🌐 SOCIAL WORLD SIMULATOR
+### *The Pre-Publish AI Audience Reaction & Virality Engine*
 
----
-
-## ⚡ The Problem: Creators Fly Blind
-Today, content creators, marketers, and brands publish content completely blind. They spend hours scripting, filming, and editing, but they only learn if their content works **AFTER** they post it. If the hook is weak, the algorithm buries the post. If the joke doesn't land, retention tanks.
-
-## 🚀 The Solution: Simulate Before You Publish
-**Social World Simulator changes the paradigm.** 
-Instead of guessing, creators can simulate their content's performance across an ecosystem of AI persona entities before ever hitting publish. The platform visualizes audience reactions, comment threads, algorithm propagation, and second-by-second retention heatmaps in real-time.
-
-> *"Don't guess what happens when you post. Simulate it first."*
+[![Next.js](https://img.shields.io/badge/Next.js-16_App_Router-black?style=for-the-badge&logo=nextdotjs)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![NVIDIA AI](https://img.shields.io/badge/NVIDIA_AI-Vision_%26_LLM-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://www.nvidia.com/)
 
 ---
 
-## ✨ Key Features
+**Social World Simulator** is an enterprise-grade pre-publishing intelligence platform that models audience reactions, algorithm propagation, second-by-second retention heatmaps, and viral network dynamics using autonomous AI personas before content is published.
 
-### 1. 🤖 NVIDIA AI Video & Script Intelligence
-- **NVIDIA AI API Integration**: Upload a video, paste a TikTok/X link, or input text, and the AI immediately transcribes the speech (Whisper), analyzes the emotion, detects objects, and understands the core narrative.
-- **Strict AI Content Critic**: The AI acts as a harsh, actionable editor. It highlights exactly which lines in your script are weak, crosses them out, and provides high-retention rewrites.
-- **1-Click Auto Rewrite**: Instantly apply the AI's suggested fixes to your payload with a single click.
+[View Architecture](./ARCHITECTURE.md) • [Getting Started](#-getting-started) • [Core Capabilities](#-core-capabilities)
 
-### 2. 🧠 Living Social Ecosystem Canvas
-- **Force-Directed Physics Engine**: An animated 2D physics graph displaying clustered audience communities (Tech Founders, Gen Z Trendsetters, B2B VPs, Algorithm Bots).
-- **Breathing Node Physics**: Nodes breathe organically, edges pulse with signal transmissions, and expanding heat waves visualize reach propagation as your content goes viral.
-- **Live Simulated Comments**: Real-time, platform-specific audience comments float directly over the canvas visualizer.
-
-### 3. 📊 Predictive Analytics & Retention Heatmaps
-- **Core 4 KPIs**: Virality Score, Audience Fit, Attention Score, and Reach Estimate.
-- **Retention Heatmap Curve**: Interactive SVG attention graph showing exactly *when* and *why* audiences drop off (e.g., "Static visual setup drops Gen Z retention by 32%").
-
-### 4. 🏢 Enterprise CTO Portal
-- **SSO & Security**: SAML Okta integration UI and Audit Logs.
-- **OAuth & API Hub**: Connect X, TikTok, LinkedIn, and Instagram accounts, and manage NVIDIA/ElevenLabs API keys in a centralized modal.
-- **Saved Run History**: A slide-over drawer that saves every simulation run, allowing you to A/B test variations of your content.
+</div>
 
 ---
 
-## 🛠️ Technology Stack
+## 📌 Executive Summary
 
-- **Framework**: [Next.js](https://nextjs.org/) 16 (App Router) + React 19
-- **Language**: TypeScript (Strict Mode)
-- **Styling**: Tailwind CSS v4 + Glassmorphism UI tokens (`backdrop-blur-2xl bg-zinc-950/60 border border-white/[0.06]`)
-- **Animation**: [Framer Motion](https://www.framer.com/motion/) + HTML5 Canvas 2D Physics Engine + `canvas-confetti`
-- **AI Engine**: Custom `simulatorEngine.ts` mapping payloads to NVIDIA AI endpoints.
+Publishing digital content today is inherently reactive. Creators, marketing teams, and media agencies invest significant capital into content production, yet measure impact **only after public distribution**. When a hook underperforms or retention drops off early, algorithmic distribution penalizes the content irreversibly.
 
----
-
-## 🏗️ Architecture
-
-Please see the [**ARCHITECTURE.md**](./ARCHITECTURE.md) file for a deep dive into the state management, Node Physics Engine, AI Analysis pipeline, and component structure. Designed for the Hackathon Judges.
+**Social World Simulator** replaces guesswork with predictive simulation:
+- **Simulate Before Publishing**: Test scripts, video content, and social posts across distinct AI persona clusters.
+- **Identify Drop-off Mechanics**: Pinpoint precise timestamps where audience interest degrades.
+- **Automated AI Optimization**: Receive strict, actionable feedback and apply high-retention script rewrites with a single click.
 
 ---
 
-## 🚀 Quick Start & Development
+## ⚡ Core Capabilities
 
-### 1. Clone & Install Dependencies
-```bash
-git clone https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR.git
-cd SOCIAL-WORLD-SIMULATOR
-npm install
+| Capability | Description | Technology / Engine |
+| :--- | :--- | :--- |
+| **NVIDIA AI Video Intelligence** | Multimodal analysis of video content, audio extraction, Whisper transcription, and visual tone/emotion detection. | NVIDIA AI API + OpenAI Whisper |
+| **Strict AI Content Critic** | Automated line-by-line script auditing that identifies weak hooks, static setups, and low-engagement phrases with direct replacement suggestions. | Custom LLM Prompt Engineering Pipeline |
+| **Living Social Graph** | Real-time, 60fps force-directed graph displaying node interactions, community clustering, signal propagation, and viral heatwaves. | Custom HTML5 Canvas 2D Physics Engine |
+| **Retention & Drop-off Heatmaps** | Interactive SVG timeline analyzing second-by-second attention retention, highlighting viral spikes and audience drop-offs. | D3/SVG Math Engine |
+| **Multi-Platform Adapters** | Custom simulation parameter profiles optimized for TikTok, X (Twitter), Instagram Reels, YouTube Shorts, and LinkedIn. | Platform Preset Matrix |
+| **Enterprise Account & OAuth Portal** | Integrated hub for managing user roles, social media account authorizations, API keys, and Okta SAML SSO audit trails. | Enterprise Auth Layer |
+
+---
+
+## 🛠 System Architecture & Stack
+
+```
+[ Media Upload / Social URL ] ──► [ Next.js Serverless API ] ──► [ NVIDIA AI & Whisper Pipeline ]
+                                          │
+                                          ▼
+[ Living Canvas (60fps Physics) ] ◄── [ Simulator Engine ] ──► [ Predictive Analytics & Heatmap ]
 ```
 
-### 2. Run Local Development Server
-```bash
-npm run dev
+- **Frontend Core**: Next.js 16 (App Router), React 19, TypeScript
+- **Styling & Design System**: Tailwind CSS v4, Dark Theme, Glassmorphism design tokens
+- **Physics & Animation**: Custom HTML5 Canvas 2D Physics Engine, Framer Motion, canvas-confetti
+- **State & Storage**: Ephemeral LocalStorage State Store, React Context API
+
+For a comprehensive technical breakdown of data flow, physics algorithms, and API schemas, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- **Node.js**: v18.0.0 or higher
+- **npm**: v9.0.0 or higher
+
+### Installation
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR.git
+   cd SOCIAL-WORLD-SIMULATOR
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables**
+   Create a `.env.local` file in the root directory:
+   ```env
+   NVIDIA_API_KEY=your_nvidia_api_key_here
+   ```
+
+4. **Launch Development Server**
+   ```bash
+   npm run dev
+   ```
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
+
+5. **Build for Production**
+   ```bash
+   npm run build
+   npm run start
+   ```
+
+---
+
+## 📂 Project Structure
+
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+SOCIAL-WORLD-SIMULATOR/
+├── src/
+│   ├── app/
+│   │   ├── api/             # Next.js Serverless API endpoints (NVIDIA AI, Simulation)
+│   │   ├── page.tsx         # Primary Application View
+│   │   └── layout.tsx       # Root Layout & Provider Wrapper
+│   ├── components/          # Modular React Components
+│   │   ├── Header.tsx       # Top Bar, Preset Switcher, Account Entry
+│   │   ├── LeftPanel.tsx    # Multi-Mode Input, Persona Selector, Transcript Critic
+│   │   ├── RightPanel.tsx   # Predictive KPIs, Strict AI Critique, Retention Curve
+│   │   ├── SocialWorldCanvas.tsx # 60fps Force-Directed Physics Visualizer
+│   │   ├── AuthModal.tsx    # Enterprise Account & OAuth Integration Portal
+│   │   └── HistoryDrawer.tsx# Saved Simulation Runs & A/B Test History
+│   ├── data/                # Persona profiles and platform presets
+│   ├── services/            # Simulation physics, math engine, local store
+│   └── types/               # TypeScript interfaces & data contracts
+├── ARCHITECTURE.md          # Comprehensive System Architecture Guide
+└── README.md                # Project Overview & Setup Instructions
+```
 
 ---
 
-## 🎨 Design Philosophy & Aesthetics
+## 🤝 License
 
-Inspired by the design quality of **Apple Vision Pro, Linear, and Vercel**:
-- **Background**: Soft elevated dark palette (`#09090d`) with ambient purple (`#7c3aed`) radial lighting.
-- **Premium UX**: Micro-interactions on every button, sleek glass panels, and absolute zero visual clutter.
-- **Action-Oriented**: The UI prioritizes telling the user exactly *what to fix* rather than just showing vanity metrics.
-
----
-*Built for the Hackathon 2026.*
+Distributed under the MIT License. See `LICENSE` for details.
