@@ -34,6 +34,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
   const platforms: { id: Platform; label: string }[] = [
     { id: 'twitter', label: 'X / Twitter' },
     { id: 'tiktok', label: 'TikTok' },
+    { id: 'instagram', label: 'Instagram' },
     { id: 'youtube', label: 'YouTube' },
     { id: 'linkedin', label: 'LinkedIn' },
   ];
@@ -116,7 +117,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
               <span className="text-xs font-bold text-zinc-300 block mb-2">
                 Target Platform
               </span>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {platforms.map((p) => {
                   const isSelected = content.platform === p.id;
                   return (
