@@ -20,6 +20,7 @@ import {
   TrendingUp,
   Flame,
   Volume2,
+  Cpu,
 } from 'lucide-react';
 import { ContentInput, PresetScenario, Recommendation } from '@/types/simulator';
 import { GeneratedSimulationData } from '@/services/simulatorEngine';
@@ -103,8 +104,8 @@ export function MobileAppLayout({
           onClick={onOpenSponsors}
           className="px-2.5 py-1 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 text-[11px] font-bold flex items-center space-x-1 cursor-pointer"
         >
-          <Sparkles className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
-          <span>Sponsors</span>
+          <Cpu className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
+          <span>AI Workspace</span>
         </button>
       </div>
 

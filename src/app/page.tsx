@@ -7,7 +7,7 @@ import { SocialWorldCanvas } from '@/components/SocialWorldCanvas';
 import { RightPanel } from '@/components/RightPanel';
 import { HistoryDrawer } from '@/components/HistoryDrawer';
 import { AuthModal } from '@/components/AuthModal';
-import { SponsorEcosystemModal } from '@/components/SponsorEcosystemModal';
+import { AIWorkspaceModal } from '@/components/AIWorkspaceModal';
 import { ABComparisonModal } from '@/components/ABComparisonModal';
 import { PreFlightAuditReportModal } from '@/components/PreFlightAuditReportModal';
 import { CinematicPipelineModal } from '@/components/CinematicPipelineModal';
@@ -284,8 +284,8 @@ export default function Home() {
         onClose={() => setIsAuthModalOpen(false)}
       />
 
-      {/* Hackathon AI Sponsors Hub Modal */}
-      <SponsorEcosystemModal
+      {/* AI Workspace Infrastructure Dashboard Modal */}
+      <AIWorkspaceModal
         isOpen={isSponsorsOpen}
         onClose={() => setIsSponsorsOpen(false)}
         scriptText={content.contentBody}
