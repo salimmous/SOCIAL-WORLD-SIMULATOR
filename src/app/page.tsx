@@ -10,6 +10,7 @@ import { AuthModal } from '@/components/AuthModal';
 import { SponsorEcosystemModal } from '@/components/SponsorEcosystemModal';
 import { ABComparisonModal } from '@/components/ABComparisonModal';
 import { PreFlightAuditReportModal } from '@/components/PreFlightAuditReportModal';
+import { MobileNav, MobileTab } from '@/components/MobileNav';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput } from '@/types/simulator';
@@ -48,6 +49,7 @@ export default function Home() {
   const [isSponsorsOpen, setIsSponsorsOpen] = useState<boolean>(false);
   const [isABOpen, setIsABOpen] = useState<boolean>(false);
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
+  const [mobileTab, setMobileTab] = useState<MobileTab>('canvas');
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
 
   useEffect(() => {
@@ -282,46 +284,60 @@ export default function Home() {
       />
 
       {/* Main Hero Layout Interface */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative pb-14 md:pb-0">
         {/* Collapsible Left Setup Drawer */}
-        <LeftPanel
-          content={content}
-          onChangeContent={handleChangeContent}
-          selectedPersonas={selectedPersonas}
-          onTogglePersona={handleTogglePersona}
-          onRunSimulation={handleRunSimulation}
-          isRunning={isRunning || isAiLoading}
-        />
+        <div className={`w-full md:w-auto ${mobileTab === 'setup' ? 'block' : 'hidden md:block'}`}>
+          <LeftPanel
+            content={content}
+            onChangeContent={handleChangeContent}
+            selectedPersonas={selectedPersonas}
+            onTogglePersona={handleTogglePersona}
+            onRunSimulation={handleRunSimulation}
+            isRunning={isRunning || isAiLoading}
+          />
+        </div>
 
         {/* Center Hero living Social World Canvas */}
-        <SocialWorldCanvas
-          nodes={simData.nodes}
-          edges={simData.edges}
-          currentTime={currentTime}
-          duration={duration}
-          isRunning={isRunning}
-          onTogglePlay={() => setIsRunning(!isRunning)}
-          onSeek={(t) => setCurrentTime(t)}
-          speed={speed}
-          onChangeSpeed={(s) => setSpeed(s)}
-          activeComments={simData.comments}
-          stage={stage}
-        />
+        <div className={`flex-1 ${mobileTab === 'canvas' ? 'block' : 'hidden md:block'}`}>
+          <SocialWorldCanvas
+            nodes={simData.nodes}
+            edges={simData.edges}
+            currentTime={currentTime}
+            duration={duration}
+            isRunning={isRunning}
+            onTogglePlay={() => setIsRunning(!isRunning)}
+            onSeek={(t) => setCurrentTime(t)}
+            speed={speed}
+            onChangeSpeed={(s) => setSpeed(s)}
+            activeComments={simData.comments}
+            stage={stage}
+          />
+        </div>
 
         {/* Right Intelligence Accordion Panel */}
-        <RightPanel
-          metrics={simData.metrics}
-          retentionTimeline={simData.retentionTimeline}
-          comments={simData.comments}
-          recommendations={simData.recommendations}
-          currentTime={currentTime}
-          onSeek={(t) => setCurrentTime(t)}
-          onApplyFixes={handleApplyFixes}
-          appliedFixes={appliedFixes}
-          onOpenABModal={() => setIsABOpen(true)}
-          onOpenReportModal={() => setIsReportOpen(true)}
-        />
+        <div className={`w-full md:w-auto ${mobileTab === 'insights' ? 'block' : 'hidden md:block'}`}>
+          <RightPanel
+            metrics={simData.metrics}
+            retentionTimeline={simData.retentionTimeline}
+            comments={simData.comments}
+            recommendations={simData.recommendations}
+            currentTime={currentTime}
+            onSeek={(t) => setCurrentTime(t)}
+            onApplyFixes={handleApplyFixes}
+            appliedFixes={appliedFixes}
+            onOpenABModal={() => setIsABOpen(true)}
+            onOpenReportModal={() => setIsReportOpen(true)}
+          />
+        </div>
       </div>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <MobileNav
+        activeTab={mobileTab}
+        onChangeTab={(tab) => setMobileTab(tab)}
+        onOpenSponsors={() => setIsSponsorsOpen(true)}
+        viralityScore={simData.metrics.viralityScore}
+      />
     </div>
   );
 }
