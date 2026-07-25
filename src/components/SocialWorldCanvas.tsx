@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, RotateCcw, Heart, MessageCircle, Share2, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Play, Pause, RotateCcw, Heart, MessageCircle, Share2, ShieldCheck, CheckCircle2, Volume2, VolumeX, Maximize2, Minimize2, Film, X } from 'lucide-react';
 import { NetworkNode, NetworkEdge, Comment } from '@/types/simulator';
 
 interface DataPacket {
@@ -27,6 +27,7 @@ interface SocialWorldCanvasProps {
   activeComments: Comment[];
   stage: 1 | 2 | 3 | 4;
   onSelectNode?: (node: NetworkNode) => void;
+  mediaFileUrl?: string;
 }
 
 export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
@@ -42,6 +43,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
   activeComments,
   stage,
   onSelectNode,
+  mediaFileUrl,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animFrameId = useRef<number | null>(null);
@@ -50,6 +52,42 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
 
   const packetsRef = useRef<DataPacket[]>([]);
   const imageCacheRef = useRef<Map<string, HTMLImageElement>>(new Map());
+
+  // Synced Picture-in-Picture Media Player States
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isMuted, setIsMuted] = useState<boolean>(true);
+  const [isPiPVisible, setIsPiPVisible] = useState<boolean>(true);
+  const [isPiPExpanded, setIsPiPExpanded] = useState<boolean>(false);
+
+  const isVideoMedia =
+    !!mediaFileUrl &&
+    (mediaFileUrl.startsWith('data:video/') ||
+      mediaFileUrl.startsWith('blob:') ||
+      mediaFileUrl.endsWith('.mp4') ||
+      mediaFileUrl.endsWith('.webm') ||
+      mediaFileUrl.endsWith('.mov'));
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.playbackRate = speed;
+
+    if (isRunning) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [isRunning, speed]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !video.duration) return;
+    const targetVideoTime = (currentTime / duration) * video.duration;
+    if (Math.abs(video.currentTime - targetVideoTime) > 0.5) {
+      video.currentTime = targetVideoTime;
+    }
+  }, [currentTime, duration]);
 
   // Unlocked social media comment cards by timeline
   const visibleComments = activeComments
@@ -391,6 +429,73 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
           ))}
         </AnimatePresence>
       </div>
+
+      {/* FLOATING PICTURE-IN-PICTURE SYNCED MEDIA PLAYER */}
+      {mediaFileUrl && isPiPVisible && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          className={`absolute top-16 right-4 z-30 bg-[#111111]/95 border border-[#DEDBC8]/40 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-xl transition-all ${
+            isPiPExpanded ? 'w-80 h-52' : 'w-48 h-32'
+          }`}
+        >
+          {/* Header */}
+          <div className="px-3 py-1.5 bg-[#181818] border-b border-white/10 flex items-center justify-between font-mono text-[10px] text-white">
+            <div className="flex items-center space-x-1.5 text-[#DEDBC8]">
+              <Film className="w-3 h-3 text-[#DEDBC8]" />
+              <span className="font-bold">Synced Media</span>
+            </div>
+
+            <div className="flex items-center space-x-1">
+              <button
+                onClick={() => setIsMuted(!isMuted)}
+                className="p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white cursor-pointer"
+                title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
+              >
+                {isMuted ? <VolumeX className="w-3 h-3" /> : <Volume2 className="w-3 h-3 text-emerald-400" />}
+              </button>
+
+              <button
+                onClick={() => setIsPiPExpanded(!isPiPExpanded)}
+                className="p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white cursor-pointer"
+                title={isPiPExpanded ? 'Minimize' : 'Expand'}
+              >
+                {isPiPExpanded ? <Minimize2 className="w-3 h-3" /> : <Maximize2 className="w-3 h-3" />}
+              </button>
+
+              <button
+                onClick={() => setIsPiPVisible(false)}
+                className="p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white cursor-pointer"
+                title="Close"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
+
+          {/* Media Player */}
+          <div className="w-full h-[calc(100%-28px)] bg-black relative flex items-center justify-center">
+            {isVideoMedia ? (
+              <video
+                ref={videoRef}
+                src={mediaFileUrl}
+                muted={isMuted}
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <img src={mediaFileUrl} alt="Synced Media" className="w-full h-full object-cover" />
+            )}
+
+            {/* Sync Badge */}
+            <div className="absolute bottom-1.5 left-2 px-2 py-0.5 rounded-full bg-black/70 border border-white/10 font-mono text-[9px] text-[#DEDBC8] flex items-center space-x-1">
+              <span className={`w-1.5 h-1.5 rounded-full ${isRunning ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+              <span>{isRunning ? `${speed}x Synced` : 'Paused'}</span>
+            </div>
+          </div>
+        </motion.div>
+      )}
 
       {/* CANVAS ELEMENT */}
       <canvas

@@ -593,6 +593,7 @@ export default function Home() {
             activeComments={simData.comments}
             stage={stage}
             onSelectNode={(node) => setSelectedNode(node)}
+            mediaFileUrl={content.mediaFileUrl}
           />
 
           <RightPanel
