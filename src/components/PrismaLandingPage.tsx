@@ -179,13 +179,21 @@ export function PrismaLandingPage({
     }
   };
 
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const navItems = [
-    { label: 'Platform', action: onLaunchPlatform },
-    { label: 'Personas', action: onLaunchPlatform },
-    { label: 'Simulations', action: onLaunchPlatform },
-    { label: 'Pricing', action: scrollToPricing },
-    { label: 'Documentation', action: onOpenAtlas },
+    { label: 'Home', action: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
+    { label: 'Features', action: () => scrollToSection('features-section') },
+    { label: 'How It Works', action: () => scrollToSection('how-it-works-section') },
+    { label: 'Pricing', action: () => scrollToSection('pricing-section') },
+    { label: 'About', action: () => scrollToSection('about-section') },
     { label: 'Login', action: onOpenAuthModal || onLaunchPlatform, isLogin: true },
+    { label: 'Get Started', action: onOpenAuthModal || onLaunchPlatform, isGetStarted: true },
   ];
 
   return (
@@ -211,7 +219,7 @@ export function PrismaLandingPage({
 
           {/* Navbar Pill */}
           <header className="absolute top-0 left-0 right-0 z-20 flex justify-center pointer-events-auto">
-            <nav className="bg-black rounded-b-2xl md:rounded-b-3xl px-4 py-2 md:px-8 flex items-center gap-3 sm:gap-5 md:gap-8 shadow-2xl border-x border-b border-white/5">
+            <nav className="bg-black/90 backdrop-blur-xl rounded-b-2xl md:rounded-b-3xl px-4 py-2 md:px-8 flex items-center gap-2 sm:gap-4 md:gap-6 shadow-2xl border-x border-b border-white/10">
               {navItems.map((item, idx) => (
                 <button
                   key={idx}
@@ -220,8 +228,10 @@ export function PrismaLandingPage({
                     item.action?.();
                   }}
                   className={`text-[10px] sm:text-xs md:text-sm transition-all duration-200 cursor-pointer ${
-                    item.isLogin
+                    item.isGetStarted
                       ? 'bg-[#DEDBC8] text-black font-extrabold px-3.5 py-1.5 rounded-full hover:bg-white shadow-md active:scale-95'
+                      : item.isLogin
+                      ? 'font-bold text-[#DEDBC8] hover:text-white border border-[#DEDBC8]/30 px-3 py-1 rounded-full'
                       : 'font-medium text-[rgba(225,224,204,0.8)] hover:text-[#E1E0CC]'
                   }`}
                 >
@@ -764,8 +774,26 @@ export function PrismaLandingPage({
           </div>
         </div>
 
+        {/* Small "Powered by" Section in Public Landing Page Footer */}
+        <div className="max-w-7xl mx-auto my-8 p-6 rounded-2xl bg-[#0D0D0D] border border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs text-zinc-400">
+          <div className="flex items-center space-x-2">
+            <span className="text-zinc-500 font-bold uppercase text-[10px]">Powered By Enterprise Infrastructure:</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-6 text-zinc-300 font-bold text-xs">
+            <span className="hover:text-white transition-colors">NVIDIA AI (Nemotron 70B)</span>
+            <span className="text-zinc-600">•</span>
+            <span className="hover:text-white transition-colors">OpenAI Whisper</span>
+            <span className="text-zinc-600">•</span>
+            <span className="hover:text-white transition-colors">ElevenLabs Speech</span>
+            <span className="text-zinc-600">•</span>
+            <span className="hover:text-white transition-colors">fal.ai FLUX.1</span>
+            <span className="text-zinc-600">•</span>
+            <span className="hover:text-white transition-colors">Firecrawl Web Crawler</span>
+          </div>
+        </div>
+
         {/* Bottom Bar */}
-        <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between text-gray-500 text-[11px] gap-4">
+        <div className="max-w-7xl mx-auto pt-4 flex flex-col sm:flex-row items-center justify-between text-gray-500 text-[11px] gap-4">
           <span>© 2026 Social World Simulator Inc. All rights reserved.</span>
           <div className="flex items-center space-x-6">
             <button onClick={onOpenAtlas} className="hover:text-gray-300 transition-colors cursor-pointer">

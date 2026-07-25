@@ -78,10 +78,39 @@ export default function Home() {
   const [isCoachActive, setIsCoachActive] = useState<boolean>(false);
   const [isAtlasOpen, setIsAtlasOpen] = useState<boolean>(false);
   const [atlasTopic, setAtlasTopic] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [showLandingPage, setShowLandingPage] = useState<boolean>(true);
   const [selectedFeatureDoc, setSelectedFeatureDoc] = useState<FeatureDocData | null>(null);
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
+  const [isPersonaModalOpen, setIsPersonaModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('isLoggedIn');
+      if (stored === 'true') {
+        setIsLoggedIn(true);
+        setShowLandingPage(false);
+      }
+    }
+  }, []);
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('isLoggedIn', 'true');
+    }
+    setShowLandingPage(false);
+    setIsAuthModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('isLoggedIn');
+    }
+    setShowLandingPage(true);
+  };
 
   // Global Keyboard Shortcuts (Space, R, C, E, F, Escape, CMD+K)
   useEffect(() => {
@@ -329,19 +358,16 @@ export default function Home() {
   const stage: 1 | 2 | 3 | 4 =
     currentTime < 10 ? 1 : currentTime < 25 ? 2 : currentTime < 45 ? 3 : 4;
 
-  if (showLandingPage) {
+  if (!isLoggedIn || showLandingPage) {
     return (
       <>
         <LandingPage
-          onLaunchPlatform={() => setShowLandingPage(false)}
+          onLaunchPlatform={() => setIsAuthModalOpen(true)}
           onOpenAtlas={() => {
-            setShowLandingPage(false);
-            setAtlasTopic('upload');
-            setIsAtlasOpen(true);
+            setIsAuthModalOpen(true);
           }}
           onOpenWorkspace={() => {
-            setShowLandingPage(false);
-            setIsSponsorsOpen(true);
+            setIsAuthModalOpen(true);
           }}
           onOpenAuthModal={() => {
             setIsAuthModalOpen(true);
@@ -352,7 +378,7 @@ export default function Home() {
         <AuthModal
           isOpen={isAuthModalOpen}
           onClose={() => setIsAuthModalOpen(false)}
-          onLoginSuccess={() => setShowLandingPage(false)}
+          onLoginSuccess={handleLoginSuccess}
         />
       </>
     );
@@ -558,7 +584,7 @@ export default function Home() {
           historyCount={savedProjects.length}
           onNewProject={handleNewProject}
           onOpenAuthModal={() => setIsAuthModalOpen(true)}
-          onOpenSponsors={() => setIsSponsorsOpen(true)}
+          onOpenAIWorkspace={() => setIsSponsorsOpen(true)}
           onOpenSettings={() => setIsSettingsOpen(true)}
           onOpenExport={() => setIsExportOpen(true)}
           onOpenHelp={() => setIsHelpCenterOpen(true)}
@@ -567,6 +593,7 @@ export default function Home() {
             setAtlasTopic('upload');
             setIsAtlasOpen(true);
           }}
+          onLogout={handleLogout}
         />
 
         {/* Main Desktop 3-Panel Hero Interface */}

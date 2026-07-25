@@ -49,7 +49,7 @@ const AI_PROVIDERS = [
   {
     name: 'fal.ai Generative Media',
     type: 'Thumbnail & Visual Interrupts',
-    status: 'Connected ($50 Voucher Active)',
+    status: 'Connected (High-Speed Edge)',
     badge: 'fal.ai Turbo',
     color: 'pink',
     model: 'fal-ai/fast-sdxl (140ms)',
@@ -166,8 +166,8 @@ export function AIWorkspaceModal({
                     <span className="text-xl font-extrabold text-blue-300">60 FPS</span>
                   </div>
                   <div className="p-4 rounded-2xl bg-[#181818] border border-white/10 space-y-1">
-                    <span className="text-[9px] text-zinc-400 uppercase block">Active Hackathon Sponsors</span>
-                    <span className="text-xl font-extrabold text-amber-300">5 / 5</span>
+                    <span className="text-[9px] text-zinc-400 uppercase block">Connected AI Providers</span>
+                    <span className="text-xl font-extrabold text-[#DEDBC8]">5 Active</span>
                   </div>
                 </div>
 
