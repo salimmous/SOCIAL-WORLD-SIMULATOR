@@ -103,3 +103,15 @@
 .animate-particle-float {
   animation: particleFloat 2.2s ease-out infinite;
 }
+
+/* Hide Next.js Dev Indicator Logo & Toasts */
+nextjs-portal,
+[data-nextjs-toast],
+[data-nextjs-dialog-overlay],
+[data-nextjs-toast-wrapper],
+div[class*="nextjs-toast"],
+div[id*="nextjs"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
