@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { LeftPanel } from '@/components/LeftPanel';
 import { SocialWorldCanvas } from '@/components/SocialWorldCanvas';
@@ -30,6 +30,7 @@ export default function Home() {
   const [isRunning, setIsRunning] = useState<boolean>(true);
   const [speed, setSpeed] = useState<number>(1);
   const [appliedFixes, setAppliedFixes] = useState<boolean>(false);
+  const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
 
   // Compute simulation data
   const [simData, setSimData] = useState<GeneratedSimulationData>(() =>
@@ -39,30 +40,19 @@ export default function Home() {
   // Handle Preset Switching
   const handleSelectPreset = (preset: PresetScenario) => {
     setCurrentPreset(preset);
-    setContent({
+    const nextContent = {
       title: preset.title,
       contentType: preset.contentType,
       platform: preset.platform,
       contentBody: preset.sampleText,
       mediaFileUrl: preset.mediaPreview,
       targetAudience: 'Tech & Gen Z Creators',
-    });
+    };
+    setContent(nextContent);
     setCurrentTime(0);
     setIsRunning(true);
     setAppliedFixes(false);
-    setSimData(
-      runSimulationEngine(
-        {
-          title: preset.title,
-          contentType: preset.contentType,
-          platform: preset.platform,
-          contentBody: preset.sampleText,
-          mediaFileUrl: preset.mediaPreview,
-          targetAudience: 'Tech & Gen Z Creators',
-        },
-        false
-      )
-    );
+    setSimData(runSimulationEngine(nextContent, false));
   };
 
   // Handle Content Updates
@@ -79,10 +69,46 @@ export default function Home() {
     );
   };
 
-  // Handle Simulation Run Trigger
-  const handleRunSimulation = () => {
+  // Trigger NVIDIA AI Simulation API Call
+  const handleRunSimulation = async () => {
     setCurrentTime(0);
     setIsRunning(true);
+    setIsAiLoading(true);
+
+    try {
+      const res = await fetch('/api/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(content),
+      });
+
+      if (res.ok) {
+        const aiResult = await res.json();
+        const baseData = runSimulationEngine(content, appliedFixes);
+
+        // Merge NVIDIA AI generated metrics, comments, and recommendations
+        if (aiResult.metrics) baseData.metrics = { ...baseData.metrics, ...aiResult.metrics };
+        if (aiResult.comments && Array.isArray(aiResult.comments)) {
+          baseData.comments = aiResult.comments.map((c: any, idx: number) => ({
+            ...c,
+            id: `ai-comment-${idx}`,
+            timeFormatted: `0:${(c.timestamp || 10).toString().padStart(2, '0')}`,
+          }));
+        }
+        if (aiResult.recommendations && Array.isArray(aiResult.recommendations)) {
+          baseData.recommendations = aiResult.recommendations.map((r: any) => ({
+            ...r,
+            applied: appliedFixes,
+          }));
+        }
+
+        setSimData(baseData);
+      }
+    } catch (err) {
+      console.warn('NVIDIA AI API call error, fallback to local engine:', err);
+    } finally {
+      setIsAiLoading(false);
+    }
   };
 
   // Handle Applying AI Recommendations
@@ -116,7 +142,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 overflow-hidden font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
-      {/* Minimal Top Header */}
+      {/* Top Header */}
       <Header
         currentPreset={currentPreset}
         onSelectPreset={handleSelectPreset}
@@ -125,19 +151,19 @@ export default function Home() {
         appliedFixes={appliedFixes}
       />
 
-      {/* Main 3-Column Studio Interface */}
+      {/* Main 70/30 Hero Layout Interface */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Column: Content Studio & Simulator Setup */}
+        {/* Collapsible Left Setup Drawer */}
         <LeftPanel
           content={content}
           onChangeContent={handleChangeContent}
           selectedPersonas={selectedPersonas}
           onTogglePersona={handleTogglePersona}
           onRunSimulation={handleRunSimulation}
-          isRunning={isRunning}
+          isRunning={isRunning || isAiLoading}
         />
 
-        {/* Center Column: Live Animated Social World Canvas */}
+        {/* Center Hero living Social World Canvas (70% viewport width) */}
         <SocialWorldCanvas
           nodes={simData.nodes}
           edges={simData.edges}
@@ -152,7 +178,7 @@ export default function Home() {
           stage={stage}
         />
 
-        {/* Right Column: Intelligence Scores, Retention Engine & Recommendations */}
+        {/* Right Intelligence Accordion Panel (30% viewport width) */}
         <RightPanel
           metrics={simData.metrics}
           retentionTimeline={simData.retentionTimeline}
