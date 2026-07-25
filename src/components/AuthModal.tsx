@@ -36,7 +36,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
   const [email, setEmail] = useState('salim@simulator.ai');
   const [password, setPassword] = useState('••••••••••••');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authStatusMessage, setAuthStatusMessage] = useState<string | null>(null);
 
   const [connectedSocials, setConnectedSocials] = useState({
@@ -61,32 +61,32 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
   const handleEmailPasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoggedIn(true);
-    setAuthStatusMessage(`Logged in successfully! Redirecting to Dashboard...`);
+    setAuthStatusMessage(`Authenticated! Redirecting to Dashboard...`);
     setTimeout(() => {
       setAuthStatusMessage(null);
       onClose();
       if (onLoginSuccess) {
         onLoginSuccess();
       }
-    }, 1000);
+    }, 400);
   };
 
   const handleSimulatedOAuthLogin = (provider: string) => {
     setIsLoggedIn(true);
-    setAuthStatusMessage(`Signed in via ${provider}! Launching Dashboard...`);
+    setAuthStatusMessage(`Signed in via ${provider}! Redirecting to Dashboard...`);
     setTimeout(() => {
       setAuthStatusMessage(null);
       onClose();
       if (onLoginSuccess) {
         onLoginSuccess();
       }
-    }, 1000);
+    }, 400);
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    setAuthStatusMessage('Logged out of Social World Simulator.');
-    setTimeout(() => setAuthStatusMessage(null), 3000);
+    setAuthStatusMessage('Successfully logged out.');
+    setTimeout(() => setAuthStatusMessage(null), 2500);
   };
 
   return (
@@ -102,7 +102,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
             className="absolute inset-0 bg-black/85 backdrop-blur-md"
           />
 
-          {/* Modal Content Card (Landing Page Colors: #101010, #E1E0CC text, #DEDBC8 accents) */}
+          {/* Modal Content Card */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -132,6 +132,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
                 <X className="w-4 h-4" />
               </button>
             </div>
+
+            {/* Status Toast Message */}
+            {authStatusMessage && (
+              <div className="mt-3 p-3 rounded-xl bg-[#DEDBC8]/15 border border-[#DEDBC8]/30 text-[#DEDBC8] text-xs font-mono font-bold flex items-center space-x-2">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>{authStatusMessage}</span>
+              </div>
+            )}
 
             {/* Navigation Tabs */}
             <div className="flex border-b border-white/10 my-4 p-1 bg-[#181818] rounded-xl space-x-1 font-mono text-xs">
@@ -189,7 +197,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
                     <div>
                       <div className="flex items-center space-x-2">
                         <span className="font-bold text-[#E1E0CC] text-sm">
-                          {isLoggedIn ? 'Salim Moussaoui' : 'Guest Account'}
+                          {isLoggedIn ? 'Salim Moussaoui' : 'Guest User'}
                         </span>
                         <span
                           className={`px-2 py-0.5 rounded-full text-[10px] font-mono border ${
@@ -202,7 +210,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
                         </span>
                       </div>
                       <span className="text-xs text-gray-400 font-mono block">
-                        {isLoggedIn ? email : 'Sign in to access Pro personas'}
+                        {isLoggedIn ? email : 'Enter your credentials below to sign in'}
                       </span>
                     </div>
                   </div>
@@ -210,13 +218,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
                   {isLoggedIn ? (
                     <button
                       onClick={handleLogout}
-                      className="px-3 py-1.5 rounded-xl bg-red-950/60 hover:bg-red-900/80 text-red-300 text-xs font-bold border border-red-500/30 transition-all cursor-pointer flex items-center space-x-1.5 active:scale-95"
+                      className="px-3.5 py-2 rounded-xl bg-red-950/60 hover:bg-red-900/80 text-red-300 text-xs font-bold border border-red-500/30 transition-all cursor-pointer flex items-center space-x-1.5 active:scale-95"
                     >
-                      <LogOut className="w-3.5 h-3.5" />
+                      <LogOut className="w-4 h-4" />
                       <span>Logout</span>
                     </button>
                   ) : (
-                    <span className="text-[11px] text-[#DEDBC8] font-mono">Select Sign In</span>
+                    <span className="text-[11px] text-[#DEDBC8] font-mono font-bold">Sign In Required</span>
                   )}
                 </div>
 
@@ -235,7 +243,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="you@company.com"
+                        placeholder="salim@simulator.ai"
                         className="w-full bg-[#101010] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-[#E1E0CC] focus:outline-none focus:border-[#DEDBC8] transition-colors"
                       />
                     </div>
@@ -264,9 +272,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
 
                   <button
                     type="submit"
-                    className="w-full mt-2 py-2.5 rounded-xl bg-[#DEDBC8] hover:bg-white text-black font-extrabold text-xs transition-all cursor-pointer shadow-md active:scale-95 text-center"
+                    className="w-full mt-2 py-3 rounded-xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black font-extrabold text-xs transition-all cursor-pointer shadow-md active:scale-95 flex items-center justify-center space-x-2"
                   >
-                    {isLoggedIn ? 'Update Account Email' : 'Sign In with Email & Password →'}
+                    <span>Log In to Dashboard Studio →</span>
                   </button>
                 </form>
 
@@ -294,71 +302,87 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
                     <span>GitHub SSO</span>
                   </button>
                 </div>
-
-                {authStatusMessage && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`p-3 rounded-xl border text-xs font-bold text-center flex items-center justify-center space-x-2 ${
-                      isLoggedIn
-                        ? 'bg-emerald-950/60 border-emerald-500/30 text-emerald-400'
-                        : 'bg-zinc-900 border-white/10 text-gray-300'
-                    }`}
-                  >
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>{authStatusMessage}</span>
-                  </motion.div>
-                )}
               </div>
             )}
 
-            {/* TAB 2: SOCIAL OAUTH */}
+            {/* TAB 2: SOCIAL OAUTH CONNECTIONS */}
             {activeTab === 'socials' && (
-              <div className="space-y-3 py-2">
-                <span className="text-xs text-gray-300 block">
-                  Connect live social media channels for 1-click pre-publish virality testing:
-                </span>
-
-                {['TikTok', 'X / Twitter', 'Instagram', 'LinkedIn'].map((platform, idx) => (
-                  <div key={idx} className="p-3.5 rounded-2xl bg-[#181818] border border-white/10 flex items-center justify-between">
-                    <div>
-                      <span className="text-xs font-bold text-[#E1E0CC] block">{platform} API</span>
-                      <span className="text-[10px] text-gray-400 font-mono">Connected as @salim_viral</span>
-                    </div>
-                    <span className="px-3 py-1 rounded-xl bg-emerald-950 text-emerald-400 text-xs font-bold border border-emerald-500/30">
-                      Connected ✓
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* TAB 3: AI MODEL KEYS */}
-            {activeTab === 'apiKeys' && (
-              <div className="space-y-3 py-2">
-                <div className="p-4 rounded-2xl bg-[#181818] border border-white/10 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#DEDBC8]">NVIDIA Llama 70B Vision Key</span>
-                    <span className="text-[10px] text-emerald-400 font-mono">42ms Active</span>
-                  </div>
-                  <input
-                    type="password"
-                    readOnly
-                    value="nvapi-1-T1JTXUCsty-Xs69BUB_w2Ejfz48sCXi4VXfh5Ty"
-                    className="w-full bg-[#101010] border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-gray-300"
-                  />
+              <div className="space-y-4 py-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-[#DEDBC8] font-mono uppercase tracking-wider">
+                    Connected Publishing Accounts
+                  </span>
+                  <span className="text-[11px] text-gray-400 font-mono">
+                    Auto-publish simulation triggers
+                  </span>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-[#181818] border border-white/10 space-y-2">
+                <div className="space-y-2.5">
+                  {(Object.keys(connectedSocials) as Array<keyof typeof connectedSocials>).map(
+                    (platform) => {
+                      const item = connectedSocials[platform];
+                      return (
+                        <div
+                          key={platform}
+                          className="p-3.5 rounded-2xl bg-[#181818] border border-white/10 flex items-center justify-between"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 rounded-xl bg-[#212121] border border-white/10 flex items-center justify-center text-[#DEDBC8] uppercase font-mono text-xs font-bold">
+                              {platform.substring(0, 2)}
+                            </div>
+                            <div>
+                              <span className="text-xs font-bold text-[#E1E0CC] capitalize block">
+                                {platform}
+                              </span>
+                              <span className="text-[11px] text-gray-400 font-mono">
+                                {item.connected ? item.handle : 'Not Connected'}
+                              </span>
+                            </div>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => toggleConnect(platform)}
+                            className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                              item.connected
+                                ? 'bg-emerald-950/60 text-emerald-300 border-emerald-500/40 hover:bg-emerald-900'
+                                : 'bg-[#212121] text-gray-300 border-white/10 hover:text-white'
+                            }`}
+                          >
+                            {item.connected ? 'Connected ✓' : 'Connect'}
+                          </button>
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* TAB 3: API KEYS */}
+            {activeTab === 'apiKeys' && (
+              <div className="space-y-4 py-2">
+                <div className="p-4 rounded-2xl bg-[#181818] border border-white/10 space-y-3 font-mono text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#DEDBC8]">Whisper Speech Processing Key</span>
-                    <span className="text-[10px] text-emerald-400 font-mono font-bold">Connected</span>
+                    <span className="text-[#DEDBC8] font-bold">NVIDIA AI Nemotron Key</span>
+                    <span className="text-emerald-400 text-[10px]">Active (Unlimited)</span>
                   </div>
                   <input
                     type="password"
                     readOnly
-                    value="sk-proj-whisper-enterprise-v2-live"
-                    className="w-full bg-[#101010] border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-gray-300"
+                    value="nvapi-70b-simulated-enterprise-key-xxxx"
+                    className="w-full bg-[#101010] border border-white/10 rounded-xl px-3 py-2 text-[#E1E0CC]"
+                  />
+
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-[#DEDBC8] font-bold">ElevenLabs Audio Token</span>
+                    <span className="text-amber-400 text-[10px]">10,000 Chars</span>
+                  </div>
+                  <input
+                    type="password"
+                    readOnly
+                    value="el-key-multilingual-v2-speech-xxxx"
+                    className="w-full bg-[#101010] border border-white/10 rounded-xl px-3 py-2 text-[#E1E0CC]"
                   />
                 </div>
               </div>
@@ -367,25 +391,29 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLoginSu
             {/* TAB 4: PLAN & USAGE */}
             {activeTab === 'security' && (
               <div className="space-y-4 py-2">
-                <div className="grid grid-cols-2 gap-3 text-xs">
-                  <div className="p-4 rounded-2xl bg-[#181818] border border-[#DEDBC8] space-y-1">
-                    <span className="text-gray-400 block text-[10px] uppercase font-mono">Active Tier</span>
-                    <span className="font-extrabold text-[#E1E0CC] text-base block">Pro Creator ($25/mo)</span>
-                    <span className="text-emerald-400 font-mono text-[10px]">Unlimited Runs Active</span>
+                <div className="p-5 rounded-2xl bg-[#181818] border border-white/10 space-y-3 font-mono text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-bold text-white">Enterprise PRO AI Plan</span>
+                    <span className="px-2.5 py-1 rounded-full bg-[#DEDBC8] text-black font-extrabold text-[10px]">
+                      $100 / MONTH
+                    </span>
                   </div>
-                  <div className="p-4 rounded-2xl bg-[#181818] border border-white/10 space-y-1">
-                    <span className="text-gray-400 block text-[10px] uppercase font-mono">Team Seats</span>
-                    <span className="font-extrabold text-[#E1E0CC] text-base block">12 / 15 Active</span>
-                    <span className="text-[#DEDBC8] font-mono text-[10px]">Enterprise Ready</span>
+
+                  <div className="space-y-1.5 pt-2 text-gray-300">
+                    <div className="flex justify-between">
+                      <span>Simulations Run This Month:</span>
+                      <span className="text-[#DEDBC8] font-bold">14,289 / Unlimited</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Persona Entities Active:</span>
+                      <span className="text-emerald-400 font-bold">200 / 200 Nodes</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Physics FPS Performance:</span>
+                      <span className="text-blue-400 font-bold">60 FPS Hardware Accelerate</span>
+                    </div>
                   </div>
                 </div>
-
-                <button
-                  onClick={onClose}
-                  className="w-full py-3 rounded-2xl bg-[#DEDBC8] hover:bg-white text-black font-extrabold text-xs transition-all cursor-pointer text-center shadow-lg active:scale-95"
-                >
-                  Close & Launch Platform Studio →
-                </button>
               </div>
             )}
           </motion.div>
