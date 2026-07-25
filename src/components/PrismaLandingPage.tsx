@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
+import Link from 'next/link';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Check, Zap, Sparkles, Shield, Star } from 'lucide-react';
 
@@ -191,8 +192,8 @@ export function PrismaLandingPage({
     { label: 'Features', action: () => scrollToSection('features-section') },
     { label: 'How It Works', action: () => scrollToSection('how-it-works-section') },
     { label: 'About', action: () => scrollToSection('about-section') },
-    { label: 'Login', action: onOpenAuthModal || onLaunchPlatform, isLogin: true },
-    { label: 'Get Started', action: onOpenAuthModal || onLaunchPlatform, isGetStarted: true },
+    { label: 'Login', href: '/login', isLogin: true },
+    { label: 'Get Started', href: '/login', isGetStarted: true },
   ];
 
   return (
@@ -219,24 +220,43 @@ export function PrismaLandingPage({
           {/* Navbar Pill */}
           <header className="absolute top-0 left-0 right-0 z-20 flex justify-center pointer-events-auto">
             <nav className="bg-black/90 backdrop-blur-xl rounded-b-2xl md:rounded-b-3xl px-4 py-2 md:px-8 flex items-center gap-2 sm:gap-4 md:gap-6 shadow-2xl border-x border-b border-white/10">
-              {navItems.map((item, idx) => (
-                <button
-                  key={idx}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    item.action?.();
-                  }}
-                  className={`text-[10px] sm:text-xs md:text-sm transition-all duration-200 cursor-pointer ${
-                    item.isGetStarted
-                      ? 'bg-[#DEDBC8] text-black font-extrabold px-3.5 py-1.5 rounded-full hover:bg-white shadow-md active:scale-95'
-                      : item.isLogin
-                      ? 'font-bold text-[#DEDBC8] hover:text-white border border-[#DEDBC8]/30 px-3 py-1 rounded-full'
-                      : 'font-medium text-[rgba(225,224,204,0.8)] hover:text-[#E1E0CC]'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+              {navItems.map((item, idx) => {
+                if (item.href) {
+                  return (
+                    <Link
+                      key={idx}
+                      href={item.href}
+                      className={`text-[10px] sm:text-xs md:text-sm transition-all duration-200 cursor-pointer ${
+                        item.isGetStarted
+                          ? 'bg-[#DEDBC8] text-black font-extrabold px-3.5 py-1.5 rounded-full hover:bg-white shadow-md active:scale-95'
+                          : item.isLogin
+                          ? 'font-bold text-[#DEDBC8] hover:text-white border border-[#DEDBC8]/30 px-3 py-1 rounded-full'
+                          : 'font-medium text-[rgba(225,224,204,0.8)] hover:text-[#E1E0CC]'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                }
+                return (
+                  <button
+                    key={idx}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      item.action?.();
+                    }}
+                    className={`text-[10px] sm:text-xs md:text-sm transition-all duration-200 cursor-pointer ${
+                      item.isGetStarted
+                        ? 'bg-[#DEDBC8] text-black font-extrabold px-3.5 py-1.5 rounded-full hover:bg-white shadow-md active:scale-95'
+                        : item.isLogin
+                        ? 'font-bold text-[#DEDBC8] hover:text-white border border-[#DEDBC8]/30 px-3 py-1 rounded-full'
+                        : 'font-medium text-[rgba(225,224,204,0.8)] hover:text-[#E1E0CC]'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
             </nav>
           </header>
 

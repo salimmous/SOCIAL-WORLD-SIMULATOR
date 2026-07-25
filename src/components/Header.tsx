@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   Globe,
   Share2,
@@ -31,17 +33,14 @@ interface HeaderProps {
   onReset: () => void;
   onApplyFixes: () => void;
   appliedFixes: boolean;
-  onOpenHistory: () => void;
   historyCount: number;
   onNewProject: () => void;
-  onOpenAuthModal: () => void;
-  onOpenAIWorkspace: () => void;
+  onOpenAuthModal?: () => void;
   onOpenSettings?: () => void;
   onOpenExport?: () => void;
   onOpenHelp?: () => void;
   onOpenAtlas?: () => void;
   onOpenFeedMockup?: () => void;
-  onOpenPersonas?: () => void;
   onLogout?: () => void;
 }
 
@@ -51,22 +50,20 @@ export const Header: React.FC<HeaderProps> = ({
   onReset,
   onApplyFixes,
   appliedFixes,
-  onOpenHistory,
   historyCount,
   onNewProject,
   onOpenAuthModal,
-  onOpenAIWorkspace,
   onOpenSettings,
   onOpenExport,
   onOpenHelp,
   onOpenAtlas,
   onOpenFeedMockup,
-  onOpenPersonas,
   onLogout,
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState<boolean>(false);
   const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false);
+  const pathname = usePathname();
 
   const handleShare = () => {
     if (typeof window !== 'undefined') {
@@ -98,7 +95,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="h-14 px-4 sm:px-6 flex items-center justify-between z-30 border-b border-white/[0.08] bg-[#0A0A0A]/95 backdrop-blur-xl shrink-0 text-[#F7F6F1]">
       {/* Left: Brand Logo & Authenticated Navigation Bar */}
       <div className="flex items-center space-x-6 shrink-0">
-        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        <Link href="/platform" className="flex items-center space-x-3 cursor-pointer">
           <div className="w-8 h-8 rounded-xl bg-[#DEDBC8]/10 p-0.5 border border-[#DEDBC8]/30 shadow-[0_0_15px_rgba(222,219,200,0.12)] overflow-hidden flex items-center justify-center">
             <img src="/logo.png" alt="Social World Simulator" className="w-full h-full object-contain" />
           </div>
@@ -108,29 +105,41 @@ export const Header: React.FC<HeaderProps> = ({
               ENTERPRISE OS
             </span>
           </span>
-        </div>
+        </Link>
 
-        {/* AUTHENTICATED NAVIGATION LINKS (Platform, Personas, Simulations, AI Workspace, Documentation, Settings) */}
+        {/* AUTHENTICATED NEXT.JS ROUTING LINKS (/platform, /personas, /simulations, /workspace, /documentation, /settings) */}
         <nav className="hidden lg:flex items-center space-x-1 font-mono text-xs text-zinc-400 border-l border-white/10 pl-6">
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="px-3 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all flex items-center space-x-1.5 text-[#DEDBC8] font-bold"
+          <Link
+            href="/platform"
+            className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+              pathname === '/platform'
+                ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] font-bold border border-[#DEDBC8]/30'
+                : 'hover:text-white hover:bg-white/5'
+            }`}
           >
             <PlaySquare className="w-3.5 h-3.5" />
             <span>Platform</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={onOpenPersonas || onOpenAuthModal}
-            className="px-3 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all flex items-center space-x-1.5"
+          <Link
+            href="/personas"
+            className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+              pathname === '/personas'
+                ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] font-bold border border-[#DEDBC8]/30'
+                : 'hover:text-white hover:bg-white/5'
+            }`}
           >
             <Users className="w-3.5 h-3.5 text-zinc-400" />
             <span>Personas</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={onOpenHistory}
-            className="px-3 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all flex items-center space-x-1.5 relative"
+          <Link
+            href="/simulations"
+            className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 relative ${
+              pathname === '/simulations'
+                ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] font-bold border border-[#DEDBC8]/30'
+                : 'hover:text-white hover:bg-white/5'
+            }`}
           >
             <History className="w-3.5 h-3.5 text-zinc-400" />
             <span>Simulations</span>
@@ -139,33 +148,43 @@ export const Header: React.FC<HeaderProps> = ({
                 {historyCount}
               </span>
             )}
-          </button>
+          </Link>
 
-          <button
-            onClick={onOpenAIWorkspace}
-            className="px-3 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all flex items-center space-x-1.5"
+          <Link
+            href="/workspace"
+            className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+              pathname === '/workspace'
+                ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] font-bold border border-[#DEDBC8]/30'
+                : 'hover:text-white hover:bg-white/5'
+            }`}
           >
             <Cpu className="w-3.5 h-3.5 text-[#DEDBC8]" />
             <span>AI Workspace</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={onOpenHelp || onOpenAtlas}
-            className="px-3 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all flex items-center space-x-1.5"
+          <Link
+            href="/documentation"
+            className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+              pathname === '/documentation'
+                ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] font-bold border border-[#DEDBC8]/30'
+                : 'hover:text-white hover:bg-white/5'
+            }`}
           >
             <BookOpen className="w-3.5 h-3.5 text-zinc-400" />
             <span>Documentation</span>
-          </button>
+          </Link>
 
-          {onOpenSettings && (
-            <button
-              onClick={onOpenSettings}
-              className="px-3 py-1.5 rounded-xl hover:text-white hover:bg-white/5 transition-all flex items-center space-x-1.5"
-            >
-              <Settings className="w-3.5 h-3.5 text-zinc-400" />
-              <span>Settings</span>
-            </button>
-          )}
+          <Link
+            href="/settings"
+            className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${
+              pathname === '/settings'
+                ? 'bg-[#DEDBC8]/15 text-[#DEDBC8] font-bold border border-[#DEDBC8]/30'
+                : 'hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <Settings className="w-3.5 h-3.5 text-zinc-400" />
+            <span>Settings</span>
+          </Link>
         </nav>
       </div>
 
@@ -270,29 +289,23 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
 
               <div className="space-y-1 font-mono text-[11px]">
-                <button
-                  onClick={() => {
-                    setShowUserDropdown(false);
-                    if (onOpenAuthModal) onOpenAuthModal();
-                  }}
+                <Link
+                  href="/settings"
+                  onClick={() => setShowUserDropdown(false)}
                   className="w-full text-left px-2.5 py-1.5 rounded-xl hover:bg-zinc-800 text-zinc-300 hover:text-white transition-all flex items-center space-x-2"
                 >
                   <User className="w-3.5 h-3.5 text-[#DEDBC8]" />
                   <span>Account & Social OAuth</span>
-                </button>
+                </Link>
 
-                {onOpenSettings && (
-                  <button
-                    onClick={() => {
-                      setShowUserDropdown(false);
-                      onOpenSettings();
-                    }}
-                    className="w-full text-left px-2.5 py-1.5 rounded-xl hover:bg-zinc-800 text-zinc-300 hover:text-white transition-all flex items-center space-x-2"
-                  >
-                    <Settings className="w-3.5 h-3.5 text-[#DEDBC8]" />
-                    <span>Workspace Settings</span>
-                  </button>
-                )}
+                <Link
+                  href="/settings"
+                  onClick={() => setShowUserDropdown(false)}
+                  className="w-full text-left px-2.5 py-1.5 rounded-xl hover:bg-zinc-800 text-zinc-300 hover:text-white transition-all flex items-center space-x-2"
+                >
+                  <Settings className="w-3.5 h-3.5 text-[#DEDBC8]" />
+                  <span>Workspace Settings</span>
+                </Link>
               </div>
 
               <div className="pt-2 border-t border-white/10">
