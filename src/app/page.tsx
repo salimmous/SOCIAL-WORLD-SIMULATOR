@@ -18,6 +18,8 @@ import { SettingsModal } from '@/components/SettingsModal';
 import { ExportModal } from '@/components/ExportModal';
 import { CommandPaletteModal } from '@/components/CommandPaletteModal';
 import { OnboardingTourModal } from '@/components/OnboardingTourModal';
+import { AppleOnboardingModal } from '@/components/AppleOnboardingModal';
+import { GettingStartedChecklist } from '@/components/GettingStartedChecklist';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput, NetworkNode } from '@/types/simulator';
@@ -91,6 +93,30 @@ export default function Home() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // Check First-Time Onboarding
+  useEffect(() => {
+    const hasSeen = localStorage.getItem('hasSeenOnboarding');
+    if (!hasSeen) {
+      setIsOnboardingOpen(true);
+    }
+  }, []);
+
+  // Demo Project Mode Trigger
+  const handleStartDemoProject = () => {
+    const demo = PRESET_SCENARIOS[0];
+    setCurrentPreset(demo);
+    setContent({
+      title: demo.title,
+      contentType: 'video',
+      platform: demo.platform,
+      targetAudience: demo.tags.join(', '),
+      contentBody: demo.sampleText,
+      mediaFileUrl: demo.mediaPreview,
+    });
+    setAppliedFixes(true);
+    setIsRunning(true);
+  };
 
   useEffect(() => {
     setSavedProjects(getSavedProjects());
@@ -338,11 +364,18 @@ export default function Home() {
         onOpenSponsorsModal={() => setIsSponsorsOpen(true)}
       />
 
-      {/* First-Time Interactive Onboarding Tour Modal */}
-      <OnboardingTourModal
+      {/* Apple-Quality Guided Onboarding Tour Modal */}
+      <AppleOnboardingModal
         isOpen={isOnboardingOpen}
         onClose={() => setIsOnboardingOpen(false)}
-        onStartDemo={handleRunSimulation}
+        onStartDemo={handleStartDemoProject}
+      />
+
+      {/* Floating Getting Started Progress Checklist */}
+      <GettingStartedChecklist
+        hasRunSim={simData.metrics.viralityScore > 0}
+        hasAppliedFix={appliedFixes}
+        onOpenTour={() => setIsOnboardingOpen(true)}
       />
 
       {/* Cinematic AI Pipeline Loading Modal */}
