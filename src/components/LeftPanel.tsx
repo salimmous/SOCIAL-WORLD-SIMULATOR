@@ -7,7 +7,7 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  Sliders,
+  CheckCircle2,
 } from 'lucide-react';
 import { ContentType, Platform, ContentInput } from '@/types/simulator';
 import { PERSONAS } from '@/data/personas';
@@ -221,11 +221,28 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   }`}
                 >
                   <div className="flex items-center space-x-2.5">
-                    <span className="text-base">{persona.avatar}</span>
+                    {/* Professional Profile Image */}
+                    <div className="relative shrink-0">
+                      <img
+                        src={persona.avatarUrl}
+                        alt={persona.name}
+                        className="w-8 h-8 rounded-full object-cover border border-white/10"
+                      />
+                      <span
+                        className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-zinc-950"
+                        style={{ backgroundColor: persona.color }}
+                      />
+                    </div>
+
                     <div>
-                      <span className="text-xs font-bold text-white block">
-                        {persona.name}
-                      </span>
+                      <div className="flex items-center space-x-1">
+                        <span className="text-xs font-bold text-white block">
+                          {persona.name}
+                        </span>
+                        {persona.badge === 'Verified' && (
+                          <CheckCircle2 className="w-3 h-3 text-blue-400 fill-blue-400/20" />
+                        )}
+                      </div>
                       <span className="text-[11px] text-zinc-400">
                         {persona.role}
                       </span>

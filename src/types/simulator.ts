@@ -10,12 +10,23 @@ export type CommunityCluster =
   | 'Bots'
   | 'Algorithm';
 
+export type StatusBadge =
+  | 'Verified'
+  | 'Online'
+  | 'AI Core'
+  | 'Influencer'
+  | 'Premium'
+  | 'Brand'
+  | 'Anonymous';
+
 export interface Persona {
   id: string;
   name: string;
   handle: string;
   role: string;
-  avatar: string;
+  avatarUrl: string;
+  initials: string;
+  badge: StatusBadge;
   category: 'Tech' | 'GenZ' | 'B2B' | 'Creator' | 'Critic' | 'Algorithm';
   bio: string;
   color: string;
@@ -31,7 +42,9 @@ export interface NetworkNode {
   personaId: string;
   name: string;
   role: string;
-  avatar: string;
+  avatarUrl: string;
+  initials: string;
+  badge: StatusBadge;
   color: string;
   cluster: CommunityCluster;
   orbitRadius: number;
@@ -44,7 +57,6 @@ export interface NetworkNode {
   radius: number;
   state: 'idle' | 'noticed' | 'engaged' | 'shared' | 'hating';
   reachLevel: number;
-  activeReaction?: string;
 }
 
 export interface NetworkEdge {
@@ -62,9 +74,11 @@ export interface Comment {
   timeFormatted: string;
   authorName: string;
   authorHandle: string;
-  authorAvatar: string;
+  authorAvatarUrl: string;
+  authorInitials: string;
   authorRole: string;
   authorColor: string;
+  badge: StatusBadge;
   content: string;
   sentiment: 'positive' | 'skeptical' | 'hater' | 'analytical' | 'bot' | 'viral';
   likes: number;

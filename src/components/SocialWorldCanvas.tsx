@@ -2,16 +2,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, RotateCcw, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Play, Pause, RotateCcw, Heart, MessageCircle, Share2, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { NetworkNode, NetworkEdge, Comment } from '@/types/simulator';
-
-interface FloatingParticle {
-  id: string;
-  x: number;
-  y: number;
-  emoji: string;
-  opacity: number;
-}
 
 interface DataPacket {
   id: string;
@@ -19,14 +11,13 @@ interface DataPacket {
   targetId: string;
   progress: number;
   speed: number;
-  type: 'like' | 'comment' | 'share';
   color: string;
 }
 
 interface SocialWorldCanvasProps {
   nodes: NetworkNode[];
   edges: NetworkEdge[];
-  currentTime: number; // 0 to 60 seconds
+  currentTime: number;
   duration: number;
   isRunning: boolean;
   onTogglePlay: () => void;
@@ -51,46 +42,41 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
   stage,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [particles, setParticles] = useState<FloatingParticle[]>([]);
   const animFrameId = useRef<number | null>(null);
   const nodesRef = useRef<NetworkNode[]>(nodes);
   nodesRef.current = nodes;
 
   const packetsRef = useRef<DataPacket[]>([]);
+  const imageCacheRef = useRef<Map<string, HTMLImageElement>>(new Map());
 
-  const reactionEmojis = ['🔥', '💡', '🚀', '💬', '⚡', '✨', '🤩', '💎'];
-
-  // Latest 3 floating social media comment cards unlocked by timeline
+  // Unlocked social media comment cards by timeline
   const visibleComments = activeComments
     .filter((c) => c.timestamp <= currentTime)
     .slice(-3);
 
-  // Spawn organic reaction particles
+  // Preload avatar images into memory
+  useEffect(() => {
+    nodes.forEach((node) => {
+      if (node.avatarUrl && !imageCacheRef.current.has(node.avatarUrl)) {
+        const img = new Image();
+        img.src = node.avatarUrl;
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          imageCacheRef.current.set(node.avatarUrl, img);
+        };
+      }
+    });
+  }, [nodes]);
+
+  // Spawn dynamic data laser packets periodically
   useEffect(() => {
     if (!isRunning) return;
 
     const interval = setInterval(() => {
-      if (nodesRef.current.length === 0) return;
-      const target = nodesRef.current[Math.floor(Math.random() * nodesRef.current.length)];
-      const emoji = reactionEmojis[Math.floor(Math.random() * reactionEmojis.length)];
-
-      setParticles((prev) => [
-        ...prev.slice(-16),
-        {
-          id: `p-${Date.now()}-${Math.random()}`,
-          x: target.x,
-          y: target.y - 18,
-          emoji,
-          opacity: 1,
-        },
-      ]);
-
-      // Spawn traveling data packet along random edge
       if (edges.length > 0) {
         const edge = edges[Math.floor(Math.random() * edges.length)];
-        const packetTypes: ('like' | 'comment' | 'share')[] = ['like', 'comment', 'share'];
-        const pType = packetTypes[Math.floor(Math.random() * packetTypes.length)];
-        const pColor = pType === 'like' ? '#f472b6' : pType === 'comment' ? '#38bdf8' : '#34d399';
+        const packetColors = ['#8b5cf6', '#3b82f6', '#10b981', '#f97316'];
+        const color = packetColors[Math.floor(Math.random() * packetColors.length)];
 
         packetsRef.current.push({
           id: `pkt-${Date.now()}-${Math.random()}`,
@@ -98,16 +84,15 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
           targetId: edge.targetId,
           progress: 0,
           speed: 0.015 + Math.random() * 0.02,
-          type: pType,
-          color: pColor,
+          color,
         });
       }
-    }, 450 / speed);
+    }, 400 / speed);
 
     return () => clearInterval(interval);
   }, [edges, isRunning, speed]);
 
-  // Main Canvas Render Loop (Galactic Neural Ecosystem)
+  // Main Canvas Render Loop (Enterprise Network Ecosystem)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -116,12 +101,11 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
 
     let pulseTime = 0;
 
-    // Generate static stardust background particles
-    const stardust = Array.from({ length: 120 }, () => ({
+    const stardust = Array.from({ length: 140 }, () => ({
       x: Math.random() * 1200,
       y: Math.random() * 800,
       size: Math.random() * 1.5,
-      alpha: 0.2 + Math.random() * 0.5,
+      alpha: 0.2 + Math.random() * 0.4,
     }));
 
     const render = () => {
@@ -142,19 +126,19 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
       stardust.forEach((star) => {
         ctx.beginPath();
         ctx.arc(star.x % canvas.width, star.y % canvas.height, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha * 0.4})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha * 0.35})`;
         ctx.fill();
       });
 
       // 1. Render Concentric Orbital Rings & Community Cohort Labels
       const orbitRadii = [110, 150, 190, 240, 280, 320];
       const orbitLabels = [
-        '✨ CREATORS',
-        '🚀 INFLUENCERS',
-        '🔥 FANS & VIRAL SPREADERS',
-        '👔 CUSTOMERS & ENTERPRISE',
-        '🧐 SKEPTICS & CRITICS',
-        '🤖 ALGORITHM NEURAL HUB',
+        'CREATORS COHORT',
+        'INFLUENCERS NETWORK',
+        'FANS & VIRAL SPREADERS',
+        'ENTERPRISE CUSTOMERS',
+        'ANALYSTS & CRITICS',
+        'ALGORITHM NEURAL HUB',
       ];
 
       orbitRadii.forEach((rad, i) => {
@@ -166,7 +150,6 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Label on orbit
         if (i < orbitLabels.length) {
           ctx.font = 'bold 9px Geist, sans-serif';
           ctx.fillStyle = 'rgba(161, 161, 170, 0.35)';
@@ -175,7 +158,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         }
       });
 
-      // Update positions with organic orbital motion around Content Core
+      // Update positions with organic orbital motion
       currentNodes.forEach((node) => {
         if (isRunning) {
           node.angle = (node.angle || 0) + (node.orbitSpeed || 0.005) * speed;
@@ -184,7 +167,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         }
       });
 
-      // 2. Draw Neural Connections (Core to Nodes + Node to Node)
+      // 2. Draw Neural Connection Filaments
       currentNodes.forEach((node) => {
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
@@ -207,8 +190,8 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         ctx.stroke();
       });
 
-      // 3. Render Dynamic Traveling Data Packets (Likes, Comments, Shares)
-      packetsRef.current.forEach((pkt, idx) => {
+      // 3. Render Data Laser Packets
+      packetsRef.current.forEach((pkt) => {
         if (isRunning) pkt.progress += pkt.speed * speed;
 
         const source = currentNodes.find((n) => n.id === pkt.sourceId) || { x: centerX, y: centerY };
@@ -218,7 +201,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         const py = source.y + (target.y - source.y) * pkt.progress;
 
         ctx.beginPath();
-        ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+        ctx.arc(px, py, 3, 0, Math.PI * 2);
         ctx.fillStyle = pkt.color;
         ctx.shadowColor = pkt.color;
         ctx.shadowBlur = 10;
@@ -226,78 +209,94 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         ctx.shadowBlur = 0;
       });
 
-      // Filter finished packets
       packetsRef.current = packetsRef.current.filter((p) => p.progress < 1);
 
-      // 4. Render Hero Central Content Payload Core Node
+      // 4. Render Hero Central Content Payload Node
       const heroPulse = (Math.sin(pulseTime * 2) + 1) * 8;
 
-      // Outer radial aura
       ctx.beginPath();
-      ctx.arc(centerX, centerY, 42 + heroPulse, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, 40 + heroPulse, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(124, 58, 237, 0.12)';
       ctx.strokeStyle = 'rgba(139, 92, 246, 0.35)';
       ctx.lineWidth = 2;
       ctx.stroke();
       ctx.fill();
 
-      // Main Core Circle
       ctx.beginPath();
-      ctx.arc(centerX, centerY, 30, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, 28, 0, Math.PI * 2);
       ctx.fillStyle = '#1e1b4b';
       ctx.shadowColor = '#8b5cf6';
-      ctx.shadowBlur = 30;
+      ctx.shadowBlur = 25;
       ctx.fill();
       ctx.lineWidth = 2.5;
       ctx.strokeStyle = '#a78bfa';
       ctx.stroke();
       ctx.shadowBlur = 0;
 
-      ctx.font = '22px sans-serif';
+      ctx.font = 'bold 12px Geist, sans-serif';
+      ctx.fillStyle = '#ffffff';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('🚀', centerX, centerY + 1);
+      ctx.fillText('CONTENT', centerX, centerY - 4);
+      ctx.fillText('PAYLOAD', centerX, centerY + 8);
 
       ctx.font = 'bold 11px Geist, sans-serif';
-      ctx.fillStyle = '#ffffff';
-      ctx.fillText('UPLOADED CONTENT', centerX, centerY + 46);
+      ctx.fillStyle = '#a1a1aa';
+      ctx.fillText('TARGET MEDIA CORE', centerX, centerY + 46);
 
-      // 5. Render Community Nodes
+      // 5. Render Professional Persona Avatars & Status Badges
       currentNodes.forEach((node) => {
         const isAlgo = node.cluster === 'Algorithm';
-        const breathe = Math.sin(pulseTime * 1.5 + node.angle * 2) * 2.5;
-        const radius = (isAlgo ? 26 : 18) + breathe;
+        const breathe = Math.sin(pulseTime * 1.5 + node.angle * 2) * 2;
+        const radius = (isAlgo ? 24 : 20) + breathe;
 
-        // Reach Aura
-        if (stage >= 3) {
+        // Outer Cluster Glow Ring
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, radius + 4, 0, Math.PI * 2);
+        ctx.strokeStyle = `${node.color}66`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Check preloaded profile image
+        const img = imageCacheRef.current.get(node.avatarUrl);
+
+        if (img && img.complete) {
+          ctx.save();
           ctx.beginPath();
-          ctx.arc(node.x, node.y, radius + 10, 0, Math.PI * 2);
-          ctx.strokeStyle = `${node.color}33`;
-          ctx.lineWidth = 1.2;
-          ctx.stroke();
+          ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+          ctx.clip();
+          ctx.drawImage(img, node.x - radius, node.y - radius, radius * 2, radius * 2);
+          ctx.restore();
+        } else {
+          // Fallback Initials Circle
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = '#18181b';
+          ctx.fill();
+
+          ctx.font = 'bold 12px Geist, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(node.initials || 'US', node.x, node.y + 1);
         }
 
-        // Main Node Body
+        // Status Indicator Dot (Top Right of Avatar)
+        const badgeX = node.x + radius * 0.7;
+        const badgeY = node.y - radius * 0.7;
+
         ctx.beginPath();
-        ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = '#0d0d12';
-        ctx.shadowColor = node.color;
-        ctx.shadowBlur = isRunning ? 18 : 6;
+        ctx.arc(badgeX, badgeY, 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = node.badge === 'Verified' || node.badge === 'Influencer' ? '#3b82f6' : node.badge === 'Online' ? '#10b981' : node.color;
+        ctx.strokeStyle = '#09090d';
+        ctx.lineWidth = 1.5;
         ctx.fill();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = node.color;
         ctx.stroke();
-        ctx.shadowBlur = 0;
 
-        // Avatar Emoji
-        ctx.font = '15px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(node.avatar, node.x, node.y + 1);
-
-        // Label
+        // Crisp User Name Label Below
         ctx.font = '500 11px Geist, sans-serif';
-        ctx.fillStyle = '#e4e4e7';
+        ctx.fillStyle = '#f4f4f5';
+        ctx.textAlign = 'center';
         ctx.fillText(node.name, node.x, node.y + radius + 14);
       });
 
@@ -332,20 +331,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         </div>
       </div>
 
-      {/* Floating Reaction Particles Overlay */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-        {particles.map((p) => (
-          <div
-            key={p.id}
-            className="absolute text-xl animate-particle-float transition-all"
-            style={{ left: `${p.x}px`, top: `${p.y}px` }}
-          >
-            {p.emoji}
-          </div>
-        ))}
-      </div>
-
-      {/* FLOATING TIKTOK-STYLE LIVE COMMENTS OVERLAY */}
+      {/* FLOATING PROFESSIONAL SOCIAL MEDIA COMMENT CARDS */}
       <div className="absolute bottom-20 left-6 z-20 pointer-events-none max-w-sm space-y-2">
         <AnimatePresence>
           {visibleComments.map((comment) => (
@@ -355,23 +341,36 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="glass-card p-3 rounded-2xl border border-white/10 shadow-2xl flex items-start space-x-3 pointer-events-auto"
+              className="glass-card p-3.5 rounded-2xl border border-white/10 shadow-2xl flex items-start space-x-3 pointer-events-auto"
             >
-              <div
-                className="w-8 h-8 rounded-xl flex items-center justify-center text-sm shrink-0 font-bold shadow-sm"
-                style={{ backgroundColor: `${comment.authorColor}30` }}
-              >
-                {comment.authorAvatar}
+              {/* Profile Image / Initials */}
+              <div className="relative shrink-0">
+                <img
+                  src={comment.authorAvatarUrl}
+                  alt={comment.authorName}
+                  className="w-9 h-9 rounded-full object-cover border border-white/15 shadow-sm"
+                />
+                <span
+                  className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-zinc-950"
+                  style={{ backgroundColor: comment.authorColor }}
+                />
               </div>
+
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-white leading-none">
-                    {comment.authorName}
-                  </span>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-xs font-bold text-white leading-none">
+                      {comment.authorName}
+                    </span>
+                    {comment.badge === 'Verified' && (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 fill-blue-400/20" />
+                    )}
+                  </div>
                   <span className="text-[10px] text-zinc-400 font-mono">
                     @{comment.timeFormatted}
                   </span>
                 </div>
+
                 <p className="text-xs text-zinc-200 mt-1 line-clamp-2 leading-snug font-sans">
                   "{comment.content}"
                 </p>

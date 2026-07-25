@@ -38,7 +38,9 @@ export function generateInitialNetwork(personas: Persona[] = PERSONAS): {
       personaId: persona.id,
       name: persona.name,
       role: persona.role,
-      avatar: persona.avatar,
+      avatarUrl: persona.avatarUrl,
+      initials: persona.initials,
+      badge: persona.badge,
       color: persona.color,
       cluster: persona.cluster,
       orbitRadius: persona.orbitRadius,
@@ -86,11 +88,13 @@ export function generateSimulatedComments(
     {
       authorName: 'Alex Vance',
       authorHandle: '@alexvance_tech',
-      authorAvatar: '⚡',
+      authorAvatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+      authorInitials: 'AV',
       authorRole: 'Tech Founder',
-      authorColor: '#818cf8',
+      authorColor: '#3b82f6',
+      badge: 'Verified',
       content: appliedFixes
-        ? 'This hook hits way harder now. The galactic neural network view makes total sense.'
+        ? 'This hook hits way harder now. The neural distribution model clearly backs up the metrics.'
         : 'The concept is brilliant, but the intro took 6 seconds too long to get to the demo.',
       sentiment: appliedFixes ? 'viral' : 'analytical',
       likes: 142,
@@ -100,12 +104,14 @@ export function generateSimulatedComments(
     {
       authorName: 'Chloe Zhang',
       authorHandle: '@chloez_genz',
-      authorAvatar: '✨',
-      authorRole: 'Gen Z Trendsetter',
-      authorColor: '#f472b6',
+      authorAvatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
+      authorInitials: 'CZ',
+      authorRole: 'Gen Z Trend Analyst',
+      authorColor: '#10b981',
+      badge: 'Online',
       content: appliedFixes
-        ? 'OK wait this visual preview is insane 🔥 Saving this instantly!!'
-        : 'Stopped watching at 0:08 because the text was too small to read on mobile.',
+        ? 'The visual preview pacing is spot on. High retention probability.'
+        : 'Stopped watching at 0:08 because the text contrast was too low for mobile.',
       sentiment: appliedFixes ? 'positive' : 'skeptical',
       likes: 289,
       replies: 42,
@@ -114,12 +120,14 @@ export function generateSimulatedComments(
     {
       authorName: 'Skeptical Sam',
       authorHandle: '@sam_hater',
-      authorAvatar: '🧐',
+      authorAvatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
+      authorInitials: 'SS',
       authorRole: 'Resident Critic',
-      authorColor: '#f87171',
+      authorColor: '#ef4444',
+      badge: 'Anonymous',
       content: appliedFixes
-        ? 'Can’t believe I’m saying this, but the data visualization actually backs up the claims.'
-        : 'Is this actually real AI simulation or just scripted CSS animations? Prove it.',
+        ? 'The quantitative data visualization backs up the retention claims.'
+        : 'Is the retention model empirically tested or estimated? Requesting baseline specs.',
       sentiment: appliedFixes ? 'analytical' : 'hater',
       likes: 88,
       replies: 31,
@@ -128,11 +136,13 @@ export function generateSimulatedComments(
     {
       authorName: 'Zara Chen',
       authorHandle: '@zara_viral',
-      authorAvatar: '🚀',
-      authorRole: 'Viral Curator',
-      authorColor: '#34d399',
+      authorAvatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
+      authorInitials: 'ZC',
+      authorRole: 'Viral Media Curator',
+      authorColor: '#8b5cf6',
+      badge: 'Influencer',
       content:
-        'Just retweeted this to 150k followers. Flight Simulator for creators is a billion dollar category.',
+        'Reshared to 150k subscribers. Pre-publish flight simulation is a massive category.',
       sentiment: 'viral',
       likes: 512,
       replies: 67,
@@ -141,11 +151,13 @@ export function generateSimulatedComments(
     {
       authorName: 'Marcus Sterling',
       authorHandle: '@msterling_b2b',
-      authorAvatar: '👔',
-      authorRole: 'B2B Executive',
-      authorColor: '#60a5fa',
+      authorAvatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+      authorInitials: 'MS',
+      authorRole: 'Enterprise SaaS VP',
+      authorColor: '#f97316',
+      badge: 'Premium',
       content:
-        'Where is the link to try this? Need to run our Q3 launch video through this simulator.',
+        'Requesting workspace demo. Need to validate our product video before Q3 campaign release.',
       sentiment: 'positive',
       likes: 95,
       replies: 12,
@@ -154,11 +166,13 @@ export function generateSimulatedComments(
     {
       authorName: 'Devin Miller',
       authorHandle: '@devin_builds',
-      authorAvatar: '💻',
-      authorRole: 'Indie Builder',
-      authorColor: '#a78bfa',
+      authorAvatarUrl: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80',
+      authorInitials: 'DM',
+      authorRole: 'Product Engineer',
+      authorColor: '#3b82f6',
+      badge: 'Verified',
       content:
-        'The neural galaxy visualization in the center column is Apple-level smooth. What tech stack are you using?',
+        'The neural galaxy visualization in the center canvas is extremely smooth and responsive.',
       sentiment: 'positive',
       likes: 176,
       replies: 24,
@@ -167,11 +181,13 @@ export function generateSimulatedComments(
     {
       authorName: 'ALGO_BOT_01',
       authorHandle: '@system_algo',
-      authorAvatar: '🤖',
-      authorRole: 'For You Feed Bot',
-      authorColor: '#c084fc',
+      authorAvatarUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
+      authorInitials: 'AI',
+      authorRole: 'Feed Recommendation Engine',
+      authorColor: '#eab308',
+      badge: 'AI Core',
       content:
-        '⚡ High engagement velocity detected in first 15 seconds. Amplifying reach to Tier 1 creator cohort (+300%).',
+        'High engagement velocity detected in first 15 seconds. Amplifying reach to Tier 1 creator cohort (+300%).',
       sentiment: 'bot',
       likes: 410,
       replies: 8,
@@ -215,15 +231,15 @@ export function generateRetentionTimeline(appliedFixes: boolean = false): Retent
       excitementScore = Math.round(85 + Math.cos(sec / 5) * 10);
       if (sec === 0) {
         status = 'fire';
-        note = '🔥 Ultra-strong visual hook captures 98% immediate attention';
+        note = 'Ultra-strong visual hook captures 98% immediate attention';
         isKeyMoment = true;
       } else if (sec === 15) {
         status = 'fire';
-        note = '🚀 Demo payload reveals core value proposition without delay';
+        note = 'Demo payload reveals core value proposition without delay';
         isKeyMoment = true;
       } else if (sec === 36) {
         status = 'fire';
-        note = '💡 High-leverage takeaway maintains 82% retention';
+        note = 'High-leverage takeaway maintains 82% retention';
         isKeyMoment = true;
       } else {
         status = retentionPct > 75 ? 'fire' : 'neutral';
@@ -233,14 +249,14 @@ export function generateRetentionTimeline(appliedFixes: boolean = false): Retent
         retentionPct = 100;
         excitementScore = 92;
         status = 'fire';
-        note = '🔥 Strong title hook grabs initial curiosity';
+        note = 'Strong title hook grabs initial curiosity';
         isKeyMoment = true;
       } else if (sec <= 9) {
         retentionPct = 100 - sec * 3.5;
         excitementScore = 45;
         if (sec === 9) {
           status = 'ice';
-          note = '❄ Intro dragged 3 seconds too long — 32% audience drop-off';
+          note = 'Intro dragged 3 seconds too long — 32% audience drop-off';
           isKeyMoment = true;
         }
       } else if (sec <= 27) {
@@ -248,14 +264,14 @@ export function generateRetentionTimeline(appliedFixes: boolean = false): Retent
         excitementScore = 80;
         if (sec === 18) {
           status = 'fire';
-          note = '🔥 Neural galaxy ecosystem preview sparks sudden excitement (+14%)';
+          note = 'Neural galaxy ecosystem preview sparks sudden excitement (+14%)';
           isKeyMoment = true;
         }
       } else if (sec <= 42) {
         retentionPct = 78 - (sec - 27) * 1.8;
         if (sec === 39) {
           status = 'ice';
-          note = '❄ Dense text block without visual pattern interrupt';
+          note = 'Dense text block without visual pattern interrupt';
           isKeyMoment = true;
         }
       } else {
@@ -289,7 +305,7 @@ export function generateRecommendations(appliedFixes: boolean = false): Recommen
         '32% of Gen Z & Tech Founder personas drop off between 0:03 and 0:08 because the context setup is static.',
       beforeAfter: {
         before: 'In this video I want to talk about how creators...',
-        after: 'Creators publish blindly. We change that. Watch this ⚡',
+        after: 'Creators publish blindly. We change that. Watch this',
       },
       metricBoost: '+18% Retention, +14 Virality Score',
       applied: appliedFixes,
