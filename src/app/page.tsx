@@ -14,6 +14,8 @@ import { CinematicPipelineModal } from '@/components/CinematicPipelineModal';
 import { MobileAppLayout } from '@/components/MobileAppLayout';
 import { AICopilotWidget } from '@/components/AICopilotWidget';
 import { PersonaModal } from '@/components/PersonaModal';
+import { SettingsModal } from '@/components/SettingsModal';
+import { ExportModal } from '@/components/ExportModal';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput, NetworkNode } from '@/types/simulator';
@@ -53,6 +55,8 @@ export default function Home() {
   const [isABOpen, setIsABOpen] = useState<boolean>(false);
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
   const [isPipelineLoading, setIsPipelineLoading] = useState<boolean>(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isExportOpen, setIsExportOpen] = useState<boolean>(false);
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
 
@@ -273,6 +277,22 @@ export default function Home() {
         appliedFixes={appliedFixes}
       />
 
+      {/* Enterprise Export Suite Modal */}
+      <ExportModal
+        isOpen={isExportOpen}
+        onClose={() => setIsExportOpen(false)}
+        content={content}
+        simData={simData}
+      />
+
+      {/* Global AI Engine Settings Modal */}
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        speed={speed}
+        onChangeSpeed={(s) => setSpeed(s)}
+      />
+
       {/* Cinematic AI Pipeline Loading Modal */}
       <CinematicPipelineModal
         isOpen={isPipelineLoading}
@@ -334,6 +354,8 @@ export default function Home() {
           onNewProject={handleNewProject}
           onOpenAuthModal={() => setIsAuthModalOpen(true)}
           onOpenSponsors={() => setIsSponsorsOpen(true)}
+          onOpenSettings={() => setIsSettingsOpen(true)}
+          onOpenExport={() => setIsExportOpen(true)}
         />
 
         {/* Main Desktop 3-Panel Hero Interface */}

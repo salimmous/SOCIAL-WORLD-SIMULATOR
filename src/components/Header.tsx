@@ -27,6 +27,8 @@ interface HeaderProps {
   onNewProject: () => void;
   onOpenAuthModal: () => void;
   onOpenSponsors: () => void;
+  onOpenSettings?: () => void;
+  onOpenExport?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -40,6 +42,8 @@ export const Header: React.FC<HeaderProps> = ({
   onNewProject,
   onOpenAuthModal,
   onOpenSponsors,
+  onOpenSettings,
+  onOpenExport,
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState<boolean>(false);
@@ -196,13 +200,25 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
 
         <button
-          onClick={handleExport}
+          onClick={onOpenExport || handleExport}
           className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/[0.06] text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
           title="Export Insights Report"
+          aria-label="Export Insights Report"
         >
           <Download className="w-3.5 h-3.5" />
           <span className="hidden lg:inline">Export</span>
         </button>
+
+        {onOpenSettings && (
+          <button
+            onClick={onOpenSettings}
+            className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/[0.06] transition-all cursor-pointer shrink-0"
+            title="Open Settings"
+            aria-label="Open Engine Settings"
+          >
+            <span className="text-xs">⚙️</span>
+          </button>
+        )}
 
         {/* PROFILE / ACCOUNT / SOCIAL CONNECTIONS BUTTON */}
         <button
