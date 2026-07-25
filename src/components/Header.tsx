@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Globe, Share2, Download, User, RotateCcw, Sparkles } from 'lucide-react';
+import { Globe, Share2, Download, User, RotateCcw, Sparkles, History, Plus } from 'lucide-react';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PresetScenario } from '@/types/simulator';
 
@@ -11,6 +11,9 @@ interface HeaderProps {
   onReset: () => void;
   onApplyFixes: () => void;
   appliedFixes: boolean;
+  onOpenHistory: () => void;
+  historyCount: number;
+  onNewProject: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,6 +22,9 @@ export const Header: React.FC<HeaderProps> = ({
   onReset,
   onApplyFixes,
   appliedFixes,
+  onOpenHistory,
+  historyCount,
+  onNewProject,
 }) => {
   return (
     <header className="h-14 px-6 flex items-center justify-between z-30 border-b border-white/[0.06] bg-zinc-950/70 backdrop-blur-xl">
@@ -61,8 +67,33 @@ export const Header: React.FC<HeaderProps> = ({
         })}
       </div>
 
-      {/* Right: Actions (Share, Export, Profile) */}
+      {/* Right: Actions (New Project, History, Fixes, Share, Export) */}
       <div className="flex items-center space-x-2">
+        {/* NEW PROJECT BUTTON */}
+        <button
+          onClick={onNewProject}
+          className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-lg shadow-purple-600/20"
+          title="Start Clean Simulation"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          <span>New Project</span>
+        </button>
+
+        {/* HISTORY DRAWER BUTTON */}
+        <button
+          onClick={onOpenHistory}
+          className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer relative"
+          title="View Project History"
+        >
+          <History className="w-3.5 h-3.5 text-purple-400" />
+          <span>History</span>
+          {historyCount > 0 && (
+            <span className="px-1.5 py-0.2 rounded-full bg-purple-500/20 text-purple-300 text-[9px] font-mono font-bold border border-purple-500/30">
+              {historyCount}
+            </span>
+          )}
+        </button>
+
         {appliedFixes ? (
           <span className="px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
             Fixes Active
@@ -73,7 +104,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="px-3 py-1 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 text-xs font-medium border border-purple-500/30 transition-all flex items-center space-x-1.5 cursor-pointer"
           >
             <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span>Apply Fixes</span>
+            <span className="hidden sm:inline">Apply Fixes</span>
           </button>
         )}
 

@@ -5,20 +5,26 @@ import { Header } from '@/components/Header';
 import { LeftPanel } from '@/components/LeftPanel';
 import { SocialWorldCanvas } from '@/components/SocialWorldCanvas';
 import { RightPanel } from '@/components/RightPanel';
+import { HistoryDrawer } from '@/components/HistoryDrawer';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput } from '@/types/simulator';
 import { runSimulationEngine, GeneratedSimulationData } from '@/services/simulatorEngine';
+import {
+  SavedProject,
+  getSavedProjects,
+  saveProjectToHistory,
+} from '@/services/historyStore';
 
 export default function Home() {
   const [currentPreset, setCurrentPreset] = useState<PresetScenario>(PRESET_SCENARIOS[0]);
   const [content, setContent] = useState<ContentInput>({
-    title: currentPreset.title,
-    contentType: currentPreset.contentType,
-    platform: currentPreset.platform,
-    contentBody: currentPreset.sampleText,
-    mediaFileUrl: currentPreset.mediaPreview,
-    targetAudience: 'Tech & Gen Z Creators',
+    title: 'New Simulation Project',
+    contentType: 'video',
+    platform: 'tiktok',
+    contentBody: '',
+    mediaFileUrl: undefined,
+    targetAudience: 'General Audience',
   });
 
   const [selectedPersonas, setSelectedPersonas] = useState<string[]>(
@@ -27,20 +33,64 @@ export default function Home() {
 
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration] = useState<number>(60);
-  const [isRunning, setIsRunning] = useState<boolean>(true);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
   const [speed, setSpeed] = useState<number>(1);
   const [appliedFixes, setAppliedFixes] = useState<boolean>(false);
   const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
+
+  // History Drawer state
+  const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
+  const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
+
+  useEffect(() => {
+    setSavedProjects(getSavedProjects());
+  }, []);
 
   // Compute simulation data
   const [simData, setSimData] = useState<GeneratedSimulationData>(() =>
     runSimulationEngine(content, false)
   );
 
+  // Clean New Project Reset
+  const handleNewProject = () => {
+    const cleanContent: ContentInput = {
+      title: 'New Simulation Project',
+      contentType: 'video',
+      platform: 'tiktok',
+      contentBody: '',
+      mediaFileUrl: undefined,
+      targetAudience: 'General Audience',
+      videoIntelligence: undefined,
+    };
+    setContent(cleanContent);
+    setCurrentTime(0);
+    setIsRunning(false);
+    setAppliedFixes(false);
+    setSimData(runSimulationEngine(cleanContent, false));
+  };
+
+  // Select Saved Project from History
+  const handleSelectSavedProject = (proj: SavedProject) => {
+    const restoredContent: ContentInput = {
+      title: proj.title,
+      contentType: 'video',
+      platform: proj.platform,
+      contentBody: proj.contentBody,
+      mediaFileUrl: proj.mediaUrl,
+      targetAudience: 'General Audience',
+      videoIntelligence: proj.intel,
+    };
+    setContent(restoredContent);
+    setCurrentTime(0);
+    setIsRunning(true);
+    setAppliedFixes(false);
+    setSimData(runSimulationEngine(restoredContent, false));
+  };
+
   // Handle Preset Switching
   const handleSelectPreset = (preset: PresetScenario) => {
     setCurrentPreset(preset);
-    const nextContent = {
+    const nextContent: ContentInput = {
       title: preset.title,
       contentType: preset.contentType,
       platform: preset.platform,
@@ -69,7 +119,7 @@ export default function Home() {
     );
   };
 
-  // Trigger NVIDIA AI Simulation API Call
+  // Trigger NVIDIA AI Simulation API Call & Auto-Save Project to History
   const handleRunSimulation = async () => {
     setCurrentTime(0);
     setIsRunning(true);
@@ -82,12 +132,16 @@ export default function Home() {
         body: JSON.stringify(content),
       });
 
+      let finalMetrics = simData.metrics;
+
       if (res.ok) {
         const aiResult = await res.json();
         const baseData = runSimulationEngine(content, appliedFixes);
 
-        // Merge NVIDIA AI generated metrics, comments, and recommendations
-        if (aiResult.metrics) baseData.metrics = { ...baseData.metrics, ...aiResult.metrics };
+        if (aiResult.metrics) {
+          baseData.metrics = { ...baseData.metrics, ...aiResult.metrics };
+          finalMetrics = baseData.metrics;
+        }
         if (aiResult.comments && Array.isArray(aiResult.comments)) {
           baseData.comments = aiResult.comments.map((c: any, idx: number) => ({
             ...c,
@@ -104,6 +158,19 @@ export default function Home() {
 
         setSimData(baseData);
       }
+
+      // Save project run to history
+      saveProjectToHistory({
+        title: content.title || 'Untitled Simulation',
+        platform: content.platform,
+        viralityScore: finalMetrics.viralityScore,
+        estimatedReach: finalMetrics.estimatedReach,
+        mediaUrl: content.mediaFileUrl,
+        contentBody: content.contentBody || 'Simulation script payload',
+        intel: content.videoIntelligence,
+      });
+
+      setSavedProjects(getSavedProjects());
     } catch (err) {
       console.warn('NVIDIA AI API call error, fallback to local engine:', err);
     } finally {
@@ -149,9 +216,22 @@ export default function Home() {
         onReset={() => setCurrentTime(0)}
         onApplyFixes={handleApplyFixes}
         appliedFixes={appliedFixes}
+        onOpenHistory={() => setIsHistoryOpen(true)}
+        historyCount={savedProjects.length}
+        onNewProject={handleNewProject}
       />
 
-      {/* Main 70/30 Hero Layout Interface */}
+      {/* History Slide-over Drawer Modal */}
+      <HistoryDrawer
+        isOpen={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
+        projects={savedProjects}
+        onSelectProject={handleSelectSavedProject}
+        onNewProject={handleNewProject}
+        onUpdateProjects={(updated) => setSavedProjects(updated)}
+      />
+
+      {/* Main Hero Layout Interface */}
       <div className="flex-1 flex overflow-hidden">
         {/* Collapsible Left Setup Drawer */}
         <LeftPanel
@@ -163,7 +243,7 @@ export default function Home() {
           isRunning={isRunning || isAiLoading}
         />
 
-        {/* Center Hero living Social World Canvas (70% viewport width) */}
+        {/* Center Hero living Social World Canvas */}
         <SocialWorldCanvas
           nodes={simData.nodes}
           edges={simData.edges}
@@ -178,7 +258,7 @@ export default function Home() {
           stage={stage}
         />
 
-        {/* Right Intelligence Accordion Panel (30% viewport width) */}
+        {/* Right Intelligence Accordion Panel */}
         <RightPanel
           metrics={simData.metrics}
           retentionTimeline={simData.retentionTimeline}
