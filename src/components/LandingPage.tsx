@@ -9,8 +9,14 @@ interface LandingPageProps {
   onOpenWorkspace?: () => void;
 }
 
-export function LandingPage({ onLaunchPlatform }: LandingPageProps) {
-  return <PrismaLandingPage />;
+export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: LandingPageProps) {
+  return (
+    <PrismaLandingPage
+      onLaunchPlatform={onLaunchPlatform}
+      onOpenAtlas={onOpenAtlas}
+      onOpenWorkspace={onOpenWorkspace}
+    />
+  );
 }
 
 export { PrismaLandingPage };
