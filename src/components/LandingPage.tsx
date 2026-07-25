@@ -364,40 +364,45 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
                     </span>
                   </div>
 
-                  <div className="flex p-0.5 bg-zinc-900 rounded-xl border border-white/10 font-mono text-[9px]">
-                    <button
-                      onClick={() => setActivePreviewTab('network')}
-                      className={`px-2 py-1 rounded-lg transition-all ${
-                        activePreviewTab === 'network' ? 'bg-purple-600 text-white font-bold' : 'text-zinc-400'
-                      }`}
-                    >
-                      Network
-                    </button>
-                    <button
-                      onClick={() => setActivePreviewTab('retention')}
-                      className={`px-2 py-1 rounded-lg transition-all ${
-                        activePreviewTab === 'retention' ? 'bg-purple-600 text-white font-bold' : 'text-zinc-400'
-                      }`}
-                    >
-                      Retention
-                    </button>
-                    <button
-                      onClick={() => setActivePreviewTab('reasoning')}
-                      className={`px-2 py-1 rounded-lg transition-all ${
-                        activePreviewTab === 'reasoning' ? 'bg-purple-600 text-white font-bold' : 'text-zinc-400'
-                      }`}
-                    >
-                      Reasoning
-                    </button>
-                    <button
-                      onClick={() => setActivePreviewTab('optimization')}
-                      className={`px-2 py-1 rounded-lg transition-all ${
-                        activePreviewTab === 'optimization' ? 'bg-purple-600 text-white font-bold' : 'text-zinc-400'
-                      }`}
-                    >
-                      Optimization
-                    </button>
-                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-mono font-bold border border-purple-500/30">
+                    Virality Index: {currentPreset.virality} / 100 ({currentPreset.reach} Reach)
+                  </span>
+                </div>
+
+                {/* Engine View Mode Selector */}
+                <div className="flex p-1 bg-zinc-900/90 rounded-xl border border-white/10 font-mono text-[10px] justify-between">
+                  <button
+                    onClick={() => setActivePreviewTab('network')}
+                    className={`flex-1 py-1.5 rounded-lg transition-all text-center cursor-pointer ${
+                      activePreviewTab === 'network' ? 'bg-purple-600 text-white font-bold shadow-lg shadow-purple-600/30' : 'text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    Orbit Graph
+                  </button>
+                  <button
+                    onClick={() => setActivePreviewTab('retention')}
+                    className={`flex-1 py-1.5 rounded-lg transition-all text-center cursor-pointer ${
+                      activePreviewTab === 'retention' ? 'bg-purple-600 text-white font-bold shadow-lg shadow-purple-600/30' : 'text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    Retention Heatmap
+                  </button>
+                  <button
+                    onClick={() => setActivePreviewTab('reasoning')}
+                    className={`flex-1 py-1.5 rounded-lg transition-all text-center cursor-pointer ${
+                      activePreviewTab === 'reasoning' ? 'bg-purple-600 text-white font-bold shadow-lg shadow-purple-600/30' : 'text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    AI Reasoning
+                  </button>
+                  <button
+                    onClick={() => setActivePreviewTab('optimization')}
+                    className={`flex-1 py-1.5 rounded-lg transition-all text-center cursor-pointer ${
+                      activePreviewTab === 'optimization' ? 'bg-purple-600 text-white font-bold shadow-lg shadow-purple-600/30' : 'text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    Optimization Delta
+                  </button>
                 </div>
 
                 {/* TAB 1: 60 FPS Orbit Canvas */}
