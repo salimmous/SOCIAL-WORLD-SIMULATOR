@@ -20,6 +20,8 @@ import { CommandPaletteModal } from '@/components/CommandPaletteModal';
 import { OnboardingTourModal } from '@/components/OnboardingTourModal';
 import { AppleOnboardingModal } from '@/components/AppleOnboardingModal';
 import { GettingStartedChecklist } from '@/components/GettingStartedChecklist';
+import { FeatureDocDrawer, FeatureDocData } from '@/components/FeatureDocDrawer';
+import { HelpCenterModal } from '@/components/HelpCenterModal';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput, NetworkNode } from '@/types/simulator';
@@ -63,6 +65,8 @@ export default function Home() {
   const [isExportOpen, setIsExportOpen] = useState<boolean>(false);
   const [isCmdKOpen, setIsCmdKOpen] = useState<boolean>(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState<boolean>(false);
+  const [isHelpCenterOpen, setIsHelpCenterOpen] = useState<boolean>(false);
+  const [selectedFeatureDoc, setSelectedFeatureDoc] = useState<FeatureDocData | null>(null);
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
 
@@ -401,6 +405,19 @@ export default function Home() {
         onClose={() => setSelectedNode(null)}
       />
 
+      {/* Enterprise Help Center & Platform Docs Modal */}
+      <HelpCenterModal
+        isOpen={isHelpCenterOpen}
+        onClose={() => setIsHelpCenterOpen(false)}
+        onReplayTour={() => setIsOnboardingOpen(true)}
+      />
+
+      {/* Interactive Feature Documentation Drawer */}
+      <FeatureDocDrawer
+        doc={selectedFeatureDoc}
+        onClose={() => setSelectedFeatureDoc(null)}
+      />
+
       {/* MOBILE NATIVE APP EXPERIENCE (block md:hidden) */}
       <div className="block md:hidden w-full h-full">
         <MobileAppLayout
@@ -441,6 +458,7 @@ export default function Home() {
           onOpenSponsors={() => setIsSponsorsOpen(true)}
           onOpenSettings={() => setIsSettingsOpen(true)}
           onOpenExport={() => setIsExportOpen(true)}
+          onOpenHelp={() => setIsHelpCenterOpen(true)}
         />
 
         {/* Main Desktop 3-Panel Hero Interface */}

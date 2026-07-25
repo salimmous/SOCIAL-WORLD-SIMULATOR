@@ -32,6 +32,7 @@ const TOUR_STEPS = [
     title: '1. Content Intelligence Upload',
     tagline: 'EVERYTHING STARTS HERE',
     description: 'Upload a video, image, script, or social media link. Our AI automatically extracts Whisper transcripts, visual tone, and audience hooks.',
+    learnMore: 'Supports MP4, MOV, PNG, JPG, and raw text scripts up to 500MB. The file passes through NVIDIA AI for multimodal parsing and Whisper speech-to-text.',
     icon: Upload,
   },
   {
@@ -39,6 +40,7 @@ const TOUR_STEPS = [
     title: '2. Multimodal AI Extraction',
     tagline: 'AUTOMATIC DEEP ANALYSIS',
     description: 'The AI extracts Whisper transcript, hook energy, emotion curves, visual style, and target audience segments automatically.',
+    learnMore: 'Processes frame-by-frame visual pacing, detects high-arousal emotional words, and evaluates hook strength against 14,000+ top-performing posts indexed by Firecrawl.',
     icon: Sparkles,
   },
   {
@@ -46,6 +48,7 @@ const TOUR_STEPS = [
     title: '3. 60 FPS Social Simulation Canvas',
     tagline: 'THE HEART OF THE PLATFORM',
     description: 'Watch 200+ autonomous AI personas react in real time. Persona nodes drift, connections pulse, and comments stream live.',
+    learnMore: 'Powered by HTML5 Canvas 2D orbital physics. Calculates gravitational attraction, velocity vectors, and virality heatwave propagation across 7 community clusters.',
     icon: Globe,
   },
   {
@@ -53,6 +56,7 @@ const TOUR_STEPS = [
     title: '4. Persona Node AI Reasoning',
     tagline: 'EXPLICIT BEHAVIORAL REASONING',
     description: 'Click any persona node to view their Influence Score (94/100), Trust Score (88/100), and deep AI explanation of why they engaged or dropped off.',
+    learnMore: 'Each persona evaluates your content against their synthetic memory bias (Enthusiastic, Critical, Hater, Creator) and calculates sentiment probability.',
     icon: User,
   },
   {
@@ -60,6 +64,7 @@ const TOUR_STEPS = [
     title: '5. Retention & Timeline Scrubber',
     tagline: 'REPLAY EVERY MOMENT',
     description: 'Watch exactly when engagement spiked and retention dropped. Pinpoint the exact second your hook lost traction.',
+    learnMore: 'Displays second-by-second retention heatmaps (🔥 High Excitement, ⚠️ Drop-off Risk) synced with audio waveforms.',
     icon: Clock,
   },
   {
@@ -67,6 +72,7 @@ const TOUR_STEPS = [
     title: '6. AI Copilot Live Assistant',
     tagline: 'PERSISTENT LIVE ADVISOR',
     description: 'The AI Copilot watches your simulation live and suggests actionable edits (e.g. "Pacing slows at 0:04, remove first 5s").',
+    learnMore: 'Continuously monitors simulation metrics and allows conversational Q&A like "Why did Gen Z ignore this script?"',
     icon: Sparkles,
   },
   {
@@ -74,6 +80,7 @@ const TOUR_STEPS = [
     title: '7. Optimization Lab & 1-Click Rewrites',
     tagline: 'INSTANT RE-SIMULATION',
     description: 'Trigger 1-click script rewrites for better hooks, CTAs, and captions. A new simulation automatically validates the score boost.',
+    learnMore: 'Applies GPT-4o high-retention script structures and re-runs the physics simulation engine instantly to compute delta improvements.',
     icon: Zap,
   },
   {
@@ -81,6 +88,7 @@ const TOUR_STEPS = [
     title: '8. Side-by-Side Before vs After',
     tagline: 'MEASURED VIRALITY BOOST',
     description: 'Compare Original Draft (Score 72) vs AI Optimized Version (Score 91) with virality boost deltas.',
+    learnMore: 'Side-by-side A/B comparison metrics highlighting Virality Score, Attention Score, Audience Fit, and Brand Safety.',
     icon: TrendingUp,
   },
   {
@@ -88,6 +96,7 @@ const TOUR_STEPS = [
     title: '9. Executive Reports & Exporter',
     tagline: 'PDF, JSON, PNG & LINK EXPORTS',
     description: 'Compile McKinsey-style executive reports with risk analysis, opportunity scores, and printable PDF audit sheets.',
+    learnMore: 'Generates client-ready executive decks, printable PDF content audit certificates, and raw JSON payloads for API pipelines.',
     icon: FileText,
   },
   {
@@ -95,6 +104,7 @@ const TOUR_STEPS = [
     title: '10. AI Workspace Infrastructure',
     tagline: '7 ENTERPRISE INFRASTRUCTURE MODULES',
     description: 'Monitor NVIDIA Nemotron, OpenAI GPT-4o, ElevenLabs, fal.ai, Firecrawl, n8n, Render, and realtime system telemetry.',
+    learnMore: 'Unified control panel displaying latency, API throughput, encrypted secrets manager, and live system audit logs.',
     icon: Cpu,
   },
 ];
@@ -102,6 +112,7 @@ const TOUR_STEPS = [
 export function AppleOnboardingModal({ isOpen, onClose, onStartDemo }: AppleOnboardingModalProps) {
   const [mode, setMode] = useState<'welcome' | 'tour' | 'complete'>('welcome');
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
+  const [showLearnMore, setShowLearnMore] = useState(false);
 
   if (!isOpen) return null;
 
@@ -228,6 +239,23 @@ export function AppleOnboardingModal({ isOpen, onClose, onStartDemo }: AppleOnbo
                   <p className="text-xs text-zinc-300 leading-relaxed mt-1 font-sans">
                     {TOUR_STEPS[currentStepIdx].description}
                   </p>
+
+                  {/* Expandable Learn More Section */}
+                  <div className="mt-3 pt-3 border-t border-white/10">
+                    <button
+                      onClick={() => setShowLearnMore(!showLearnMore)}
+                      className="text-[11px] font-mono text-purple-400 hover:text-purple-300 font-bold flex items-center space-x-1 cursor-pointer"
+                    >
+                      <span>{showLearnMore ? 'Hide Deep Dive' : 'Learn More (Specs & API Details)'}</span>
+                      <ChevronRight className={`w-3.5 h-3.5 transition-transform ${showLearnMore ? 'rotate-90' : ''}`} />
+                    </button>
+
+                    {showLearnMore && (
+                      <p className="text-xs font-mono text-purple-300/90 leading-relaxed mt-2 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20">
+                        {TOUR_STEPS[currentStepIdx].learnMore}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
 

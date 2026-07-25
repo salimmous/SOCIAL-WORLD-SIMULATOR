@@ -13,6 +13,7 @@ import {
   Check,
   ChevronDown,
   Cpu,
+  HelpCircle,
 } from 'lucide-react';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PresetScenario } from '@/types/simulator';
@@ -30,6 +31,7 @@ interface HeaderProps {
   onOpenSponsors: () => void;
   onOpenSettings?: () => void;
   onOpenExport?: () => void;
+  onOpenHelp?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -45,6 +47,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenSponsors,
   onOpenSettings,
   onOpenExport,
+  onOpenHelp,
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState<boolean>(false);
@@ -145,6 +148,16 @@ export const Header: React.FC<HeaderProps> = ({
           <Cpu className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
           <span className="hidden sm:inline">AI Workspace</span>
         </button>
+
+        {onOpenHelp && (
+          <button
+            onClick={onOpenHelp}
+            className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 text-xs transition-all cursor-pointer shrink-0"
+            title="Open Help Center & Interactive Documentation"
+          >
+            <HelpCircle className="w-4 h-4 text-purple-400" />
+          </button>
+        )}
 
         <button
           onClick={onNewProject}
