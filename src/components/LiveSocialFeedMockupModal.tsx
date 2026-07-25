@@ -86,11 +86,11 @@ export function LiveSocialFeedMockupModal({
 
   if (!isOpen) return null;
 
-  const displayTitle = content.title || 'SaaS Launch Hook Teaser';
-  const displayBody =
-    useRewrittenText || appliedFixes
-      ? `🔥 REWRITTEN HOOK: Stop wasting 60% of your dev time on manual component tests. Here is how AI autonomous agents simulate 200+ audience personas in 2 seconds.`
-      : content.contentBody || 'Hot take: Writing unit tests for early-stage MVP UI components is a waste of time.';
+  const rawBody = content.contentBody?.trim() || content.title?.trim() || 'Stop wasting 60% of dev time on manual tests. Here is how AI agents simulate audience reactions.';
+
+  const displayBody = (useRewrittenText || appliedFixes)
+    ? (rawBody.startsWith('🔥') ? rawBody : `🔥 REWRITTEN HOOK: ${rawBody}`)
+    : rawBody;
 
   const fallbackMediaUrl = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80';
 
@@ -113,6 +113,7 @@ export function LiveSocialFeedMockupModal({
             loop
             muted
             playsInline
+            controls
             className={className}
           />
         );
@@ -306,8 +307,8 @@ export function LiveSocialFeedMockupModal({
                   {displayBody}
                 </p>
 
-                {/* Media Embed */}
-                <div className="rounded-2xl overflow-hidden border border-zinc-800 max-h-64 relative">
+                {/* Media Embed Fixed Height Container */}
+                <div className="w-full h-64 md:h-72 bg-black rounded-2xl overflow-hidden border border-zinc-800 relative flex items-center justify-center">
                   {renderMedia('w-full h-full object-cover')}
                 </div>
 
@@ -360,7 +361,8 @@ export function LiveSocialFeedMockupModal({
                   {"\n\n"}#ArtificialIntelligence #SaaSLaunch #ProductStrategy #SocialWorldOS
                 </p>
 
-                <div className="rounded-2xl overflow-hidden border border-zinc-800 max-h-72">
+                {/* Media Embed Fixed Height Container */}
+                <div className="w-full h-64 md:h-72 bg-black rounded-2xl overflow-hidden border border-zinc-800 relative flex items-center justify-center">
                   {renderMedia('w-full h-full object-cover')}
                 </div>
 
