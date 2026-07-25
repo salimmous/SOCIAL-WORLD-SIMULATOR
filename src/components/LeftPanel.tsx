@@ -267,7 +267,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 
         {/* MEDIA TAB: FILE UPLOAD + SOCIAL LINK + SAMPLES */}
         {activeTab === 'upload' && !isAnalyzing && (
-          <div className="space-y-4">
+          <div className="space-y-4" data-tour="content-input">
             {/* Mode Switcher Pills */}
             <div className="flex p-1 bg-zinc-900/60 rounded-xl border border-white/5 text-[10px] font-bold">
               <button
@@ -584,9 +584,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
           </div>
         )}
 
-        {/* AUDIENCE SELECTOR VIEW */}
-        {activeTab === 'audience' && !isAnalyzing && (
-          <div className="space-y-2">
+        {/* AUDIENCE TAB: PERSONA CLUSTERS */}
+        {activeTab === 'audience' && (
+          <div className="space-y-2" data-tour="persona-selector">
             <span className="text-xs font-bold text-zinc-300 block mb-2">
               Target AI Audience Cohorts
             </span>
@@ -647,7 +647,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       </div>
 
       {/* THE ONE PRIMARY CTA BUTTON */}
-      <div className="p-4 border-t border-white/[0.06] bg-zinc-950/60">
+      <div className="p-4 border-t border-white/[0.06] bg-zinc-950/60" data-tour="run-simulation-btn">
         <button
           onClick={onRunSimulation}
           disabled={isAnalyzing}

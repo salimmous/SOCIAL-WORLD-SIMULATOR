@@ -14,6 +14,7 @@ interface CommandPaletteModalProps {
   onOpenExportModal: () => void;
   onOpenSettingsModal: () => void;
   onOpenSponsorsModal: () => void;
+  onExplainPage?: () => void;
 }
 
 export function CommandPaletteModal({
@@ -26,6 +27,7 @@ export function CommandPaletteModal({
   onOpenExportModal,
   onOpenSettingsModal,
   onOpenSponsorsModal,
+  onExplainPage,
 }: CommandPaletteModalProps) {
   const [query, setQuery] = useState('');
 
@@ -35,8 +37,6 @@ export function CommandPaletteModal({
         e.preventDefault();
         if (isOpen) {
           onClose();
-        } else {
-          // Trigger open in parent
         }
       }
     };
@@ -47,6 +47,16 @@ export function CommandPaletteModal({
   if (!isOpen) return null;
 
   const actions = [
+    {
+      id: 'explain-page',
+      title: 'Explain This Page (Interactive Coach Spotlight)',
+      category: 'Learning Mode',
+      icon: Sparkles,
+      action: () => {
+        if (onExplainPage) onExplainPage();
+        onClose();
+      },
+    },
     {
       id: 'run-sim',
       title: 'Run AI Simulation Engine',

@@ -22,6 +22,7 @@ import { AppleOnboardingModal } from '@/components/AppleOnboardingModal';
 import { GettingStartedChecklist } from '@/components/GettingStartedChecklist';
 import { FeatureDocDrawer, FeatureDocData } from '@/components/FeatureDocDrawer';
 import { HelpCenterModal } from '@/components/HelpCenterModal';
+import { ProductCoachSpotlight } from '@/components/ProductCoachSpotlight';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput, NetworkNode } from '@/types/simulator';
@@ -66,6 +67,7 @@ export default function Home() {
   const [isCmdKOpen, setIsCmdKOpen] = useState<boolean>(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState<boolean>(false);
   const [isHelpCenterOpen, setIsHelpCenterOpen] = useState<boolean>(false);
+  const [isCoachActive, setIsCoachActive] = useState<boolean>(false);
   const [selectedFeatureDoc, setSelectedFeatureDoc] = useState<FeatureDocData | null>(null);
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
@@ -366,6 +368,7 @@ export default function Home() {
         onOpenExportModal={() => setIsExportOpen(true)}
         onOpenSettingsModal={() => setIsSettingsOpen(true)}
         onOpenSponsorsModal={() => setIsSponsorsOpen(true)}
+        onExplainPage={() => setIsCoachActive(true)}
       />
 
       {/* Apple-Quality Guided Onboarding Tour Modal */}
@@ -416,6 +419,13 @@ export default function Home() {
       <FeatureDocDrawer
         doc={selectedFeatureDoc}
         onClose={() => setSelectedFeatureDoc(null)}
+      />
+
+      {/* In-Product Coach Spotlight Component */}
+      <ProductCoachSpotlight
+        isActive={isCoachActive}
+        onClose={() => setIsCoachActive(false)}
+        onStartDemo={handleStartDemoProject}
       />
 
       {/* MOBILE NATIVE APP EXPERIENCE (block md:hidden) */}

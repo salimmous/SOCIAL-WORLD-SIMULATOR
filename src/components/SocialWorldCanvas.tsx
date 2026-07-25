@@ -398,7 +398,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
       </div>
 
       {/* Hero Canvas Area */}
-      <div className="flex-1 relative w-full h-full">
+      <div className="flex-1 relative w-full h-full" data-tour="social-canvas">
         <canvas
           ref={canvasRef}
           onClick={(e) => {

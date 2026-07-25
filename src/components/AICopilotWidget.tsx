@@ -43,7 +43,7 @@ export function AICopilotWidget({
       animate={{ opacity: 1, y: 0 }}
       className="fixed bottom-6 right-6 z-40 max-w-sm"
     >
-      <div className="p-4 rounded-3xl bg-zinc-950/90 border border-purple-500/30 backdrop-blur-2xl shadow-2xl space-y-3 relative overflow-hidden">
+      <div className="p-4 rounded-3xl bg-zinc-950/90 border border-purple-500/30 backdrop-blur-2xl shadow-2xl space-y-3 relative overflow-hidden" data-tour="copilot-widget">
         {/* Ambient Top Glow */}
         <div className="absolute -top-10 -right-10 w-32 h-32 bg-purple-600/20 rounded-full blur-2xl pointer-events-none" />
 

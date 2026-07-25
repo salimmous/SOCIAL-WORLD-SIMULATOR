@@ -214,7 +214,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
         </div>
 
         {/* SECTION 3: INSIGHTS & RETENTION */}
-        <div className="glass-card overflow-hidden">
+        <div className="glass-card overflow-hidden" data-tour="timeline-scrubber">
           <button
             onClick={() => toggleSection('insights')}
             className="w-full px-4 py-3.5 flex items-center justify-between text-left cursor-pointer"
@@ -250,8 +250,8 @@ export const RightPanel: React.FC<RightPanelProps> = ({
           </AnimatePresence>
         </div>
 
-        {/* SECTION 4: STRICT AI CRITIQUE */}
-        <div className="glass-card overflow-hidden">
+        {/* SECTION 4: STRICT AI CRITIQUE & OPTIMIZATION LAB */}
+        <div className="glass-card overflow-hidden" data-tour="optimization-lab">
           <button
             onClick={() => toggleSection('recommendations')}
             className="w-full px-4 py-3.5 flex items-center justify-between text-left cursor-pointer"

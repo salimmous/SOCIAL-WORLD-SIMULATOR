@@ -99,7 +99,7 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Center: Sleek Compact Preset Selector Dropdown */}
-      <div className="relative mx-2">
+      <div className="relative mx-2" data-tour="preset-selector">
         <button
           onClick={() => setShowPresetDropdown(!showPresetDropdown)}
           className="px-3 py-1.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 border border-white/10 text-xs font-semibold flex items-center space-x-2 transition-all cursor-pointer shadow-sm"
@@ -142,6 +142,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center space-x-2 shrink-0">
         <button
           onClick={onOpenSponsors}
+          data-tour="ai-workspace-button"
           className="px-3 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
           title="AI Workspace Infrastructure & Health Dashboard"
         >
@@ -215,6 +216,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         <button
           onClick={onOpenExport || handleExport}
+          data-tour="export-button"
           className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/[0.06] text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
           title="Export Insights Report"
           aria-label="Export Insights Report"
