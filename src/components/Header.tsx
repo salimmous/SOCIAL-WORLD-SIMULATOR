@@ -173,11 +173,11 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           onClick={onOpenSponsors}
           data-tour="ai-workspace-button"
-          className="px-3 py-1.5 rounded-xl bg-[#111111] hover:bg-[#181818] text-[#DEDBC8] border border-[#DEDBC8]/20 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
-          title="AI Workspace Infrastructure & Health Dashboard"
+          className="px-3.5 py-1.5 rounded-xl bg-[#DEDBC8] hover:bg-[#ECE8D9] text-black border border-[#DEDBC8] text-xs font-extrabold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0 shadow-[0_0_15px_rgba(222,219,200,0.25)] active:scale-95"
+          title="AI Workspace Infrastructure & 7 Connected AI Engines"
         >
-          <Cpu className="w-3.5 h-3.5 text-[#DEDBC8] animate-pulse" />
-          <span className="hidden sm:inline">AI Workspace</span>
+          <Cpu className="w-3.5 h-3.5 text-black animate-pulse" />
+          <span className="hidden sm:inline">⚡ AI Tech Suite</span>
         </button>
 
         {onOpenHelp && (
