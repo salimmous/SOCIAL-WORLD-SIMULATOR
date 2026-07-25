@@ -19,6 +19,8 @@ import {
   Flame,
   BarChart2,
   FileText,
+  Activity,
+  Check,
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -30,9 +32,12 @@ interface LandingPageProps {
 export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: LandingPageProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const demoCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [scrolled, setScrolled] = useState(false);
 
-  // Track scroll position for liquid navbar blur
+  const [scrolled, setScrolled] = useState(false);
+  const [activePreviewTab, setActivePreviewTab] = useState<'network' | 'retention' | 'reasoning' | 'optimization'>('network');
+  const [selectedPreset, setSelectedPreset] = useState<'b2b' | 'genz' | 'tech'>('b2b');
+
+  // Track scroll position for navbar backdrop blur
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -41,7 +46,7 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 60 FPS Background Orbital Canvas Physics
+  // 60 FPS Living Background Canvas Physics
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -58,8 +63,8 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Drifting persona nodes
-    const nodes = Array.from({ length: 40 }).map(() => ({
+    // Persona node particles
+    const nodes = Array.from({ length: 45 }).map(() => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       radius: Math.random() * 2.5 + 1.5,
@@ -72,7 +77,7 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Subtle background grid
+      // Grid background
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)';
       ctx.lineWidth = 1;
       const gridSize = 70;
@@ -134,8 +139,9 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
     };
   }, []);
 
-  // Demo Box 60 FPS Orbit Canvas Simulation Preview
+  // Hero Preview Box 60 FPS Orbit Canvas Simulation
   useEffect(() => {
+    if (activePreviewTab !== 'network') return;
     const canvas = demoCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -154,14 +160,14 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
       const centerY = canvas.height / 2;
 
       // Draw Orbiting Persona Nodes
-      for (let i = 0; i < 16; i++) {
+      for (let i = 0; i < 18; i++) {
         const orbitRadius = 45 + (i % 3) * 35;
-        const currentAngle = angle * (i % 2 === 0 ? 1 : -1) + (i * Math.PI) / 8;
+        const currentAngle = angle * (i % 2 === 0 ? 1 : -1) + (i * Math.PI) / 9;
         const x = centerX + Math.cos(currentAngle) * orbitRadius;
-        const y = centerY + Math.sin(currentAngle) * (orbitRadius * 0.5);
+        const y = centerY + Math.sin(currentAngle) * (orbitRadius * 0.55);
 
-        // Line to center payload
-        ctx.strokeStyle = 'rgba(168, 85, 247, 0.15)';
+        // Vector linkage to payload
+        ctx.strokeStyle = 'rgba(168, 85, 247, 0.18)';
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
@@ -171,16 +177,16 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
         // Persona Node
         ctx.fillStyle = i % 2 === 0 ? '#a855f7' : '#34d399';
         ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.arc(x, y, 4.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // Central Content Payload Node
+      // Payload Center Core
       ctx.fillStyle = '#c084fc';
       ctx.shadowColor = '#a855f7';
-      ctx.shadowBlur = 15;
+      ctx.shadowBlur = 18;
       ctx.beginPath();
-      ctx.arc(centerX, centerY, 10, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, 11, 0, Math.PI * 2);
       ctx.fill();
       ctx.shadowBlur = 0;
 
@@ -190,17 +196,25 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
 
     renderDemo();
     return () => cancelAnimationFrame(frameId);
-  }, []);
+  }, [activePreviewTab]);
+
+  const presetData = {
+    b2b: { title: 'B2B SaaS 0-to-1 Pitch', virality: 92, reach: '142K', retention: '88%' },
+    genz: { title: 'Gen Z Viral TikTok Hook', virality: 96, reach: '480K', retention: '94%' },
+    tech: { title: 'AI Agent Founder Hot Take', virality: 89, reach: '98K', retention: '82%' },
+  };
+
+  const currentPreset = presetData[selectedPreset];
 
   return (
     <div className="min-h-screen bg-[#050505] text-zinc-100 font-sans relative overflow-x-hidden selection:bg-purple-500/30 selection:text-purple-200">
       {/* Background Living Physics Canvas */}
       <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />
 
-      {/* Top Ambient Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[450px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none z-0" />
+      {/* Top Ambient Lighting Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none z-0" />
 
-      {/* Navbar with Liquid Glass Effect */}
+      {/* Liquid Glass Navigation Bar */}
       <nav
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
           scrolled
@@ -222,7 +236,7 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
             </span>
           </div>
 
-          {/* Navigation Links */}
+          {/* Center Links */}
           <div className="hidden md:flex items-center space-x-8 text-xs font-semibold text-zinc-400 font-sans">
             <button onClick={onLaunchPlatform} className="hover:text-white transition-colors cursor-pointer">
               Platform
@@ -238,7 +252,7 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
             </button>
           </div>
 
-          {/* Right Actions */}
+          {/* Right CTAs */}
           <div className="flex items-center space-x-3">
             <a
               href="https://github.com/salimmous/SOCIAL-WORLD-SIMULATOR"
@@ -273,7 +287,7 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
             transition={{ duration: 0.6 }}
             className="lg:col-span-6 space-y-6 text-left"
           >
-            {/* Small Badge */}
+            {/* Badge */}
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono font-semibold backdrop-blur-md shadow-lg shadow-purple-500/10">
               <Sparkles className="w-3.5 h-3.5 animate-pulse text-purple-400" />
               <span>AI Content Intelligence Platform</span>
@@ -289,10 +303,10 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
 
             {/* Subtitle */}
             <p className="text-sm sm:text-base text-zinc-300 font-sans leading-relaxed max-w-xl">
-              Upload your content payload. Watch AI analyze pacing, simulate 200+ autonomous persona reactions, predict virality reach, and optimize retention before going live.
+              Upload your content payload. Watch AI analyze pacing, simulate 200+ autonomous persona reactions across force-directed community graphs, and optimize retention before going live.
             </p>
 
-            {/* Buttons */}
+            {/* CTAs */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 onClick={onLaunchPlatform}
@@ -311,14 +325,14 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
               </button>
             </div>
 
-            {/* Live Metrics Row */}
+            {/* Metrics Matrix */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-white/[0.08]">
               <div>
                 <span className="text-2xl font-black text-white font-mono block">200+</span>
                 <span className="text-[11px] text-zinc-400 font-sans">Autonomous Personas</span>
               </div>
               <div>
-                <span className="text-2xl font-black text-purple-400 font-mono block">94%</span>
+                <span className="text-2xl font-black text-purple-400 font-mono block">94.2%</span>
                 <span className="text-[11px] text-zinc-400 font-sans">Prediction Accuracy</span>
               </div>
               <div>
@@ -332,61 +346,189 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
             </div>
           </motion.div>
 
-          {/* Right Visual Simulation Preview Box */}
+          {/* Right Visual Simulation Interactive Studio Preview */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-6 relative"
           >
-            <div className="p-1 rounded-3xl bg-gradient-to-tr from-purple-500/30 via-white/10 to-indigo-500/30 shadow-2xl backdrop-blur-2xl">
+            <div className="p-1 rounded-3xl bg-gradient-to-tr from-purple-500/30 via-white/10 to-indigo-500/30 shadow-[0_0_60px_rgba(168,85,247,0.15)] backdrop-blur-3xl">
               <div className="bg-zinc-950/90 rounded-[22px] border border-white/10 p-5 space-y-4 shadow-2xl relative overflow-hidden">
-                {/* Header Bar */}
+                {/* Header & View Mode Switcher */}
                 <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <div className="flex items-center space-x-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-xs font-mono font-bold text-white">ORBITAL PHYSICS PREVIEW</span>
-                  </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-mono font-bold border border-purple-500/30">
-                    Virality Index: 92 / 100
-                  </span>
-                </div>
-
-                {/* 60 FPS Orbit Canvas */}
-                <div className="relative aspect-video rounded-2xl bg-zinc-900/60 border border-white/10 overflow-hidden flex items-center justify-center">
-                  <canvas ref={demoCanvasRef} className="w-full h-full block" />
-                  <div className="absolute bottom-3 left-3 bg-black/80 px-3 py-1 rounded-xl border border-white/10 backdrop-blur-md">
-                    <span className="text-[10px] font-mono text-purple-300 font-bold">● 200 Persona Orbit Vectors</span>
-                  </div>
-                </div>
-
-                {/* Live AI Reasoning Commentary Stream */}
-                <div className="p-3 rounded-2xl bg-zinc-900/70 border border-white/10 space-y-1.5 font-sans">
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-bold text-white flex items-center space-x-1.5">
-                      <User className="w-3.5 h-3.5 text-purple-400" />
-                      <span>Tech Founder Node (Influence 94)</span>
+                    <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
+                      Interactive Engine Visualizer
                     </span>
-                    <span className="text-emerald-400 font-mono font-bold">+94% Share Probability</span>
                   </div>
-                  <p className="text-xs text-zinc-300 leading-snug">
-                    "The hook introduces a high-value problem in second 2. Engaged immediately and shared across Slack."
-                  </p>
+
+                  <div className="flex p-0.5 bg-zinc-900 rounded-xl border border-white/10 font-mono text-[9px]">
+                    <button
+                      onClick={() => setActivePreviewTab('network')}
+                      className={`px-2 py-1 rounded-lg transition-all ${
+                        activePreviewTab === 'network' ? 'bg-purple-600 text-white font-bold' : 'text-zinc-400'
+                      }`}
+                    >
+                      Network
+                    </button>
+                    <button
+                      onClick={() => setActivePreviewTab('retention')}
+                      className={`px-2 py-1 rounded-lg transition-all ${
+                        activePreviewTab === 'retention' ? 'bg-purple-600 text-white font-bold' : 'text-zinc-400'
+                      }`}
+                    >
+                      Retention
+                    </button>
+                    <button
+                      onClick={() => setActivePreviewTab('reasoning')}
+                      className={`px-2 py-1 rounded-lg transition-all ${
+                        activePreviewTab === 'reasoning' ? 'bg-purple-600 text-white font-bold' : 'text-zinc-400'
+                      }`}
+                    >
+                      Reasoning
+                    </button>
+                    <button
+                      onClick={() => setActivePreviewTab('optimization')}
+                      className={`px-2 py-1 rounded-lg transition-all ${
+                        activePreviewTab === 'optimization' ? 'bg-purple-600 text-white font-bold' : 'text-zinc-400'
+                      }`}
+                    >
+                      Optimization
+                    </button>
+                  </div>
                 </div>
+
+                {/* TAB 1: 60 FPS Orbit Canvas */}
+                {activePreviewTab === 'network' && (
+                  <div className="relative aspect-video rounded-2xl bg-zinc-900/60 border border-white/10 overflow-hidden flex items-center justify-center">
+                    <canvas ref={demoCanvasRef} className="w-full h-full block" />
+                    <div className="absolute bottom-3 left-3 bg-black/80 px-3 py-1 rounded-xl border border-white/10 backdrop-blur-md">
+                      <span className="text-[10px] font-mono text-purple-300 font-bold">● 200 Persona Orbit Vectors</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 2: Retention Heatmap Graph */}
+                {activePreviewTab === 'retention' && (
+                  <div className="p-4 rounded-2xl bg-zinc-900/60 border border-white/10 space-y-3 aspect-video flex flex-col justify-between">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="text-zinc-400">Second-by-Second Retention Curve</span>
+                      <span className="text-emerald-400 font-bold">🔥 Excitement Peak @ 0:02</span>
+                    </div>
+                    {/* Graph bars */}
+                    <div className="flex items-end space-x-1.5 h-32 pt-4">
+                      {[95, 98, 92, 88, 85, 91, 96, 94, 90, 87, 89, 93, 95].map((val, idx) => (
+                        <div key={idx} className="flex-1 bg-zinc-800 rounded-t-lg relative group overflow-hidden">
+                          <div
+                            className="bg-gradient-to-t from-purple-600 to-indigo-400 w-full rounded-t-lg transition-all duration-500"
+                            style={{ height: `${val}%` }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 3: Autonomous Reasoning Stream */}
+                {activePreviewTab === 'reasoning' && (
+                  <div className="p-4 rounded-2xl bg-zinc-900/60 border border-white/10 space-y-2.5 aspect-video font-sans text-xs overflow-y-auto">
+                    <div className="p-2.5 rounded-xl bg-zinc-950/80 border border-white/10 space-y-1">
+                      <span className="font-bold text-white text-[11px] block">Tech Founder Node (Influence 94):</span>
+                      <p className="text-zinc-300 text-[11px]">"The hook addresses a critical B2B bottleneck in second 2. Retained interest and shared to team."</p>
+                    </div>
+                    <div className="p-2.5 rounded-xl bg-zinc-950/80 border border-white/10 space-y-1">
+                      <span className="font-bold text-amber-400 text-[11px] block">Skeptical Critic Node (Influence 88):</span>
+                      <p className="text-zinc-300 text-[11px]">"Requires a clearer ROI benchmark. Raised a question in replies."</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 4: 1-Click Script Optimization Lab */}
+                {activePreviewTab === 'optimization' && (
+                  <div className="p-4 rounded-2xl bg-zinc-900/60 border border-white/10 space-y-3 aspect-video font-sans text-xs">
+                    <div className="flex items-center justify-between text-[11px] font-mono">
+                      <span className="text-zinc-400">1-Click Auto Rewrite Delta</span>
+                      <span className="text-purple-300 font-bold">+19 Virality Score Boost</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-red-950/10 border border-red-500/30 text-[11px]">
+                      <span className="text-red-400 font-bold block mb-1">Original Draft (Score 72):</span>
+                      <p className="text-zinc-400 line-through">"In this video I want to explain my new AI product..."</p>
+                    </div>
+                    <div className="p-3 rounded-xl bg-emerald-950/10 border border-emerald-500/30 text-[11px]">
+                      <span className="text-emerald-400 font-bold block mb-1">AI Optimized Variant (Score 91):</span>
+                      <p className="text-zinc-200 font-bold">"Stop publishing social content before testing this rule..."</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Product Module Breakdown Grid */}
+      {/* Interactive Sandbox Scenario Selector Bar */}
+      <section className="relative z-10 py-12 px-6 max-w-7xl mx-auto">
+        <div className="p-6 rounded-3xl bg-zinc-950/80 border border-white/10 backdrop-blur-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-1 text-left">
+            <span className="text-[10px] font-mono font-bold text-purple-400 uppercase tracking-widest block">
+              LIVE INTERACTIVE SANDBOX
+            </span>
+            <h3 className="text-lg font-extrabold text-white">Test Pre-Configured Content Scenarios</h3>
+          </div>
+
+          {/* Scenario Buttons */}
+          <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+            <button
+              onClick={() => setSelectedPreset('b2b')}
+              className={`px-4 py-2 rounded-xl border transition-all cursor-pointer ${
+                selectedPreset === 'b2b'
+                  ? 'bg-purple-600 text-white font-bold border-purple-500 shadow-lg shadow-purple-600/30'
+                  : 'bg-zinc-900 text-zinc-400 border-white/10 hover:text-white'
+              }`}
+            >
+              B2B SaaS Launch
+            </button>
+            <button
+              onClick={() => setSelectedPreset('genz')}
+              className={`px-4 py-2 rounded-xl border transition-all cursor-pointer ${
+                selectedPreset === 'genz'
+                  ? 'bg-purple-600 text-white font-bold border-purple-500 shadow-lg shadow-purple-600/30'
+                  : 'bg-zinc-900 text-zinc-400 border-white/10 hover:text-white'
+              }`}
+            >
+              Gen Z TikTok Hook
+            </button>
+            <button
+              onClick={() => setSelectedPreset('tech')}
+              className={`px-4 py-2 rounded-xl border transition-all cursor-pointer ${
+                selectedPreset === 'tech'
+                  ? 'bg-purple-600 text-white font-bold border-purple-500 shadow-lg shadow-purple-600/30'
+                  : 'bg-zinc-900 text-zinc-400 border-white/10 hover:text-white'
+              }`}
+            >
+              Tech Hot Take
+            </button>
+          </div>
+
+          <button
+            onClick={onLaunchPlatform}
+            className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-lg shadow-purple-600/30 cursor-pointer shrink-0"
+          >
+            Simulate Selected Scenario →
+          </button>
+        </div>
+      </section>
+
+      {/* Feature Grid Section */}
       <section className="relative z-10 py-20 px-6 max-w-7xl mx-auto border-t border-white/[0.08]">
         <div className="text-center space-y-3 mb-16">
           <span className="text-xs font-mono font-bold text-purple-400 uppercase tracking-widest block">
-            UNIFIED PLATFORM CAPABILITIES
+            UNIFIED PLATFORM ENGINE
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
-            Engineered for High-Retention Creators & AI Teams
+            Engineered for High-Retention Creators & Enterprise AI Teams
           </h2>
         </div>
 
@@ -456,6 +598,35 @@ export function LandingPage({ onLaunchPlatform, onOpenAtlas, onOpenWorkspace }: 
               Full telemetry for connected providers (NVIDIA Nemotron 42ms, OpenAI, ElevenLabs, fal.ai, Firecrawl), secrets management, and live logs.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Atlas AI Product Mentor Callout Section */}
+      <section className="relative z-10 py-16 px-6 max-w-7xl mx-auto">
+        <div className="p-8 rounded-3xl bg-gradient-to-r from-purple-950/30 via-zinc-950 to-indigo-950/30 border border-purple-500/30 backdrop-blur-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex items-center space-x-4">
+            <div className="w-14 h-14 rounded-2xl bg-purple-600/20 p-1 border border-purple-400/40 flex items-center justify-center text-white shadow-xl overflow-hidden shrink-0">
+              <img src="/logo.png" alt="Atlas Logo" className="w-full h-full object-contain" />
+            </div>
+            <div className="space-y-1 text-left">
+              <div className="flex items-center space-x-2">
+                <h3 className="text-lg font-extrabold text-white">Atlas AI Product Guide</h3>
+                <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-mono border border-purple-500/30">
+                  Senior Product Mentor
+                </span>
+              </div>
+              <p className="text-xs text-zinc-300 font-sans leading-relaxed max-w-xl">
+                Need guidance? Atlas is built directly into every workspace module to explain how algorithms evaluate content and guide your optimization strategy.
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={onOpenAtlas}
+            className="px-6 py-3 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-xl shadow-purple-600/30 cursor-pointer shrink-0"
+          >
+            Explore Atlas Guide →
+          </button>
         </div>
       </section>
 
