@@ -1,48 +1,58 @@
-# 🌐 SOCIAL WORLD SIMULATOR — v1.0 MVP
+# 🌐 SOCIAL WORLD SIMULATOR — Hackathon MVP
 > **The World's First Pre-Publish AI Audience Reaction Engine**
 > *Flight Simulator × GitHub Copilot × Figma for Content Creators*
 
-![Social World Simulator](https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80)
+![Social World Simulator Hero](https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80)
 
 ---
 
-## ⚡ The Mission
+## ⚡ The Problem: Creators Fly Blind
+Today, content creators, marketers, and brands publish content completely blind. They spend hours scripting, filming, and editing, but they only learn if their content works **AFTER** they post it. If the hook is weak, the algorithm buries the post. If the joke doesn't land, retention tanks.
 
-Creators publish content blindly. Today, they only learn **AFTER** posting.
-
-**Social World Simulator changes that.** Before publishing, creators can simulate audience reactions, comment threads, algorithm propagation, second-by-second retention heatmaps, and viral network cascades in real-time across AI persona entities.
+## 🚀 The Solution: Simulate Before You Publish
+**Social World Simulator changes the paradigm.** 
+Instead of guessing, creators can simulate their content's performance across an ecosystem of AI persona entities before ever hitting publish. The platform visualizes audience reactions, comment threads, algorithm propagation, and second-by-second retention heatmaps in real-time.
 
 > *"Don't guess what happens when you post. Simulate it first."*
 
 ---
 
-## ✨ Key Features & Architecture
+## ✨ Key Features
 
-### 1. 70% Hero Living Social Ecosystem
-- **Force-Directed Living Network Canvas**: Animated 2D physics graph displaying clustered audience communities (Tech Founders, Gen Z Trendsetters, B2B VPs, Critics, Algorithm Bots).
-- **Breathing Node Physics**: Nodes breathe organically, edges pulse with signal transmissions, and expanding heat waves visualize reach propagation.
-- **Floating TikTok-Style Live Comments**: Real-time audience comments slide up directly over the live canvas visualizer.
+### 1. 🤖 NVIDIA AI Video & Script Intelligence
+- **NVIDIA AI API Integration**: Upload a video, paste a TikTok/X link, or input text, and the AI immediately transcribes the speech (Whisper), analyzes the emotion, detects objects, and understands the core narrative.
+- **Strict AI Content Critic**: The AI acts as a harsh, actionable editor. It highlights exactly which lines in your script are weak, crosses them out, and provides high-retention rewrites.
+- **1-Click Auto Rewrite**: Instantly apply the AI's suggested fixes to your payload with a single click.
 
-### 2. 30% Collapsible Intelligence & Insights Panel
-- **Predicted Virality Index**: Animated hero counter predicting viral probability.
+### 2. 🧠 Living Social Ecosystem Canvas
+- **Force-Directed Physics Engine**: An animated 2D physics graph displaying clustered audience communities (Tech Founders, Gen Z Trendsetters, B2B VPs, Algorithm Bots).
+- **Breathing Node Physics**: Nodes breathe organically, edges pulse with signal transmissions, and expanding heat waves visualize reach propagation as your content goes viral.
+- **Live Simulated Comments**: Real-time, platform-specific audience comments float directly over the canvas visualizer.
+
+### 3. 📊 Predictive Analytics & Retention Heatmaps
 - **Core 4 KPIs**: Virality Score, Audience Fit, Attention Score, and Reach Estimate.
-- **Collapsible Accordion Sections**: Overview, Audience, Retention Curve, AI Recommendations, and Live Comment Feed.
-- **Retention Heatmap Curve**: Interactive SVG attention graph with 🔥 High-Interest Spikes and ❄ Drop-off Valleys + micro-explanations.
+- **Retention Heatmap Curve**: Interactive SVG attention graph showing exactly *when* and *why* audiences drop off (e.g., "Static visual setup drops Gen Z retention by 32%").
 
-### 3. Actionable AI Recommendations Engine
-- One-click **"Apply AI Fixes"** button that optimizes intro hooks, recalculates retention curves, removes audience drop-offs, and fires celebratory confetti!
-
-### 4. Multi-Platform Support
-- Tailored simulation presets for **X / Twitter**, **TikTok**, **Instagram**, **YouTube Shorts**, and **LinkedIn**.
+### 4. 🏢 Enterprise CTO Portal
+- **SSO & Security**: SAML Okta integration UI and Audit Logs.
+- **OAuth & API Hub**: Connect X, TikTok, LinkedIn, and Instagram accounts, and manage NVIDIA/ElevenLabs API keys in a centralized modal.
+- **Saved Run History**: A slide-over drawer that saves every simulation run, allowing you to A/B test variations of your content.
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Framework**: [Next.js](https://nextjs.org/) 16 (App Router) + React 19 + TypeScript
-- **Styling & Theme**: Tailwind CSS v4 + Glassmorphism tokens (`backdrop-blur-2xl bg-zinc-950/60 border border-white/[0.06] rounded-[22px]`)
-- **Animation & Physics**: [Framer Motion](https://www.framer.com/motion/) + HTML5 Canvas 2D Physics Engine + `canvas-confetti`
-- **Iconography**: [Lucide Icons](https://lucide.dev/) (Strict 18px/20px consistent size)
+- **Framework**: [Next.js](https://nextjs.org/) 16 (App Router) + React 19
+- **Language**: TypeScript (Strict Mode)
+- **Styling**: Tailwind CSS v4 + Glassmorphism UI tokens (`backdrop-blur-2xl bg-zinc-950/60 border border-white/[0.06]`)
+- **Animation**: [Framer Motion](https://www.framer.com/motion/) + HTML5 Canvas 2D Physics Engine + `canvas-confetti`
+- **AI Engine**: Custom `simulatorEngine.ts` mapping payloads to NVIDIA AI endpoints.
+
+---
+
+## 🏗️ Architecture
+
+Please see the [**ARCHITECTURE.md**](./ARCHITECTURE.md) file for a deep dive into the state management, Node Physics Engine, AI Analysis pipeline, and component structure. Designed for the Hackathon Judges.
 
 ---
 
@@ -61,22 +71,14 @@ npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 3. Build for Production
-```bash
-npm run build
-```
-
 ---
 
 ## 🎨 Design Philosophy & Aesthetics
 
-Inspired by the design quality of **Apple Vision Pro, Linear, Vercel, Raycast, and Framer**:
-- **Background**: Soft elevated dark palette (`#09090d`) with ambient purple (`#7c3aed`) and blue (`#2563eb`) radial lighting.
-- **Single Primary CTA**: Prominent purple gradient **▶ START SIMULATION** button.
-- **Spacious Hierarchy**: 3 strict font sizes (Large Title, Medium Label, Small Helper Text) with zero visual clutter.
+Inspired by the design quality of **Apple Vision Pro, Linear, and Vercel**:
+- **Background**: Soft elevated dark palette (`#09090d`) with ambient purple (`#7c3aed`) radial lighting.
+- **Premium UX**: Micro-interactions on every button, sleek glass panels, and absolute zero visual clutter.
+- **Action-Oriented**: The UI prioritizes telling the user exactly *what to fix* rather than just showing vanity metrics.
 
 ---
-
-## 📄 License
-
-Distributed under the MIT License. Built for the Social World Simulator Hackathon 2026.
+*Built for the Hackathon 2026.*
