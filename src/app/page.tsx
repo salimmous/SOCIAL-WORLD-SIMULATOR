@@ -23,6 +23,7 @@ import { GettingStartedChecklist } from '@/components/GettingStartedChecklist';
 import { FeatureDocDrawer, FeatureDocData } from '@/components/FeatureDocDrawer';
 import { HelpCenterModal } from '@/components/HelpCenterModal';
 import { ProductCoachSpotlight } from '@/components/ProductCoachSpotlight';
+import { AtlasProductGuideDrawer } from '@/components/AtlasProductGuideDrawer';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PERSONAS } from '@/data/personas';
 import { PresetScenario, ContentInput, NetworkNode } from '@/types/simulator';
@@ -68,6 +69,8 @@ export default function Home() {
   const [isOnboardingOpen, setIsOnboardingOpen] = useState<boolean>(false);
   const [isHelpCenterOpen, setIsHelpCenterOpen] = useState<boolean>(false);
   const [isCoachActive, setIsCoachActive] = useState<boolean>(false);
+  const [isAtlasOpen, setIsAtlasOpen] = useState<boolean>(false);
+  const [atlasTopic, setAtlasTopic] = useState<string | null>(null);
   const [selectedFeatureDoc, setSelectedFeatureDoc] = useState<FeatureDocData | null>(null);
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
@@ -369,6 +372,10 @@ export default function Home() {
         onOpenSettingsModal={() => setIsSettingsOpen(true)}
         onOpenSponsorsModal={() => setIsSponsorsOpen(true)}
         onExplainPage={() => setIsCoachActive(true)}
+        onOpenAtlas={() => {
+          setAtlasTopic('upload');
+          setIsAtlasOpen(true);
+        }}
       />
 
       {/* Apple-Quality Guided Onboarding Tour Modal */}
@@ -428,6 +435,13 @@ export default function Home() {
         onStartDemo={handleStartDemoProject}
       />
 
+      {/* Atlas Official Dedicated AI Product Guide Drawer */}
+      <AtlasProductGuideDrawer
+        isOpen={isAtlasOpen}
+        topicId={atlasTopic}
+        onClose={() => setIsAtlasOpen(false)}
+      />
+
       {/* MOBILE NATIVE APP EXPERIENCE (block md:hidden) */}
       <div className="block md:hidden w-full h-full">
         <MobileAppLayout
@@ -469,6 +483,10 @@ export default function Home() {
           onOpenSettings={() => setIsSettingsOpen(true)}
           onOpenExport={() => setIsExportOpen(true)}
           onOpenHelp={() => setIsHelpCenterOpen(true)}
+          onOpenAtlas={() => {
+            setAtlasTopic('upload');
+            setIsAtlasOpen(true);
+          }}
         />
 
         {/* Main Desktop 3-Panel Hero Interface */}

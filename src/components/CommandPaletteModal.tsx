@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Play, Zap, TrendingUp, Download, Settings, Sparkles, Command, X, Globe } from 'lucide-react';
+import { Search, Play, Zap, TrendingUp, Download, Settings, Sparkles, Command, X, Globe, Compass } from 'lucide-react';
 
 interface CommandPaletteModalProps {
   isOpen: boolean;
@@ -15,6 +15,7 @@ interface CommandPaletteModalProps {
   onOpenSettingsModal: () => void;
   onOpenSponsorsModal: () => void;
   onExplainPage?: () => void;
+  onOpenAtlas?: () => void;
 }
 
 export function CommandPaletteModal({
@@ -28,6 +29,7 @@ export function CommandPaletteModal({
   onOpenSettingsModal,
   onOpenSponsorsModal,
   onExplainPage,
+  onOpenAtlas,
 }: CommandPaletteModalProps) {
   const [query, setQuery] = useState('');
 
@@ -47,6 +49,16 @@ export function CommandPaletteModal({
   if (!isOpen) return null;
 
   const actions = [
+    {
+      id: 'ask-atlas',
+      title: 'Ask Atlas (Official AI Product Guide)',
+      category: 'Product Mentor',
+      icon: Compass,
+      action: () => {
+        if (onOpenAtlas) onOpenAtlas();
+        onClose();
+      },
+    },
     {
       id: 'explain-page',
       title: 'Explain This Page (Interactive Coach Spotlight)',

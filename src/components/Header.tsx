@@ -32,6 +32,7 @@ interface HeaderProps {
   onOpenSettings?: () => void;
   onOpenExport?: () => void;
   onOpenHelp?: () => void;
+  onOpenAtlas?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -48,6 +49,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenSettings,
   onOpenExport,
   onOpenHelp,
+  onOpenAtlas,
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState<boolean>(false);
@@ -140,6 +142,17 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Right: Actions (New Project, History, Fixes, Share, Export, Account) */}
       <div className="flex items-center space-x-2 shrink-0">
+        {onOpenAtlas && (
+          <button
+            onClick={onOpenAtlas}
+            className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-600/30 to-indigo-600/30 hover:from-purple-600/40 hover:to-indigo-600/40 text-purple-200 border border-purple-500/40 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0 shadow-sm"
+            title="Open Atlas Official AI Product Guide & Senior Mentor"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+            <span>Ask Atlas</span>
+          </button>
+        )}
+
         <button
           onClick={onOpenSponsors}
           data-tour="ai-workspace-button"
