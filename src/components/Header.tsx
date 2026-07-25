@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Globe, RotateCcw, Zap, ShieldCheck, Sparkles } from 'lucide-react';
+import { Globe, Share2, Download, User, RotateCcw, Sparkles } from 'lucide-react';
 import { PRESET_SCENARIOS } from '@/data/presets';
 import { PresetScenario } from '@/types/simulator';
 
@@ -21,24 +21,27 @@ export const Header: React.FC<HeaderProps> = ({
   appliedFixes,
 }) => {
   return (
-    <header className="h-14 px-6 flex items-center justify-between z-30 border-b border-white/[0.06] bg-zinc-950/60 backdrop-blur-xl">
-      {/* Brand & Identity */}
+    <header className="h-14 px-6 flex items-center justify-between z-30 border-b border-white/[0.06] bg-zinc-950/70 backdrop-blur-xl">
+      {/* Left: Logo & Live Status */}
       <div className="flex items-center space-x-3">
-        <div className="w-7 h-7 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center border border-purple-500/30">
+        <div className="w-8 h-8 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center border border-purple-500/30">
           <Globe className="w-4 h-4 text-purple-400" />
         </div>
         <div>
           <span className="font-bold tracking-tight text-white text-sm">
             SOCIAL WORLD SIMULATOR
           </span>
-          <span className="text-xs text-zinc-400 ml-2 font-medium">
-            AI Audience Engine
-          </span>
+          <div className="flex items-center space-x-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[11px] text-zinc-400 font-medium">
+              Live Simulation Environment
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Preset Selector Pills */}
-      <div className="hidden lg:flex items-center space-x-2">
+      {/* Center: Preset Selector */}
+      <div className="hidden md:flex items-center space-x-2">
         <span className="text-xs text-zinc-400 font-medium mr-1">Preset:</span>
         {PRESET_SCENARIOS.map((scenario) => {
           const isActive = scenario.id === currentPreset.id;
@@ -58,13 +61,12 @@ export const Header: React.FC<HeaderProps> = ({
         })}
       </div>
 
-      {/* Auxiliary Controls */}
+      {/* Right: Actions (Share, Export, Profile) */}
       <div className="flex items-center space-x-2">
         {appliedFixes ? (
-          <div className="px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium flex items-center space-x-1.5">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>AI Fixes Active</span>
-          </div>
+          <span className="px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+            Fixes Active
+          </span>
         ) : (
           <button
             onClick={onApplyFixes}
@@ -78,10 +80,30 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           onClick={onReset}
           className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/[0.06] transition-all cursor-pointer"
-          title="Reset Simulation"
+          title="Reset"
         >
           <RotateCcw className="w-3.5 h-3.5" />
         </button>
+
+        <button
+          className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/[0.06] text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer"
+          title="Share Simulation"
+        >
+          <Share2 className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Share</span>
+        </button>
+
+        <button
+          className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/[0.06] text-xs font-medium transition-all flex items-center space-x-1.5 cursor-pointer"
+          title="Export Insights"
+        >
+          <Download className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Export</span>
+        </button>
+
+        <div className="w-8 h-8 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-white text-xs font-bold shadow-sm">
+          <User className="w-4 h-4 text-purple-300" />
+        </div>
       </div>
     </header>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, RotateCcw, Activity } from 'lucide-react';
 import { NetworkNode, NetworkEdge, Comment } from '@/types/simulator';
 
@@ -36,6 +37,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
   onSeek,
   speed,
   onChangeSpeed,
+  activeComments,
   stage,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -45,6 +47,11 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
   nodesRef.current = nodes;
 
   const reactionEmojis = ['🔥', '💡', '🚀', '💬', '⚡', '✨'];
+
+  // Unlocked TikTok-style live comment popups based on current simulation timestamp
+  const visibleComments = activeComments
+    .filter((c) => c.timestamp <= currentTime)
+    .slice(-3); // Keep latest 3 comments floating on screen
 
   // Spawn organic floating particles periodically
   useEffect(() => {
@@ -82,7 +89,7 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
     const render = () => {
       pulseTime += 0.04 * speed;
 
-      // Handle Hi-DPI responsive canvas sizing
+      // Hi-DPI Canvas Sizing
       const rect = canvas.getBoundingClientRect();
       if (canvas.width !== rect.width || canvas.height !== rect.height) {
         canvas.width = rect.width;
@@ -223,12 +230,48 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
         ))}
       </div>
 
+      {/* FLOATING TIKTOK-STYLE LIVE COMMENTS OVERLAY */}
+      <div className="absolute bottom-20 left-6 z-20 pointer-events-none max-w-sm space-y-2">
+        <AnimatePresence>
+          {visibleComments.map((comment) => (
+            <motion.div
+              key={comment.id}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="glass-card p-3 rounded-2xl border border-white/10 shadow-2xl flex items-start space-x-2.5 pointer-events-auto"
+            >
+              <div
+                className="w-7 h-7 rounded-xl flex items-center justify-center text-xs shrink-0 font-bold"
+                style={{ backgroundColor: `${comment.authorColor}30` }}
+              >
+                {comment.authorAvatar}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-white leading-none">
+                    {comment.authorName}
+                  </span>
+                  <span className="text-[10px] text-zinc-400 font-mono">
+                    @{comment.timeFormatted}
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-200 mt-1 line-clamp-2 leading-snug font-sans">
+                  "{comment.content}"
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
       {/* Hero Canvas Visualizer */}
       <div className="flex-1 relative w-full h-full">
         <canvas ref={canvasRef} className="w-full h-full block cursor-crosshair" />
       </div>
 
-      {/* Minimal Bottom Control Bar */}
+      {/* Integrated Bottom Timeline & Heatmap Scrubber */}
       <div className="p-4 border-t border-white/[0.06] glass-panel rounded-none border-b-0 border-l-0 border-r-0 z-20 space-y-3">
         {/* Scrubber Bar */}
         <div className="flex items-center space-x-3">
@@ -244,10 +287,10 @@ export const SocialWorldCanvas: React.FC<SocialWorldCanvasProps> = ({
               step="1"
               value={currentTime}
               onChange={(e) => onSeek(Number(e.target.value))}
-              className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
+              className="w-full h-2.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
             />
             <div
-              className="absolute left-0 top-0 h-2 bg-purple-600 rounded-lg pointer-events-none"
+              className="absolute left-0 top-0 h-2.5 bg-gradient-to-r from-purple-600 to-indigo-500 rounded-lg pointer-events-none"
               style={{ width: `${progressPct}%` }}
             />
           </div>
