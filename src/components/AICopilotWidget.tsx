@@ -50,8 +50,8 @@ export function AICopilotWidget({
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-7 h-7 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
-              <Sparkles className="w-4 h-4 animate-pulse" />
+            <div className="w-7 h-7 rounded-xl bg-purple-600/20 p-0.5 border border-purple-500/40 overflow-hidden flex items-center justify-center">
+              <img src="/logo.png" alt="Copilot Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <span className="text-xs font-bold text-white block leading-none">

@@ -148,7 +148,9 @@ export function CommandPaletteModal({
         >
           {/* Search Header Input */}
           <div className="p-4 border-b border-white/10 flex items-center space-x-3">
-            <Search className="w-5 h-5 text-purple-400 shrink-0" />
+            <div className="w-6 h-6 rounded-lg bg-purple-600/20 p-0.5 border border-purple-500/40 overflow-hidden flex items-center justify-center shrink-0">
+              <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
+            </div>
             <input
               type="text"
               autoFocus

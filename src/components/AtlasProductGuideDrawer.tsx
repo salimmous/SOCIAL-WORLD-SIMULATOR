@@ -206,8 +206,8 @@ export function AtlasProductGuideDrawer({ topicId, isOpen, onClose }: AtlasProdu
             {/* Atlas Header Badge */}
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 border border-purple-400/40 flex items-center justify-center text-white shadow-lg">
-                  <Compass className="w-5 h-5 animate-pulse" />
+                <div className="w-10 h-10 rounded-2xl bg-purple-600/20 p-1 border border-purple-400/40 flex items-center justify-center text-white shadow-xl overflow-hidden">
+                  <img src="/logo.png" alt="Atlas Logo" className="w-full h-full object-contain" />
                 </div>
                 <div>
                   <h3 className="text-base font-extrabold text-white flex items-center space-x-1.5">

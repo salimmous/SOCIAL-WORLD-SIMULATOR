@@ -165,8 +165,8 @@ export function AppleOnboardingModal({ isOpen, onClose, onStartDemo }: AppleOnbo
           {mode === 'welcome' && (
             <div className="space-y-6 text-center">
               <div className="flex flex-col items-center space-y-3">
-                <div className="w-14 h-14 rounded-2xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-xl">
-                  <Globe className="w-7 h-7" />
+                <div className="w-14 h-14 rounded-2xl bg-purple-600/20 p-1 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-xl overflow-hidden">
+                  <img src="/logo.png" alt="Social World Simulator" className="w-full h-full object-contain" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-extrabold text-white tracking-tight">

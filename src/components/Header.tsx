@@ -84,17 +84,20 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="h-14 px-4 sm:px-6 flex items-center justify-between z-30 border-b border-white/[0.06] bg-zinc-950/80 backdrop-blur-xl shrink-0">
       {/* Left: Logo & Live Status */}
       <div className="flex items-center space-x-3 shrink-0">
-        <div className="w-8 h-8 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center border border-purple-500/30">
-          <Globe className="w-4 h-4 text-purple-400" />
+        <div className="w-8 h-8 rounded-xl bg-purple-600/20 p-0.5 border border-purple-500/40 shadow-lg shadow-purple-600/20 overflow-hidden flex items-center justify-center">
+          <img src="/logo.png" alt="Social World Simulator" className="w-full h-full object-contain" />
         </div>
         <div className="hidden sm:block">
-          <span className="font-bold tracking-tight text-white text-xs lg:text-sm">
-            SOCIAL WORLD SIMULATOR
+          <span className="font-bold tracking-tight text-white text-xs lg:text-sm flex items-center space-x-1.5">
+            <span>SOCIAL WORLD SIMULATOR</span>
+            <span className="px-1.5 py-0.2 rounded-md bg-purple-500/20 text-purple-300 text-[9px] font-mono font-bold border border-purple-500/30">
+              PRO AI OS
+            </span>
           </span>
           <div className="flex items-center space-x-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[10px] text-zinc-400 font-medium">
-              Live Simulation Environment
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[10px] text-zinc-400 font-mono">
+              Live Network Environment • 60 FPS Engine
             </span>
           </div>
         </div>
