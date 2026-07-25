@@ -46,6 +46,44 @@ export function LiveSocialFeedMockupModal({
   const [likeCount, setLikeCount] = useState(14820);
   const [hasLiked, setHasLiked] = useState(false);
 
+  // Keyboard Navigation & Shortcuts (Escape, ArrowLeft/Right, Space, L)
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+      } else if (e.key === 'ArrowRight' || e.key === 'Tab') {
+        e.preventDefault();
+        const platforms: ('tiktok' | 'twitter' | 'linkedin' | 'shorts')[] = ['tiktok', 'twitter', 'linkedin', 'shorts'];
+        setActivePlatform((prev) => {
+          const idx = platforms.indexOf(prev);
+          return platforms[(idx + 1) % platforms.length];
+        });
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const platforms: ('tiktok' | 'twitter' | 'linkedin' | 'shorts')[] = ['tiktok', 'twitter', 'linkedin', 'shorts'];
+        setActivePlatform((prev) => {
+          const idx = platforms.indexOf(prev);
+          return platforms[(idx - 1 + platforms.length) % platforms.length];
+        });
+      } else if (e.code === 'Space') {
+        e.preventDefault();
+        setUseRewrittenText((prev) => !prev);
+      } else if (e.key.toLowerCase() === 'l') {
+        e.preventDefault();
+        handleLike();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const displayTitle = content.title || 'SaaS Launch Hook Teaser';

@@ -83,7 +83,7 @@ export default function Home() {
   const [selectedNode, setSelectedNode] = useState<NetworkNode | null>(null);
   const [savedProjects, setSavedProjects] = useState<SavedProject[]>([]);
 
-  // Global Keyboard Shortcuts (Space, R, C, E, CMD+K)
+  // Global Keyboard Shortcuts (Space, R, C, E, F, Escape, CMD+K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
@@ -92,6 +92,18 @@ export default function Home() {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setIsCmdKOpen((prev) => !prev);
+      } else if (e.key === 'Escape') {
+        setIsCmdKOpen(false);
+        setIsHistoryOpen(false);
+        setIsAuthModalOpen(false);
+        setIsSponsorsOpen(false);
+        setIsSecretsOpen(false);
+        setIsSystemLogsOpen(false);
+        setIsFeedMockupOpen(false);
+        setIsABOpen(false);
+        setIsReportOpen(false);
+        setIsSettingsOpen(false);
+        setIsExportOpen(false);
       } else if (e.code === 'Space') {
         e.preventDefault();
         setIsRunning((prev) => !prev);
@@ -104,6 +116,9 @@ export default function Home() {
       } else if (e.key.toLowerCase() === 'e') {
         e.preventDefault();
         setIsExportOpen((prev) => !prev);
+      } else if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        setIsFeedMockupOpen((prev) => !prev);
       }
     };
 
